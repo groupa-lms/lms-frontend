@@ -12,8 +12,8 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../Header/Header.jsx';
+import Footer from '../Footer/Footer.jsx';
 
 const styles = theme => ({
   layout: {
@@ -28,11 +28,13 @@ const styles = theme => ({
     },
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
+    //marginTop: theme.spacing.unit * 8,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    boxShadow: 'none',
+    backgroundColor:'#fafafa',
   },
   avatar: {
     margin: theme.spacing.unit,
@@ -45,24 +47,46 @@ const styles = theme => ({
   submit: {
     marginTop: theme.spacing.unit * 3,
   },
-
+  text: {
+    color: 'rgba(0, 0, 0, 0.87)',
+    fontSize: '0.875rem',
+    fontWeight: '400',
+    fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+    lineHeight: '1.46429em',
+    textDecoration: 'none',
+    display: 'inline-flex',
+    alignItems: 'center',
+    verticalAlign: 'middle',
+  },
+  forgetPWD: {
+    color: '#1890ff',
+    float: 'right',
+  },
+  register: {
+    color: '#1890ff',
+  },
+  wrap: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  warpBottom: {
+    marginTop: '20px',
+  }
 });
 
 function SignIn(props) {
   const { classes } = props;
-
   return (
-   
     <React.Fragment>
-      <Header />
       <CssBaseline />
+      <Header />
       <main className={classes.layout} >
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Login
           </Typography>
           <form className={classes.form}>
             <FormControl margin="normal" required fullWidth>
@@ -78,12 +102,13 @@ function SignIn(props) {
                 autoComplete="current-password"
               />
             </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <a href="#">Forgot password</a>
-            <a href="#">Register now!</a>
+            <div className={classes.wrap}>
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              /> 
+              <a href="#" className={`${classes.forgetPWD} ${classes.text}`}>Forgot password</a>
+            </div>
             <Button
               type="submit"
               fullWidth
@@ -91,8 +116,11 @@ function SignIn(props) {
               color="primary"
               className={classes.submit}
             >
-              Sign in
+              Login
             </Button>
+            <div className={classes.warpBottom}>
+              <span className={classes.text} >Or </span> <a href="#" className={`${classes.register} ${classes.text}`}>Register now!</a>
+            </div>
           </form>
         </Paper>
       </main>
