@@ -15,6 +15,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { mainListItems, secondaryListItems } from "../DashBoard/listItems";
+import axios from 'axios';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 const drawerWidth = 240;
 
@@ -92,12 +95,26 @@ const styles = theme => ({
   },
   h5: {
     marginBottom: theme.spacing.unit * 2
-  }
+  },
+  root2: {
+    marginTop: "64px",
+    flexGrow: 1,
+  },
+  paper: {
+    height: 140,
+    width: 100,
+    textAlign: 'center',
+  },
+  control: {
+    padding: theme.spacing.unit * 2,
+  },
 });
 
 class Course extends Component {
   state = {
-    open: true
+    open: true,
+    spacing: '8',
+    course:[],
   };
 
   handleDrawerOpen = () => {
@@ -108,9 +125,22 @@ class Course extends Component {
     this.setState({ open: false });
   };
 
+  componentWillMount(){
+    axios
+    .get("http://localhost:3001/api/courses")
+    .then(res => {
+      const course = res.data;
+      this.setState({ course });
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  
+}
+
   render() {
     const { classes } = this.props;
-
+    const { spacing } = this.state;
     return (
       <React.Fragment>
         <CssBaseline />
@@ -174,15 +204,27 @@ class Course extends Component {
             <List>{secondaryListItems}</List>
           </Drawer>
           <main className={classes.content}>
-            <Typography component="div" className={classes.chartContainer}>
-              <p>This is Course Page</p>
-              <p>This is Course Page</p>
-              <p>This is Course Page</p>
-              <p>This is Course Page</p>
-              <p>This is Course Page</p>
-              <p>This is Course Page</p>
-            </Typography>
-           
+            <Grid container className={classes.root2} spacing={16}>
+              <Grid item xs={12}>
+                <Grid container className={classes.demo} justify="center" spacing={Number(spacing)}>
+                  {
+                    this.state.course.map(
+                    course => 
+                    <Grid key={course.name} item>
+                      <Paper className={classes.paper} >
+                        <p>{course.name}</p>
+                      </Paper>
+                    </Grid>
+                    )
+                  }
+                  {/* {[0, 1, 2].map(value => (
+                    <Grid key={value} item>
+                      <Paper className={classes.paper} />
+                    </Grid>
+                  ))} */}
+                </Grid>
+              </Grid>
+            </Grid>
           </main>
         </div>
       </React.Fragment>
