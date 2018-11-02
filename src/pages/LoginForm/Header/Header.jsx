@@ -1,6 +1,5 @@
 import React from "react";
 import LogoImage from "../../../assets/logo.png";
-import Menu from "./Menu.jsx";
 
 const Header = () => (
   <div className="header layout">
