@@ -7,6 +7,7 @@ import Course from "./pages/Course/Course";
 import Account from "./pages/Account/Account";
 import Messages from "./pages/Messages/Messages";
 import Forum from "./pages/Forum/Forum";
+import Teacher from "./pages/Teacher/Teacher";
 class App extends Component {
   render() {
     return (
@@ -20,6 +21,7 @@ class App extends Component {
             <Route path="/dashboard" component={DashBoard} />
             <Route path="/messages" component={Messages} />
             <Route path="/forum" component={Forum} />
+            <Route path="/teacher" component={Teacher} />
             <Route component={ErrorPage} />
           </Switch>
         </div>
