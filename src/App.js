@@ -8,8 +8,10 @@ import Account from "./pages/Account/Account";
 import Messages from "./pages/Messages/Messages";
 import Forum from "./pages/Forum/Forum";
 import Teacher from "./pages/Teacher/Teacher";
+
 import TakeCourse from "./pages/Course/TakeCourse";
 import TakeQuiz from "./pages/Course/TakeCourse";
+
 class App extends Component {
   render() {
     return (
@@ -26,6 +28,7 @@ class App extends Component {
             <Route path="/messages" component={Messages} />
             <Route path="/teacher" component={Teacher} />
             <Route path="/forum" component={Forum} />
+            <Route path="/teacher" component={Teacher} />
             <Route component={ErrorPage} />
           </Switch>
         </div>

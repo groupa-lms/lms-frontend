@@ -7,6 +7,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import BookIcon from "@material-ui/icons/Book";
 import ForumIcon from "@material-ui/icons/Forum";
+import TeacherIcon from "@material-ui/icons/Group";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import MessageIcon from "@material-ui/icons/Message";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -119,3 +120,4 @@ MainListItems.propTypes = {
 };
 
 export default withStyles(styles)(MainListItems);
+
