@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Template from "../Template/Tempalte";
+import Template from "../Template/Template";
 import TeacherTable from "./TeacherTable";
 import axios from "axios";
 
