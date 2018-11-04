@@ -18,6 +18,7 @@ import { mainListItems, secondaryListItems } from "../DashBoard/listItems";
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import TextFields from "./TextFields";
 
 const drawerWidth = 240;
 
@@ -143,6 +144,7 @@ class Course extends Component {
     const { spacing } = this.state;
     return (
       <React.Fragment>
+     
         <CssBaseline />
         <div className={classes.root}>
           <AppBar
@@ -204,27 +206,7 @@ class Course extends Component {
             <List>{secondaryListItems}</List>
           </Drawer>
           <main className={classes.content}>
-            <Grid container className={classes.root2} spacing={16}>
-              <Grid item xs={12}>
-                <Grid container className={classes.demo} justify="center" spacing={Number(spacing)}>
-                  {
-                    this.state.course.map(
-                    course => 
-                    <Grid key={course.name} item>
-                      <Paper className={classes.paper} >
-                        <p>{course.name}</p>
-                      </Paper>
-                    </Grid>
-                    )
-                  }
-                  {/* {[0, 1, 2].map(value => (
-                    <Grid key={value} item>
-                      <Paper className={classes.paper} />
-                    </Grid>
-                  ))} */}
-                </Grid>
-              </Grid>
-            </Grid>
+           <TextFields />
           </main>
         </div>
       </React.Fragment>
