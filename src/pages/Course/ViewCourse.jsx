@@ -8,6 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   root: {
@@ -17,6 +18,9 @@ const styles = theme => ({
   },
   table: {
     minWidth: 700,
+  },
+  button: {
+    margin: theme.spacing.unit,
   },
 });
 
@@ -39,7 +43,7 @@ class ViewCourse extends React.Component {
   }
 
   render() {
-    const { classes, viewItem } = this.props;
+    const { classes, viewItem, pageDirect } = this.props;
     const rows = [
       //createData('ID', viewItem.id),
       createData('Course Code',viewItem.code ),
@@ -77,7 +81,28 @@ class ViewCourse extends React.Component {
         </TableBody>
       </Table>
     </Paper>
-    <a href="JavaScript:history.go(-1)">go back</a>
+    <Button
+            onClick={() => { 
+              pageDirect('edit', viewItem );
+            }}
+            style={{ marginTop: 40 }}
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
+            Edit
+        </Button>
+        <Button
+            style={{ marginTop: 40 }}
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            onClick={() => { 
+              pageDirect('list', viewItem );
+            }}
+          >
+            Go Back
+        </Button>
       </React.Fragment>
     );
   }

@@ -28,7 +28,7 @@ const styles = theme => ({
   },
 });
 
-class AddCourse extends React.Component {
+class EditCourse extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -49,6 +49,18 @@ class AddCourse extends React.Component {
     this.handleStartDate = this.handleStartDate.bind(this);
     this.handleEndDate = this.handleEndDate.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillMount() {
+    this.setState({ 
+      code: this.props.viewItem.code,
+      title: this.props.viewItem.title,
+      lecturer: this.props.viewItem.lecturer,
+      introduction: this.props.viewItem.introduction,
+      start_date: this.props.viewItem.start_date,
+      end_date: this.props.viewItem.end_date,
+    });
+
   }
 
   componentDidMount() {
@@ -92,7 +104,7 @@ class AddCourse extends React.Component {
 
     }
     this.setState({ loading: true });
-    axios.post('http://localhost:3001/api/courses', newCourse)
+    axios.patch(`http://localhost:3001/api/courses/${this.props.viewItem.id}`, newCourse)
       .then(res => {
         console.log('res=>', res);
         this.setState({ loading: false });
@@ -103,19 +115,21 @@ class AddCourse extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, viewItem, pageDirect } = this.props;
 
     return (
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
-          Add Course
+          Edit Course {viewItem.title}
       </Typography>
         <form className={classes.container} validate="true" autoComplete="off" onSubmit={this.handleSubmit}>
+
           <TextField
-            id="standard-with-placeholder"
+            id="standard-required"
             label="Course Code"
-            placeholder="Course Code"
+            placeholder={viewItem.code}
             required
+            defaultValue={viewItem.code}
             className={classes.textField}
             margin="normal"
             value={this.state.code}
@@ -124,8 +138,9 @@ class AddCourse extends React.Component {
           <TextField
             id="standard-with-placeholder"
             label="Course Title"
-            placeholder="Course Title"
+            placeholder={viewItem.title}
             required
+            defaultValue={viewItem.title}
             className={classes.textField}
             margin="normal"
             value={this.state.title}
@@ -134,7 +149,7 @@ class AddCourse extends React.Component {
           <TextField
             id="standard-with-placeholder"
             label="Course Lecturer"
-            placeholder="Course Lecturer"
+            placeholder={viewItem.lecturer}
             required
             className={classes.textField}
             margin="normal"
@@ -163,6 +178,7 @@ class AddCourse extends React.Component {
             type="date"
             style={{ marginTop: 18 }}
             onChange={this.handleStartDate}
+            placeholder={viewItem.start_date}
             value={this.state.start_date}
             className={classes.textField}
             InputLabelProps={{
@@ -175,6 +191,7 @@ class AddCourse extends React.Component {
             type="date"
             onChange={this.handleEndDate}
             style={{ marginTop: 18 }}
+            placeholder={viewItem.end_date}
             value={this.state.end_date}
             className={classes.textField}
             InputLabelProps={{
@@ -186,6 +203,7 @@ class AddCourse extends React.Component {
           label="Course Introduction"
           multiline
           fullWidth
+          placeholder={viewItem.introduction}
           style={{ 
             margin: 8,
             marginTop: 18
@@ -205,17 +223,19 @@ class AddCourse extends React.Component {
             disabled={this.state.loading}
             className={classes.button}
           >
-            {this.state.loading?'Creating...':'Add'}
+            {this.state.loading?'Editing...':'Edit'}
         </Button>
         <Button
-            type="submit"
             style={{ marginTop: 40 }}
             variant="contained"
             color={this.state.loading?"secondary":"primary"}
             disabled={this.state.loading}
             className={classes.button}
+            onClick={() => { 
+                pageDirect('list', viewItem );
+              }}
           >
-            cancel
+            Go Back
         </Button>
         </form>
       </React.Fragment>
@@ -223,8 +243,8 @@ class AddCourse extends React.Component {
   }
 }
 
-AddCourse.propTypes = {
+EditCourse.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AddCourse);
+export default withStyles(styles)(EditCourse);

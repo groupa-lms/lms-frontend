@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Template from "../Template/Template";
 import ListCourse from "./ListCourse";
 import ViewCourse from "./ViewCourse";
+import EditCourse from "./EditCourse";
 
 class CourseList extends Component {
     constructor() {
@@ -13,7 +14,7 @@ class CourseList extends Component {
     
          this.pageDirect = this.pageDirect.bind(this);
       }
-      pageDirect = ( value, item) => {
+      pageDirect = (value, item) => {
         let newItem= this.state.viewItem;
         this.setState({ 
             operation: value,
@@ -27,7 +28,8 @@ class CourseList extends Component {
     return (
       <Template title="Course">
        {operation==='list' && <ListCourse pageDirect={this.pageDirect}/>}
-       {operation==='view' && <ViewCourse viewItem={viewItem}/>}
+       {operation==='view' && <ViewCourse viewItem={viewItem} pageDirect={this.pageDirect}/>}
+       {operation==='edit' && <EditCourse viewItem={viewItem} pageDirect={this.pageDirect}/>}
       </Template>
     );
   }

@@ -161,6 +161,7 @@ class ListCourse extends React.Component {
       .then((response) => {
         let courseData = response.data;
         let courseRows = [];
+        counter=0;
         courseData.map(item => {
           courseRows.push(createData(
             item.title, 
@@ -172,7 +173,7 @@ class ListCourse extends React.Component {
             item.end_date,
             ));
         });
-        counter=0;
+       
         this.setState(preState => ({
           rows: [...preState.rows, ...courseRows],
           loading: false,

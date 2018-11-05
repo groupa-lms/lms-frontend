@@ -23,7 +23,7 @@ class App extends Component {
             <Route path="/login" component={LoginForm} />
             <Route path="/course" component={Course} />
             <Route path="/takecourse" component={TakeCourse} />
-            <Route path="/takequiz" component={TakeQuiz} />
+            {/* <Route path="/takequiz" component={TakeQuiz} /> */}
             <Route path="/courselist" component={CourseList} />
             <Route path="/account" component={Account} />
             <Route path="/dashboard" component={DashBoard} />
