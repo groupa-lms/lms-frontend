@@ -78,6 +78,12 @@ class MainListItems extends React.Component {
               />
             </ListItem>
           </List>
+          <List component="div" disablePadding>
+            <ListItem button className={classes.nested} component={Link}
+              to="/courselist">
+              <ListItemText inset primary="Course List"/>
+            </ListItem>
+          </List>
         </Collapse>
         <ListItem button component={Link} to="/teacher">
           <ListItemIcon>
