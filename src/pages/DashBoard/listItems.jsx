@@ -55,7 +55,7 @@ class MainListItems extends React.Component {
           <ListItemText primary="Course" />
         </ListItem>
         <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
+          {/* <List component="div" disablePadding>
             <ListItem
               button
               className={classes.nested}
@@ -64,24 +64,31 @@ class MainListItems extends React.Component {
             >
               <ListItemText inset primary="My Course" />
             </ListItem>
-          </List>
-          <List component="div" disablePadding>
-            <ListItem button className={classes.nested} component={Link}
-              to="/takecourse">
-              <ListItemText inset primary="Take Course"/>
-            </ListItem>
-          </List>
-          <List component="div" disablePadding>
+          </List> */}
+          
+          {/* <List component="div" disablePadding>
             <ListItem button className={classes.nested} component={Link}
               to="/takequiz">
               <ListItemText inset primary="Take Quiz" 
               />
             </ListItem>
-          </List>
+          </List> */}
           <List component="div" disablePadding>
             <ListItem button className={classes.nested} component={Link}
               to="/courselist">
               <ListItemText inset primary="Course List"/>
+            </ListItem>
+          </List>
+          {/* <List component="div" disablePadding>
+            <ListItem button className={classes.nested} component={Link}
+              to="/takecourse">
+              <ListItemText inset primary="Take Course"/>
+            </ListItem>
+          </List> */}
+          <List component="div" disablePadding>
+            <ListItem button className={classes.nested} component={Link}
+              to="/createcourse">
+              <ListItemText inset primary="Create Course"/>
             </ListItem>
           </List>
         </Collapse>

@@ -10,8 +10,9 @@ import Forum from "./pages/Forum/Forum";
 import Teacher from "./pages/Teacher/Teacher";
 
 import TakeCourse from "./pages/Course/TakeCourse";
-import TakeQuiz from "./pages/Course/TakeCourse";
+//import TakeQuiz from "./pages/Course/TakeCourse";
 import CourseList from "./pages/Course/CourseList";
+import CreateCourse from "./pages/Course/CreateCourse";
 
 class App extends Component {
   render() {
@@ -25,6 +26,7 @@ class App extends Component {
             <Route path="/takecourse" component={TakeCourse} />
             {/* <Route path="/takequiz" component={TakeQuiz} /> */}
             <Route path="/courselist" component={CourseList} />
+            <Route path="/createcourse" component={CreateCourse} />
             <Route path="/account" component={Account} />
             <Route path="/dashboard" component={DashBoard} />
             <Route path="/messages" component={Messages} />
