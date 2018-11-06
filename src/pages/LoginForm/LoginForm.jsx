@@ -14,6 +14,7 @@ import Footer from "./Footer/Footer.jsx";
 import Header from "./Header/Header.jsx";
 import FormInput from "./FormInput.jsx";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 const styles = theme => ({
   layout: {
@@ -75,20 +76,6 @@ const styles = theme => ({
   }
 });
 
-function handleClick() {
-  // axios
-  //     .post("http://localhost:3001/api/users", {
-  //         firstName: "Fred",
-  //         lastName: "Flintstone"
-  //     })
-  //     .then(function (response) {
-  //         console.log(response);
-  //     })
-  //     .catch(function (error) {
-  //         console.log(error);
-  //     });
-}
-
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -97,7 +84,7 @@ class LoginForm extends React.Component {
       password: "",
       formDirty: false
     };
-
+    //console.log("islogin: " + this.props.isLogin);
     this.handleUserName = this.handleUserName.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
     this.setFormDirty = this.setFormDirty.bind(this);
@@ -135,13 +122,20 @@ class LoginForm extends React.Component {
         email: username,
         password: password
       })
-      .then(() => (window.location = "/"))
+      .then(response => {
+        this.props.setToken(response.data.id);
+      })
       .catch(({ response: { data: { error } } }) => console.log(error));
   }
 
   render() {
     const { classes } = this.props;
-    const { username, password, formDirty } = this.state;
+    const { username, password, formDirty, redirectToReferrer } = this.state;
+    const { from } = this.props.location.state || { from: { pathname: "/" } };
+
+    if (redirectToReferrer) {
+      return <Redirect to={from} />;
+    }
 
     return (
       <React.Fragment>
@@ -198,7 +192,6 @@ class LoginForm extends React.Component {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={handleClick}
               >
                 Login
               </Button>

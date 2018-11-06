@@ -13,7 +13,6 @@ import MessageIcon from "@material-ui/icons/Message";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
-import GroupIcon from "@material-ui/icons/Group";
 import { withStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 
@@ -81,7 +80,7 @@ class MainListItems extends React.Component {
         </Collapse>
         <ListItem button component={Link} to="/teacher">
           <ListItemIcon>
-            <GroupIcon />
+            <TeacherIcon />
           </ListItemIcon>
           <ListItemText primary="Teacher" />
         </ListItem>

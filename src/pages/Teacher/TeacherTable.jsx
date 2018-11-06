@@ -12,18 +12,8 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-
-let counter = 0;
-// function createData(name, calories, fat, carbs, protein) {
-//   counter += 1;
-//   return { id: counter, name, calories, fat, carbs, protein };
-// }
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -61,7 +51,7 @@ class TeacherTableHead extends React.Component {
   };
 
   render() {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
+    const { order, orderBy } = this.props;
 
     return (
       <TableHead>
@@ -148,26 +138,11 @@ let TeacherTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            Nutrition
+            Teachers
           </Typography>
         )}
       </div>
       <div className={classes.spacer} />
-      <div className={classes.actions}>
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-      </div>
     </Toolbar>
   );
 };
@@ -193,10 +168,6 @@ const styles = theme => ({
 });
 
 class TeacherTable extends React.Component {
-    constructor(props){
-        super(props);
-    }
-    
   state = {
     order: 'asc',
     orderBy: 'calories',
