@@ -82,6 +82,11 @@ class AddCourse extends React.Component {
   }
 
   handleSubmit = (event) => {
+    
+    // if(!confirm("confirm the change?"))
+    // {
+    //   return
+    // }
     const newCourse = {
       code: this.state.code,
       title: this.state.title,
@@ -97,6 +102,12 @@ class AddCourse extends React.Component {
         console.log('res=>', res);
         this.setState({ loading: false });
       })
+      .then(
+        this.props.pageDirect({
+          value: 'view',
+          item: newCourse
+        })
+      )
       .catch(({ response: { data: { error } } }) => console.log(error));
     //Make a network call somewhere
     //event.preventDefault();

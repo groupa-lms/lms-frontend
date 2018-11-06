@@ -21,15 +21,17 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import AddIcon from '@material-ui/icons/AddCircleOutline';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import TextField from '@material-ui/core/TextField';
 import axios from 'axios'
 
 const CustomTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
+    fontSize: 16,
   },
   body: {
-    fontSize: 14,
+    fontSize: 15,
   },
 }))(TableCell);
 
@@ -134,6 +136,11 @@ const styles = theme => ({
   iconSmall: {
     fontSize: 20,
   },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },
   rightIcon: {
     marginLeft: theme.spacing.unit,
   },
@@ -147,24 +154,57 @@ const styles = theme => ({
   },
 });
 
+var courseRows = [];
+
 class ListCourse extends React.Component {
   constructor() {
     super();
     this.state = {
+      filter: '',
       loading: true,
       rows: [],
       page: 0,
       rowsPerPage: 5,
     };
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.handleFilter = this.handleFilter.bind(this);
   }
 
+  handleFilter = (event) => {
+    this.setState({ filter: event.target.value });
+  }
+
+  handleSearch = (event) => {
+    if(this.state.filter === ''|| 
+    this.state.filter === null ||
+    this.state.filter.length === 0
+    )
+    {
+      this.setState({ rows: [...courseRows] });
+    }
+    else{
+    // this.setState(preState => ({
+    //   rows: preState.rows.filter(item => {
+    //     return item.code === this.state.filter; 
+    //   })
+    // }))
+
+    this.setState({ rows: courseRows.filter(item => {
+      return item.code === this.state.filter; 
+    }) });
+  }
+  }
+
+  // componentDidUpdate = () => {
+  //   this.setState({ rows: [...courseRows] });
+  // }
 
   componentDidMount = () => {
     axios.get('http://localhost:3001/api/courses')
       .then((response) => {
         let courseData = response.data;
-        let courseRows = [];
+        //var courseRows = [];
         counter = 0;
         courseData.map(item => {
           courseRows.push(createData(
@@ -221,7 +261,28 @@ class ListCourse extends React.Component {
                     <CustomTableCell>No.</CustomTableCell>
                     <CustomTableCell>Course Title</CustomTableCell>
                     <CustomTableCell>Course ID</CustomTableCell>
-                    <CustomTableCell>Operation</CustomTableCell>
+                    <CustomTableCell>
+                      <Button
+                        style={{ marginTop: 15 }}
+                        size="small"
+                        className={classes.button}
+                        variant="outlined"
+                         onClick={this.handleSearch}
+                      >
+                        Filter
+                      </Button>
+                      by
+                      <TextField
+                        id="standard-with-placeholder"
+                        label=""
+                        placeholder="Course ID"
+                        defaultValue="Course ID"
+                        className={classes.textField}
+                        margin="normal"
+                        value={this.state.filter}
+                        onChange={this.handleFilter}
+                      />
+                    </CustomTableCell>
                   </TableRow>
                 </TableHead>
                 {loading ? 'loading...' :
@@ -273,11 +334,11 @@ class ListCourse extends React.Component {
                                   row.start_date,
                                   row.end_date,
                                 )
-                               // pageDirect('edit', viewItem);
-                               pageDirect({
-                                value: 'edit',
-                                item: viewItem
-                              });
+                                // pageDirect('edit', viewItem);
+                                pageDirect({
+                                  value: 'edit',
+                                  item: viewItem
+                                });
                               }}
                               className={classes.button}>
                               Edit <EditIcon className={
