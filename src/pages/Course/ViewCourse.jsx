@@ -83,7 +83,11 @@ class ViewCourse extends React.Component {
     </Paper>
     <Button
             onClick={() => { 
-              pageDirect('edit', viewItem );
+              //pageDirect('edit', viewItem );
+              pageDirect({
+                value: 'edit',
+                item: viewItem
+              });
             }}
             style={{ marginTop: 40 }}
             variant="contained"
@@ -98,7 +102,11 @@ class ViewCourse extends React.Component {
             color="primary"
             className={classes.button}
             onClick={() => { 
-              pageDirect('list', viewItem );
+              //pageDirect('list', viewItem );
+              pageDirect({
+                value: 'list',
+                item: viewItem
+              });
             }}
           >
             Go Back

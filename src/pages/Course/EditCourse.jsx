@@ -232,7 +232,11 @@ class EditCourse extends React.Component {
             disabled={this.state.loading}
             className={classes.button}
             onClick={() => { 
-                pageDirect('list', viewItem );
+               // pageDirect('list', viewItem );
+               pageDirect({
+                value: 'list',
+                item: viewItem
+              });
               }}
           >
             Go Back

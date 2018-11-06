@@ -103,7 +103,7 @@ class AddCourse extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, pageDirect } = this.props;
 
     return (
       <React.Fragment>
@@ -214,6 +214,9 @@ class AddCourse extends React.Component {
             color={this.state.loading?"secondary":"primary"}
             disabled={this.state.loading}
             className={classes.button}
+            onClick={() => {
+              pageDirect({ value: 'list' });
+            }}
           >
             cancel
         </Button>

@@ -19,6 +19,7 @@ import ViewIcon from '@material-ui/icons/VideoLabel';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import AddIcon from '@material-ui/icons/AddCircleOutline';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import axios from 'axios'
 
@@ -136,6 +137,9 @@ const styles = theme => ({
   rightIcon: {
     marginLeft: theme.spacing.unit,
   },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
   row: {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.background.default,
@@ -161,19 +165,19 @@ class ListCourse extends React.Component {
       .then((response) => {
         let courseData = response.data;
         let courseRows = [];
-        counter=0;
+        counter = 0;
         courseData.map(item => {
           courseRows.push(createData(
-            item.title, 
-            item.code, 
-            item.id, 
-            item.lecturer, 
+            item.title,
+            item.code,
+            item.id,
+            item.lecturer,
             item.introduction,
             item.start_date,
             item.end_date,
-            ));
+          ));
         });
-       
+
         this.setState(preState => ({
           rows: [...preState.rows, ...courseRows],
           loading: false,
@@ -232,18 +236,22 @@ class ListCourse extends React.Component {
                           </TableCell>
                           <TableCell>{row.code}</TableCell>
                           <TableCell>
-                            <Button 
-                              onClick={() => { 
+                            <Button
+                              onClick={() => {
                                 const viewItem = createData(
-                                  row.title, 
-                                  row.code, 
-                                  row.id, 
-                                  row.lecturer, 
+                                  row.title,
+                                  row.code,
+                                  row.id,
+                                  row.lecturer,
                                   row.introduction,
                                   row.start_date,
                                   row.end_date,
                                 )
-                               pageDirect('view',viewItem);
+                                //pageDirect('view',viewItem);
+                                pageDirect({
+                                  value: 'view',
+                                  item: viewItem
+                                });
                               }}
                               variant="outlined"
                               size="small"
@@ -255,6 +263,22 @@ class ListCourse extends React.Component {
                             </Button>
                             <Button variant="outlined"
                               size="small"
+                              onClick={() => {
+                                const viewItem = createData(
+                                  row.title,
+                                  row.code,
+                                  row.id,
+                                  row.lecturer,
+                                  row.introduction,
+                                  row.start_date,
+                                  row.end_date,
+                                )
+                               // pageDirect('edit', viewItem);
+                               pageDirect({
+                                value: 'edit',
+                                item: viewItem
+                              });
+                              }}
                               className={classes.button}>
                               Edit <EditIcon className={
                                 classNames(
@@ -290,6 +314,23 @@ class ListCourse extends React.Component {
                       onChangeRowsPerPage={this.handleChangeRowsPerPage}
                       ActionsComponent={TablePaginationActionsWrapped}
                     />
+                    <Button variant="outlined"
+                      size="small"
+                      style={{
+                        marginLeft: 36,
+                        marginTop: 15
+                      }}
+                      onClick={() => {
+                        pageDirect({ value: 'add' });
+                      }}
+                      className={classes.button}>
+                      <AddIcon
+                        className={
+                          classNames(
+                            classes.leftIcon,
+                            classes.iconSmall)} />
+                      Create a New Course
+                            </Button>
                   </TableRow>
                 </TableFooter>
               </Table>
