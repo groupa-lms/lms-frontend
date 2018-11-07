@@ -114,9 +114,9 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: tru
   TablePaginationActions,
 );
 let counter = 0;
-function createData(title, code, id, lecturer, introduction, start_date, end_date, disabled) {
+function createData(studentId, name, grade, major, age, gender, disabled, id) {
   counter += 1;
-  return { counter, title, code, id, lecturer, introduction, start_date, end_date, disabled };
+  return { counter, studentId, name, grade, major, age, gender, disabled, id };
 }
 
 const styles = theme => ({
@@ -154,9 +154,9 @@ const styles = theme => ({
   },
 });
 
-var courseRows = [];
+var studentRows = [];
 
-class ListCourse extends React.Component {
+class ListStudent extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -169,7 +169,7 @@ class ListCourse extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    //this.handleSubmit = this.handleSubmit.bind(this);
 
   }
 
@@ -182,7 +182,7 @@ class ListCourse extends React.Component {
       this.state.filter === null ||
       this.state.filter.length === 0
     ) {
-      this.setState({ rows: [...courseRows] });
+      this.setState({ rows: [...studentRows] });
     }
     else {
       // this.setState(preState => ({
@@ -192,24 +192,24 @@ class ListCourse extends React.Component {
       // }))
 
       this.setState({
-        rows: courseRows.filter(item => {
-          return item.code === this.state.filter;
+        rows: studentRows.filter(item => {
+          return item.studentId === this.state.filter;
         })
       });
     }
   }
 
-  handleSubmit = () => {
-    //console.log(value)
-    const disable = { disabled: true };
-    axios.patch(`http://localhost:3001/api/courses/5be0cb1d67916e205cbd07bd`, disable)
-      .then(res => {
-        console.log('res=>', res);
-        this.setState({ loading: false });
-        //this.setState({ disabled: true });
-      })
-      .catch(({ response: { data: { error } } }) => console.log(error));
-  }
+  // handleSubmit = () => {
+  //   //console.log(value)
+  //   const disable = { disabled: true };
+  //   axios.patch(`http://localhost:3001/api/courses/5be0cb1d67916e205cbd07bd`, disable)
+  //     .then(res => {
+  //       console.log('res=>', res);
+  //       this.setState({ loading: false });
+  //       //this.setState({ disabled: true });
+  //     })
+  //     .catch(({ response: { data: { error } } }) => console.log(error));
+  // }
 
 
 
@@ -218,26 +218,26 @@ class ListCourse extends React.Component {
   // }
 
   componentDidMount = () => {
-    axios.get('http://localhost:3001/api/courses')
+    axios.get('http://localhost:3001/api/students')
       .then((response) => {
-        let courseData = response.data;
-        courseRows = [];
+        let studentData = response.data;
+        studentRows = [];
         counter = 0;
-        courseData.map(item => {
-          courseRows.push(createData(
-            item.title,
-            item.code,
-            item.id,
-            item.lecturer,
-            item.introduction,
-            item.start_date,
-            item.end_date,
-            item.disabled
+        studentData.map(item => {
+          studentRows.push(createData(
+            item.studentId,
+            item.name,
+            item.grade,
+            item.major,
+            item.age,
+            item.gender,
+            item.disabled,
+            item.id
           ));
         });
 
         this.setState(preState => ({
-          rows: [...preState.rows, ...courseRows],
+          rows: [...preState.rows, ...studentRows],
           loading: false,
         }));
         // setTimeout(() => {
@@ -268,7 +268,7 @@ class ListCourse extends React.Component {
     return (
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
-          Course List
+          Student List
         </Typography>
          <form className={classes.container} autoComplete="off" onSubmit={this.handleSubmit}> 
           <Paper className={classes.root}>
@@ -277,8 +277,12 @@ class ListCourse extends React.Component {
                 <TableHead>
                   <TableRow>
                     <CustomTableCell>No.</CustomTableCell>
-                    <CustomTableCell>Course Title</CustomTableCell>
-                    <CustomTableCell>Course ID</CustomTableCell>
+                    <CustomTableCell>ID</CustomTableCell>
+                    <CustomTableCell>Name</CustomTableCell>
+                    {/* <CustomTableCell>Grade</CustomTableCell> */}
+                    {/* <CustomTableCell>Major</CustomTableCell> */}
+                    {/* <CustomTableCell>Age</CustomTableCell>
+                    <CustomTableCell>Gender</CustomTableCell> */}
                     <CustomTableCell>
                       <Button
                         style={{ marginTop: 13 }}
@@ -293,7 +297,7 @@ class ListCourse extends React.Component {
                       <TextField
                         id="standard-with-placeholder"
                         label=""
-                        placeholder="Course ID"
+                        placeholder="Student ID"
                         className={classes.textField}
                         margin="normal"
                         value={this.state.filter}
@@ -309,21 +313,24 @@ class ListCourse extends React.Component {
 
                         <TableRow key={row.id}>
                           <TableCell>{row.counter}</TableCell>
-                          <TableCell component="th" scope="row">
-                            {row.title}
-                          </TableCell>
-                          <TableCell>{row.code}</TableCell>
+                          <TableCell>{row.studentId}</TableCell>
+                          <TableCell>{row.name}</TableCell>
+                          {/* <TableCell>{row.grade}</TableCell> */}
+                          {/* <TableCell>{row.major}</TableCell> */}
+                          {/* <TableCell>{row.age}</TableCell>
+                          <TableCell>{row.gender}</TableCell> */}
                           <TableCell>
                             <Button
                               onClick={() => {
                                 const viewItem = createData(
-                                  row.title,
-                                  row.code,
-                                  row.id,
-                                  row.lecturer,
-                                  row.introduction,
-                                  row.start_date,
-                                  row.end_date,
+                                  row.studentId,
+                                  row.name,
+                                  row.grade,
+                                  row.major,
+                                  row.age,
+                                  row.gender,
+                                  row.disabled,
+                                  row.id
                                 )
                                 //pageDirect('view',viewItem);
                                 pageDirect({
@@ -343,13 +350,14 @@ class ListCourse extends React.Component {
                               size="small"
                               onClick={() => {
                                 const viewItem = createData(
-                                  row.title,
-                                  row.code,
-                                  row.id,
-                                  row.lecturer,
-                                  row.introduction,
-                                  row.start_date,
-                                  row.end_date,
+                                  row.studentId,
+                                  row.name,
+                                  row.grade,
+                                  row.major,
+                                  row.age,
+                                  row.gender,
+                                  row.disabled,
+                                  row.id
                                 )
                                 // pageDirect('edit', viewItem);
                                 pageDirect({
@@ -409,7 +417,7 @@ class ListCourse extends React.Component {
                           classNames(
                             classes.leftIcon,
                             classes.iconSmall)} />
-                      Create a New Course
+                      Create a New Student
                             </Button>
                   </TableRow>
                 </TableFooter>
@@ -422,8 +430,8 @@ class ListCourse extends React.Component {
   }
 }
 
-ListCourse.propTypes = {
+ListStudent.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ListCourse);
+export default withStyles(styles)(ListStudent);

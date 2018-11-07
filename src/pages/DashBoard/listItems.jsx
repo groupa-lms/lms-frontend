@@ -6,6 +6,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import BookIcon from "@material-ui/icons/Book";
+import TeachersIcon from "@material-ui/icons/AssignmentInd";
 import ForumIcon from "@material-ui/icons/Forum";
 import TeacherIcon from "@material-ui/icons/Group";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
@@ -52,7 +53,7 @@ class MainListItems extends React.Component {
           <ListItemIcon>
             <BookIcon />
           </ListItemIcon>
-          <ListItemText primary="Course" />
+          <ListItemText primary="Course Management" />
         </ListItem>
         <Collapse in={this.state.open} timeout="auto" unmountOnExit>
           {/* <List component="div" disablePadding>
@@ -94,10 +95,30 @@ class MainListItems extends React.Component {
         </Collapse>
         <ListItem button component={Link} to="/teacher">
           <ListItemIcon>
-            <GroupIcon />
+            <TeachersIcon />
           </ListItemIcon>
           <ListItemText primary="Teacher" />
         </ListItem>
+        <ListItem button onClick={this.handleClick}>
+          <ListItemIcon>
+          <GroupIcon />
+          </ListItemIcon>
+          <ListItemText primary="Student Management" />
+        </ListItem>
+        <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button className={classes.nested} component={Link}
+              to="/studentlist">
+              <ListItemText inset primary="Student List"/>
+            </ListItem>
+          </List>
+          <List component="div" disablePadding>
+            <ListItem button className={classes.nested} component={Link}
+              to="/createstudent">
+              <ListItemText inset primary="Create Student"/>
+            </ListItem>
+          </List>
+        </Collapse>
         <ListItem button component={Link} to="/forum">
           <ListItemIcon>
             <ForumIcon />

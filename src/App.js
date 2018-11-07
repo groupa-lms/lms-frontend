@@ -13,6 +13,8 @@ import TakeCourse from "./pages/Course/TakeCourse";
 //import TakeQuiz from "./pages/Course/TakeCourse";
 import CourseList from "./pages/Course/CourseList";
 import CreateCourse from "./pages/Course/CreateCourse";
+import CreateStudent from "./pages/Student/CreateStudent";
+import StudentSystem from "./pages/Student/StudentSystem";
 
 class App extends Component {
   render() {
@@ -27,6 +29,8 @@ class App extends Component {
             {/* <Route path="/takequiz" component={TakeQuiz} /> */}
             <Route path="/courselist" component={CourseList} />
             <Route path="/createcourse" component={CreateCourse} />
+            <Route path="/studentlist" component={StudentSystem} />
+            <Route path="/createstudent" component={CreateStudent} />
             <Route path="/account" component={Account} />
             <Route path="/dashboard" component={DashBoard} />
             <Route path="/messages" component={Messages} />

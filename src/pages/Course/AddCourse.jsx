@@ -202,7 +202,6 @@ class AddCourse extends React.Component {
             marginTop: 18
           }}
           rows="5"
-          defaultValue=""
           margin="normal"
           value={this.state.introduction}
           onChange={this.handleIntroduction}
