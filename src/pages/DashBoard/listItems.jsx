@@ -80,12 +80,6 @@ class MainListItems extends React.Component {
               <ListItemText inset primary="Course List"/>
             </ListItem>
           </List>
-          {/* <List component="div" disablePadding>
-            <ListItem button className={classes.nested} component={Link}
-              to="/takecourse">
-              <ListItemText inset primary="Take Course"/>
-            </ListItem>
-          </List> */}
           <List component="div" disablePadding>
             <ListItem button className={classes.nested} component={Link}
               to="/createcourse">
@@ -97,8 +91,22 @@ class MainListItems extends React.Component {
           <ListItemIcon>
             <TeachersIcon />
           </ListItemIcon>
-          <ListItemText primary="Teacher" />
+          <ListItemText primary="Teacher Management" />
         </ListItem>
+        <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button className={classes.nested} component={Link}
+              to="/teacherlist">
+              <ListItemText inset primary="Teacher List"/>
+            </ListItem>
+          </List>
+          <List component="div" disablePadding>
+            <ListItem button className={classes.nested} component={Link}
+              to="/createteacher">
+              <ListItemText inset primary="Create Teacher"/>
+            </ListItem>
+          </List>
+        </Collapse>
         <ListItem button onClick={this.handleClick}>
           <ListItemIcon>
           <GroupIcon />

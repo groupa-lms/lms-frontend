@@ -15,6 +15,8 @@ import CourseList from "./pages/Course/CourseList";
 import CreateCourse from "./pages/Course/CreateCourse";
 import CreateStudent from "./pages/Student/CreateStudent";
 import StudentSystem from "./pages/Student/StudentSystem";
+import CreateTeacher from "./pages/Teacher/CreateTeacher";
+import TeacherSystem from "./pages/Teacher/TeacherSystem";
 
 class App extends Component {
   render() {
@@ -37,6 +39,8 @@ class App extends Component {
             <Route path="/teacher" component={Teacher} />
             <Route path="/forum" component={Forum} />
             <Route path="/teacher" component={Teacher} />
+            <Route path="/teacherlist" component={TeacherSystem} />
+            <Route path="/createteacher" component={CreateTeacher} />
             <Route component={ErrorPage} />
           </Switch>
         </div>
