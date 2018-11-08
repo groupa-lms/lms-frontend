@@ -18,6 +18,7 @@ import {secondaryListItems} from './listItems';
 import MainListItems from './listItems';
 import SimpleLineChart from './SimpleLineChart';
 import SimpleTable from './SimpleTable';
+//import Tasks from './Tasks';
 
 const drawerWidth = 240;
 

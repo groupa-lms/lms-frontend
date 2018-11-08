@@ -10,13 +10,14 @@ import Forum from "./pages/Forum/Forum";
 import Teacher from "./pages/Teacher/Teacher";
 
 import TakeCourse from "./pages/Course/TakeCourse";
-//import TakeQuiz from "./pages/Course/TakeCourse";
 import CourseList from "./pages/Course/CourseList";
 import CreateCourse from "./pages/Course/CreateCourse";
 import CreateStudent from "./pages/Student/CreateStudent";
 import StudentSystem from "./pages/Student/StudentSystem";
 import CreateTeacher from "./pages/Teacher/CreateTeacher";
 import TeacherSystem from "./pages/Teacher/TeacherSystem";
+//import TakeQuiz from "./pages/Course/TakeCourse";
+import Student from "./pages/StudentRole/Student";
 
 class App extends Component {
   render() {
@@ -28,7 +29,6 @@ class App extends Component {
             <Route path="/login" component={LoginForm} />
             <Route path="/course" component={Course} />
             <Route path="/takecourse" component={TakeCourse} />
-            {/* <Route path="/takequiz" component={TakeQuiz} /> */}
             <Route path="/courselist" component={CourseList} />
             <Route path="/createcourse" component={CreateCourse} />
             <Route path="/studentlist" component={StudentSystem} />
@@ -41,6 +41,9 @@ class App extends Component {
             <Route path="/teacher" component={Teacher} />
             <Route path="/teacherlist" component={TeacherSystem} />
             <Route path="/createteacher" component={CreateTeacher} />
+            
+            {/* <Route path="/takequiz" component={TakeQuiz} /> */}
+            <Route path="/student" component={Student} />
             <Route component={ErrorPage} />
           </Switch>
         </div>

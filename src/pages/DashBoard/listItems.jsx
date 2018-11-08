@@ -127,6 +127,12 @@ class MainListItems extends React.Component {
             </ListItem>
           </List>
         </Collapse>
+        <ListItem button component={Link} to="/student">
+          <ListItemIcon>
+          <GroupIcon />
+          </ListItemIcon>
+          <ListItemText primary="Student" />
+        </ListItem>
         <ListItem button component={Link} to="/forum">
           <ListItemIcon>
             <ForumIcon />
