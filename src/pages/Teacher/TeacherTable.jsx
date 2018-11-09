@@ -1,19 +1,19 @@
-import React from 'react';
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Tooltip from '@material-ui/core/Tooltip';
-import { lighten } from '@material-ui/core/styles/colorManipulator';
+import React from "react";
+import classNames from "classnames";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+import Tooltip from "@material-ui/core/Tooltip";
+import { lighten } from "@material-ui/core/styles/colorManipulator";
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -36,13 +36,22 @@ function stableSort(array, cmp) {
 }
 
 function getSorting(order, orderBy) {
-  return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
+  return order === "desc"
+    ? (a, b) => desc(a, b, orderBy)
+    : (a, b) => -desc(a, b, orderBy);
 }
 
 const rows = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Fist Name' },
-  { id: 'calories', numeric: true, disablePadding: false, label: 'Last Name' },
-  { id: 'fat', numeric: true, disablePadding: false, label: 'Email' },
+  { id: "title", numeric: false, disablePadding: false, label: "Title" },
+  {
+    id: "department",
+    numeric: false,
+    disablePadding: false,
+    label: "Department"
+  },
+  { id: "name", numeric: false, disablePadding: false, label: "Fist Name" },
+  { id: "calories", numeric: true, disablePadding: false, label: "Last Name" },
+  { id: "fat", numeric: true, disablePadding: false, label: "Email" }
 ];
 
 class TeacherTableHead extends React.Component {
@@ -56,19 +65,18 @@ class TeacherTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox">
-          </TableCell>
+          <TableCell padding="checkbox" />
           {rows.map(row => {
             return (
               <TableCell
                 key={row.id}
                 numeric={row.numeric}
-                padding={row.disablePadding ? 'none' : 'default'}
+                padding={row.disablePadding ? "none" : "default"}
                 sortDirection={orderBy === row.id ? order : false}
               >
                 <Tooltip
                   title="Sort"
-                  placement={row.numeric ? 'bottom-end' : 'bottom-start'}
+                  placement={row.numeric ? "bottom-end" : "bottom-start"}
                   enterDelay={300}
                 >
                   <TableSortLabel
@@ -94,32 +102,32 @@ TeacherTableHead.propTypes = {
   onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
+  rowCount: PropTypes.number.isRequired
 };
 
 const toolbarStyles = theme => ({
   root: {
-    paddingRight: theme.spacing.unit,
+    paddingRight: theme.spacing.unit
   },
   highlight:
-    theme.palette.type === 'light'
+    theme.palette.type === "light"
       ? {
           color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85)
         }
       : {
           color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
+          backgroundColor: theme.palette.secondary.dark
         },
   spacer: {
-    flex: '1 1 100%',
+    flex: "1 1 100%"
   },
   actions: {
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.secondary
   },
   title: {
-    flex: '0 0 auto',
-  },
+    flex: "0 0 auto"
+  }
 });
 
 let TeacherTableToolbar = props => {
@@ -128,7 +136,7 @@ let TeacherTableToolbar = props => {
   return (
     <Toolbar
       className={classNames(classes.root, {
-        [classes.highlight]: numSelected > 0,
+        [classes.highlight]: numSelected > 0
       })}
     >
       <div className={classes.title}>
@@ -149,40 +157,40 @@ let TeacherTableToolbar = props => {
 
 TeacherTableToolbar.propTypes = {
   classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
+  numSelected: PropTypes.number.isRequired
 };
 
 TeacherTableToolbar = withStyles(toolbarStyles)(TeacherTableToolbar);
 
 const styles = theme => ({
   root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 10,
+    width: "100%",
+    marginTop: theme.spacing.unit * 10
   },
   table: {
-    minWidth: 1020,
+    minWidth: 1020
   },
   tableWrapper: {
-    overflowX: 'auto',
-  },
+    overflowX: "auto"
+  }
 });
 
 class TeacherTable extends React.Component {
   state = {
-    order: 'asc',
-    orderBy: 'calories',
+    order: "asc",
+    orderBy: "calories",
     selected: [],
-    data: this.props.teachers,    
+    data: this.props.teachers,
     page: 0,
-    rowsPerPage: 5,
+    rowsPerPage: 5
   };
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
-    let order = 'desc';
+    let order = "desc";
 
-    if (this.state.orderBy === property && this.state.order === 'desc') {
-      order = 'asc';
+    if (this.state.orderBy === property && this.state.order === "desc") {
+      order = "asc";
     }
 
     this.setState({ order, orderBy });
@@ -210,7 +218,7 @@ class TeacherTable extends React.Component {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
 
@@ -230,8 +238,9 @@ class TeacherTable extends React.Component {
   render() {
     const { classes, teachers } = this.props;
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, teachers.length - page * rowsPerPage);
-    
+    const emptyRows =
+      rowsPerPage - Math.min(rowsPerPage, teachers.length - page * rowsPerPage);
+
     return (
       <Paper className={classes.root}>
         <TeacherTableToolbar numSelected={selected.length} />
@@ -260,13 +269,14 @@ class TeacherTable extends React.Component {
                       key={n.id}
                       selected={isSelected}
                     >
-                      <TableCell padding="checkbox">
+                      <TableCell padding="checkbox" />
+                      <TableCell component="th" scope="row" >
+                        {n.title}
                       </TableCell>
-                      <TableCell component="th" scope="row" padding="checkbox">
-                        {n.first_name}
-                      </TableCell>
-                      <TableCell numeric>{n.last_name}</TableCell>
-                      <TableCell numeric>{n.email}</TableCell>
+                      <TableCell >{n.department}</TableCell>
+                      <TableCell >{n.first_name}</TableCell>
+                      <TableCell >{n.last_name}</TableCell>
+                      <TableCell >{n.email}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -284,10 +294,10 @@ class TeacherTable extends React.Component {
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
-            'aria-label': 'Previous Page',
+            "aria-label": "Previous Page"
           }}
           nextIconButtonProps={{
-            'aria-label': 'Next Page',
+            "aria-label": "Next Page"
           }}
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
@@ -298,7 +308,7 @@ class TeacherTable extends React.Component {
 }
 
 TeacherTable.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(TeacherTable);

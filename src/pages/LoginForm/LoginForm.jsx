@@ -118,7 +118,7 @@ class LoginForm extends React.Component {
     console.log(username);
     console.log(password);
     axios
-      .post("http://localhost:3001/api/newusers/login", {
+      .post("http://localhost:3001/api/NewUsers/login", {
         email: username,
         password: password
       })
