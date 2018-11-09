@@ -80,12 +80,12 @@ class MainListItems extends React.Component {
               <ListItemText inset primary="Course List"/>
             </ListItem>
           </List>
-          <List component="div" disablePadding>
+          {/* <List component="div" disablePadding>
             <ListItem button className={classes.nested} component={Link}
               to="/createcourse">
               <ListItemText inset primary="Create Course"/>
             </ListItem>
-          </List>
+          </List> */}
         </Collapse>
         <ListItem button component={Link} to="/teacher">
           <ListItemIcon>
@@ -100,12 +100,12 @@ class MainListItems extends React.Component {
               <ListItemText inset primary="Teacher List"/>
             </ListItem>
           </List>
-          <List component="div" disablePadding>
+          {/* <List component="div" disablePadding>
             <ListItem button className={classes.nested} component={Link}
               to="/createteacher">
               <ListItemText inset primary="Create Teacher"/>
             </ListItem>
-          </List>
+          </List> */}
         </Collapse>
         <ListItem button onClick={this.handleClick}>
           <ListItemIcon>
@@ -120,12 +120,12 @@ class MainListItems extends React.Component {
               <ListItemText inset primary="Student List"/>
             </ListItem>
           </List>
-          <List component="div" disablePadding>
+          {/* <List component="div" disablePadding>
             <ListItem button className={classes.nested} component={Link}
               to="/createstudent">
               <ListItemText inset primary="Create Student"/>
             </ListItem>
-          </List>
+          </List> */}
         </Collapse>
         <ListItem button component={Link} to="/student">
           <ListItemIcon>

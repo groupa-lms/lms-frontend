@@ -152,6 +152,10 @@ const styles = theme => ({
       backgroundColor: theme.palette.background.default,
     },
   },
+  buttonDisabled:{
+    margin: theme.spacing.unit,
+    disabled: true,
+  }
 });
 
 var courseRows = [];
@@ -169,7 +173,7 @@ class ListCourse extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleDisabled = this.handleDisabled.bind(this);
 
   }
 
@@ -199,17 +203,29 @@ class ListCourse extends React.Component {
     }
   }
 
-  handleSubmit = () => {
-    //console.log(value)
-    const disable = { disabled: true };
-    axios.patch(`http://localhost:3001/api/courses/5be0cb1d67916e205cbd07bd`, disable)
-      .then(res => {
-        console.log('res=>', res);
-        this.setState({ loading: false });
-        //this.setState({ disabled: true });
-      })
-      .catch(({ response: { data: { error } } }) => console.log(error));
-  }
+  // handleSubmit = () => {
+  //   //console.log(value)
+  //   const disable = { disabled: true };
+  //   axios.patch(`http://localhost:3001/api/courses/5be0cb1d67916e205cbd07bd`, disable)
+  //     .then(res => {
+  //       console.log('res=>', res);
+  //       this.setState({ loading: false });
+  //       //this.setState({ disabled: true });
+  //     })
+  //     .catch(({ response: { data: { error } } }) => console.log(error));
+  // }
+
+  // handleDisabled = ( value ) => {
+  //   const changeData = { disabled: true };
+  //   axios.patch(`http://localhost:3001/api/courses/${value}`, changeData)
+  //     .then(res => {
+  //       console.log('res=>', res);
+  //       //this.setState({ loading: false });
+  //       return;
+  //     })
+  //     .catch(({ response: { data: { error } } }) => console.log(error));
+
+  // }
 
 
 
@@ -270,7 +286,7 @@ class ListCourse extends React.Component {
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
           Course List
         </Typography>
-         <form className={classes.container} autoComplete="off" onSubmit={this.handleSubmit}> 
+        <form className={classes.container} autoComplete="off" onSubmit={this.handleSubmit}>
           <Paper className={classes.root}>
             <div className={classes.tableWrapper}>
               <Table className={classes.table}>
@@ -333,7 +349,9 @@ class ListCourse extends React.Component {
                               }}
                               variant="outlined"
                               size="small"
-                              className={classes.button}>
+                              className={classes.button}
+                              disabled={row.disabled}
+                              >
                               Detail <ViewIcon className={
                                 classNames(
                                   classes.rightIcon,
@@ -357,17 +375,31 @@ class ListCourse extends React.Component {
                                   item: viewItem
                                 });
                               }}
-                              className={classes.button}>
+                              className={classes.button}
+                              disabled={row.disabled}
+                              >
                               Edit <EditIcon className={
                                 classNames(
                                   classes.rightIcon,
                                   classes.iconSmall)} />
                             </Button>
                             <Button variant="outlined"
-                              type="submit"
-                              //onClick={this.handleDisabled(row.id)}
+                              onClick={() => {
+                                const changeData = { disabled: true };
+                                axios.patch(`http://localhost:3001/api/courses/${row.id}`, changeData)
+                                  .then(res => {
+                                    console.log('res=>', res);
+                                    window.location.reload();   
+                                    return;
+                                  })
+                                  .catch(({ response: { data: { error } } }) => console.log(error));
+
+                              }}
                               size="small"
-                              className={classes.button}>
+                              disabled={row.disabled}
+                              className={classes.button}
+                             
+                              >
                               Disabled <NotInterested className={
                                 classNames(
                                   classes.rightIcon,
@@ -416,7 +448,7 @@ class ListCourse extends React.Component {
               </Table>
             </div>
           </Paper>
-         </form> 
+        </form>
       </React.Fragment>
     );
   }

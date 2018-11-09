@@ -340,7 +340,9 @@ class ListStudent extends React.Component {
                               }}
                               variant="outlined"
                               size="small"
-                              className={classes.button}>
+                              className={classes.button}
+                              disabled={row.disabled}
+                              >
                               Detail <ViewIcon className={
                                 classNames(
                                   classes.rightIcon,
@@ -365,17 +367,30 @@ class ListStudent extends React.Component {
                                   item: viewItem
                                 });
                               }}
-                              className={classes.button}>
+                              className={classes.button}
+                              disabled={row.disabled}
+                              >
                               Edit <EditIcon className={
                                 classNames(
                                   classes.rightIcon,
                                   classes.iconSmall)} />
                             </Button>
                             <Button variant="outlined"
-                              type="submit"
-                              //onClick={this.handleDisabled(row.id)}
                               size="small"
-                              className={classes.button}>
+                              className={classes.button}
+                              onClick={() => {
+                                const changeData = { disabled: true };
+                                axios.patch(`http://localhost:3001/api/students/${row.id}`, changeData)
+                                  .then(res => {
+                                    console.log('res=>', res);
+                                    window.location.reload();   
+                                    return;
+                                  })
+                                  .catch(({ response: { data: { error } } }) => console.log(error));
+
+                              }}
+                              disabled={row.disabled}
+                              >
                               Disabled <NotInterested className={
                                 classNames(
                                   classes.rightIcon,
