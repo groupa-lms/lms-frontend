@@ -4,32 +4,32 @@ import TeacherTable from "./TeacherTable";
 import axios from "axios";
 
 class Teacher extends Component {
-    constructor(){
+    constructor() {
         super()
         this.state = {
             teachers: []
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         axios.get('http://localhost:3001/api/teachers', {
         })
-        .then((response) => {
-            this.setState({teachers: response.data})
-            //console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .then(function () {
-          // always executed
-        });
+            .then((response) => {
+                this.setState({ teachers: response.data })
+                //console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
     }
-      
+
     render() {
         return (
             <Template title="Teacher">
-              <TeacherTable teachers={this.state.teachers}/>  
+                <TeacherTable teachers={this.state.teachers} />
             </Template>
         );
     }

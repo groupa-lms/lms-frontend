@@ -24,12 +24,9 @@ const styles = theme => ({
   },
 });
 
-
 function createData(item, value) {
   return { item, value };
 }
-
-
 
 class ViewTeacher extends React.Component {
   constructor() {
@@ -46,13 +43,13 @@ class ViewTeacher extends React.Component {
     const { classes, viewItem, pageDirect } = this.props;
     const rows = [
       //createData('ID', viewItem.id),
-      createData('Teacher ID',viewItem.studentId ),
+      createData('Teacher ID', viewItem.studentId),
       createData('Teacher Name', viewItem.name),
       createData('Teacher Title', viewItem.title),
-      createData('Teacher Department',viewItem.department ),
+      createData('Teacher Department', viewItem.department),
       createData('Teacher Course', viewItem.course),
       createData('Teacher Date of Birth', viewItem.date_of_birth),
-      createData('Teacher Gender',viewItem.gender ),
+      createData('Teacher Gender', viewItem.gender),
     ];
     //const { rows, rowsPerPage, page, loading } = this.state;
     return (
@@ -61,56 +58,56 @@ class ViewTeacher extends React.Component {
           {viewItem.name}
         </Typography>
         <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Item</TableCell>
-            <TableCell>Teacher Information</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => {
-            return (
-              <TableRow key={row.item}>
-                <TableCell component="th" scope="row">
-                  {row.item}
-                </TableCell>
-                <TableCell>{row.value}</TableCell>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Item</TableCell>
+                <TableCell>Teacher Information</TableCell>
               </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </Paper>
-    <Button
-            onClick={() => { 
-              //pageDirect('edit', viewItem );
-              pageDirect({
-                value: 'edit',
-                item: viewItem
-              });
-            }}
-            style={{ marginTop: 40 }}
-            variant="contained"
-            color="primary"
-            className={classes.button}
-          >
-            Edit
+            </TableHead>
+            <TableBody>
+              {rows.map(row => {
+                return (
+                  <TableRow key={row.item}>
+                    <TableCell component="th" scope="row">
+                      {row.item}
+                    </TableCell>
+                    <TableCell>{row.value}</TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </Paper>
+        <Button
+          onClick={() => {
+            //pageDirect('edit', viewItem );
+            pageDirect({
+              value: 'edit',
+              item: viewItem
+            });
+          }}
+          style={{ marginTop: 40 }}
+          variant="contained"
+          color="primary"
+          className={classes.button}
+        >
+          Edit
         </Button>
         <Button
-            style={{ marginTop: 40 }}
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={() => { 
-              //pageDirect('list', viewItem );
-              pageDirect({
-                value: 'list',
-                item: viewItem
-              });
-            }}
-          >
-            Go Back
+          style={{ marginTop: 40 }}
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          onClick={() => {
+            //pageDirect('list', viewItem );
+            pageDirect({
+              value: 'list',
+              item: viewItem
+            });
+          }}
+        >
+          Go Back
         </Button>
       </React.Fragment>
     );

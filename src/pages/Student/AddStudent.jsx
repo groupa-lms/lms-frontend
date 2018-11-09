@@ -25,7 +25,7 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit,
-    width:400,
+    width: 400,
   },
 });
 
@@ -122,7 +122,10 @@ class AddStudent extends React.Component {
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
           Add Student
       </Typography>
-        <form className={classes.container} validate="true" autoComplete="off" onSubmit={this.handleSubmit}>
+        <form className={classes.container} 
+        validate="true" 
+        autoComplete="off" 
+        onSubmit={this.handleSubmit}>
           <TextField
             id="standard-with-placeholder"
             label="Student Id"
@@ -183,7 +186,7 @@ class AddStudent extends React.Component {
             value={this.state.gender}
             onChange={this.handleGender}
           />
-           <Button
+          <Button
             type="submit"
             style={{ marginTop: 40 }}
             variant="contained"

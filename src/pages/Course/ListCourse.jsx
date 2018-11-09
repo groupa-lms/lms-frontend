@@ -152,7 +152,7 @@ const styles = theme => ({
       backgroundColor: theme.palette.background.default,
     },
   },
-  buttonDisabled:{
+  buttonDisabled: {
     margin: theme.spacing.unit,
     disabled: true,
   }
@@ -351,7 +351,7 @@ class ListCourse extends React.Component {
                               size="small"
                               className={classes.button}
                               disabled={row.disabled}
-                              >
+                            >
                               Detail <ViewIcon className={
                                 classNames(
                                   classes.rightIcon,
@@ -377,7 +377,7 @@ class ListCourse extends React.Component {
                               }}
                               className={classes.button}
                               disabled={row.disabled}
-                              >
+                            >
                               Edit <EditIcon className={
                                 classNames(
                                   classes.rightIcon,
@@ -389,7 +389,7 @@ class ListCourse extends React.Component {
                                 axios.patch(`http://localhost:3001/api/courses/${row.id}`, changeData)
                                   .then(res => {
                                     console.log('res=>', res);
-                                    window.location.reload();   
+                                    window.location.reload();
                                     return;
                                   })
                                   .catch(({ response: { data: { error } } }) => console.log(error));
@@ -398,8 +398,8 @@ class ListCourse extends React.Component {
                               size="small"
                               disabled={row.disabled}
                               className={classes.button}
-                             
-                              >
+
+                            >
                               Disabled <NotInterested className={
                                 classNames(
                                   classes.rightIcon,

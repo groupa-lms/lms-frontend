@@ -114,13 +114,13 @@ const toolbarStyles = theme => ({
   highlight:
     theme.palette.type === 'light'
       ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
+        color: theme.palette.secondary.main,
+        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+      }
       : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.secondary.dark,
+      },
   spacer: {
     flex: '1 1 100%',
   },
@@ -147,10 +147,10 @@ let TeacherTableToolbar = props => {
             {numSelected} selected
           </Typography>
         ) : (
-          <Typography variant="h6" id="tableTitle">
-            Nutrition
+            <Typography variant="h6" id="tableTitle">
+              Nutrition
           </Typography>
-        )}
+          )}
       </div>
       <div className={classes.spacer} />
       <div className={classes.actions}>
@@ -161,12 +161,12 @@ let TeacherTableToolbar = props => {
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+            <Tooltip title="Filter list">
+              <IconButton aria-label="Filter list">
+                <FilterListIcon />
+              </IconButton>
+            </Tooltip>
+          )}
       </div>
     </Toolbar>
   );
@@ -193,15 +193,15 @@ const styles = theme => ({
 });
 
 class TeacherTable extends React.Component {
-    constructor(props){
-        super(props);
-    }
-    
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     order: 'asc',
     orderBy: 'calories',
     selected: [],
-    data: this.props.teachers,    
+    data: this.props.teachers,
     page: 0,
     rowsPerPage: 5,
   };
@@ -260,7 +260,7 @@ class TeacherTable extends React.Component {
     const { classes, teachers } = this.props;
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, teachers.length - page * rowsPerPage);
-    
+
     return (
       <Paper className={classes.root}>
         <TeacherTableToolbar numSelected={selected.length} />

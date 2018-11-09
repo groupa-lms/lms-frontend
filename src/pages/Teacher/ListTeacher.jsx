@@ -344,7 +344,7 @@ class ListTeacher extends React.Component {
                               size="small"
                               className={classes.button}
                               disabled={row.disabled}
-                              >
+                            >
                               Detail <ViewIcon className={
                                 classNames(
                                   classes.rightIcon,
@@ -372,7 +372,7 @@ class ListTeacher extends React.Component {
                               }}
                               className={classes.button}
                               disabled={row.disabled}
-                              >
+                            >
                               Edit <EditIcon className={
                                 classNames(
                                   classes.rightIcon,
@@ -388,14 +388,14 @@ class ListTeacher extends React.Component {
                                 axios.patch(`http://localhost:3001/api/teachers/${row.id}`, changeData)
                                   .then(res => {
                                     console.log('res=>', res);
-                                    window.location.reload();   
+                                    window.location.reload();
                                     return;
                                   })
                                   .catch(({ response: { data: { error } } }) => console.log(error));
 
                               }}
                               disabled={row.disabled}
-                              >
+                            >
                               Disabled <NotInterested className={
                                 classNames(
                                   classes.rightIcon,

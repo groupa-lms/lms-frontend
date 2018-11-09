@@ -270,7 +270,7 @@ class ListStudent extends React.Component {
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
           Student List
         </Typography>
-         <form className={classes.container} autoComplete="off" onSubmit={this.handleSubmit}> 
+        <form className={classes.container} autoComplete="off" onSubmit={this.handleSubmit}>
           <Paper className={classes.root}>
             <div className={classes.tableWrapper}>
               <Table className={classes.table}>
@@ -342,7 +342,7 @@ class ListStudent extends React.Component {
                               size="small"
                               className={classes.button}
                               disabled={row.disabled}
-                              >
+                            >
                               Detail <ViewIcon className={
                                 classNames(
                                   classes.rightIcon,
@@ -369,7 +369,7 @@ class ListStudent extends React.Component {
                               }}
                               className={classes.button}
                               disabled={row.disabled}
-                              >
+                            >
                               Edit <EditIcon className={
                                 classNames(
                                   classes.rightIcon,
@@ -383,14 +383,14 @@ class ListStudent extends React.Component {
                                 axios.patch(`http://localhost:3001/api/students/${row.id}`, changeData)
                                   .then(res => {
                                     console.log('res=>', res);
-                                    window.location.reload();   
+                                    window.location.reload();
                                     return;
                                   })
                                   .catch(({ response: { data: { error } } }) => console.log(error));
 
                               }}
                               disabled={row.disabled}
-                              >
+                            >
                               Disabled <NotInterested className={
                                 classNames(
                                   classes.rightIcon,
@@ -439,7 +439,7 @@ class ListStudent extends React.Component {
               </Table>
             </div>
           </Paper>
-         </form> 
+        </form>
       </React.Fragment>
     );
   }

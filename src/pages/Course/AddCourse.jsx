@@ -32,7 +32,7 @@ class AddCourse extends React.Component {
   constructor() {
     super();
     this.state = {
-      loading:false,
+      loading: false,
       code: '',
       title: '',
       lecturer: '',
@@ -60,7 +60,7 @@ class AddCourse extends React.Component {
   handleCode = (event) => {
     this.setState({ code: event.target.value });
   }
-  
+
   handleLecturer = (event) => {
     this.setState({ lecturer: event.target.value });
   }
@@ -82,7 +82,7 @@ class AddCourse extends React.Component {
   }
 
   handleSubmit = (event) => {
-    
+
     // if(!confirm("confirm the change?"))
     // {
     //   return
@@ -121,7 +121,10 @@ class AddCourse extends React.Component {
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
           Add Course
       </Typography>
-        <form className={classes.container} validate="true" autoComplete="off" onSubmit={this.handleSubmit}>
+        <form className={classes.container} 
+        validate="true" 
+        autoComplete="off" 
+        onSubmit={this.handleSubmit}>
           <TextField
             id="standard-with-placeholder"
             label="Course Code"
@@ -168,7 +171,7 @@ class AddCourse extends React.Component {
             value={this.state.introduction}
             onChange={this.handleIntroduction}
           /> */}
-           <TextField
+          <TextField
             id="start_date"
             label="Start Date"
             type="date"
@@ -193,35 +196,35 @@ class AddCourse extends React.Component {
             }}
           />
           <TextField
-          id="standard-multiline-static"
-          label="Course Introduction"
-          multiline
-          fullWidth
-          style={{ 
-            margin: 8,
-            marginTop: 18
-          }}
-          rows="5"
-          margin="normal"
-          value={this.state.introduction}
-          onChange={this.handleIntroduction}
-        />
-         
+            id="standard-multiline-static"
+            label="Course Introduction"
+            multiline
+            fullWidth
+            style={{
+              margin: 8,
+              marginTop: 18
+            }}
+            rows="5"
+            margin="normal"
+            value={this.state.introduction}
+            onChange={this.handleIntroduction}
+          />
+
           <Button
             type="submit"
             style={{ marginTop: 40 }}
             variant="contained"
-            color={this.state.loading?"secondary":"primary"}
+            color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
           >
-            {this.state.loading?'Creating...':'Add'}
-        </Button>
-        <Button
+            {this.state.loading ? 'Creating...' : 'Add'}
+          </Button>
+          <Button
             type="submit"
             style={{ marginTop: 40 }}
             variant="contained"
-            color={this.state.loading?"secondary":"primary"}
+            color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
             onClick={() => {

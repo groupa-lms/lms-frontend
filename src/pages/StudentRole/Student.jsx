@@ -6,8 +6,8 @@ class Student extends Component {
   render() {
     return (
       <Template title="Student">
-        <MainPage /> 
-        
+        <MainPage />
+
       </Template>
     );
   }

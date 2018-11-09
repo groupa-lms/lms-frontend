@@ -32,7 +32,7 @@ class EditCourse extends React.Component {
   constructor() {
     super();
     this.state = {
-      loading:false,
+      loading: false,
       code: '',
       title: '',
       lecturer: '',
@@ -52,7 +52,7 @@ class EditCourse extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({ 
+    this.setState({
       code: this.props.viewItem.code,
       title: this.props.viewItem.title,
       lecturer: this.props.viewItem.lecturer,
@@ -72,7 +72,7 @@ class EditCourse extends React.Component {
   handleCode = (event) => {
     this.setState({ code: event.target.value });
   }
-  
+
   handleLecturer = (event) => {
     this.setState({ lecturer: event.target.value });
   }
@@ -121,8 +121,11 @@ class EditCourse extends React.Component {
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
           Edit Course {viewItem.title}
-      </Typography>
-        <form className={classes.container} validate="true" autoComplete="off" onSubmit={this.handleSubmit}>
+        </Typography>
+        <form className={classes.container} 
+        validate="true" 
+        autoComplete="off" 
+        onSubmit={this.handleSubmit}>
 
           <TextField
             id="standard-required"
@@ -172,7 +175,7 @@ class EditCourse extends React.Component {
             value={this.state.introduction}
             onChange={this.handleIntroduction}
           /> */}
-           <TextField
+          <TextField
             id="start_date"
             label="Start Date"
             type="date"
@@ -199,45 +202,45 @@ class EditCourse extends React.Component {
             }}
           />
           <TextField
-          id="standard-multiline-static"
-          label="Course Introduction"
-          multiline
-          fullWidth
-          placeholder={viewItem.introduction}
-          style={{ 
-            margin: 8,
-            marginTop: 18
-          }}
-          rows="5"
-          defaultValue=""
-          margin="normal"
-          value={this.state.introduction}
-          onChange={this.handleIntroduction}
-        />
-         
+            id="standard-multiline-static"
+            label="Course Introduction"
+            multiline
+            fullWidth
+            placeholder={viewItem.introduction}
+            style={{
+              margin: 8,
+              marginTop: 18
+            }}
+            rows="5"
+            defaultValue=""
+            margin="normal"
+            value={this.state.introduction}
+            onChange={this.handleIntroduction}
+          />
+
           <Button
             type="submit"
             style={{ marginTop: 40 }}
             variant="contained"
-            color={this.state.loading?"secondary":"primary"}
+            color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
           >
-            {this.state.loading?'Editing...':'Edit'}
-        </Button>
-        <Button
+            {this.state.loading ? 'Editing...' : 'Edit'}
+          </Button>
+          <Button
             style={{ marginTop: 40 }}
             variant="contained"
-            color={this.state.loading?"secondary":"primary"}
+            color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
-            onClick={() => { 
-               // pageDirect('list', viewItem );
-               pageDirect({
+            onClick={() => {
+              // pageDirect('list', viewItem );
+              pageDirect({
                 value: 'list',
                 item: viewItem
               });
-              }}
+            }}
           >
             Go Back
         </Button>

@@ -33,7 +33,7 @@ class EditStudent extends React.Component {
   constructor() {
     super();
     this.state = {
-      loading:false,
+      loading: false,
       studentId: '',
       name: '',
       grade: '',
@@ -54,7 +54,7 @@ class EditStudent extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({ 
+    this.setState({
       studentId: this.props.viewItem.studentId,
       name: this.props.viewItem.name,
       grade: this.props.viewItem.grade,
@@ -74,7 +74,7 @@ class EditStudent extends React.Component {
   handleStudentId = (event) => {
     this.setState({ studentId: event.target.value });
   }
-  
+
   handleName = (event) => {
     this.setState({ name: event.target.value });
   }
@@ -123,8 +123,11 @@ class EditStudent extends React.Component {
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
           Edit Student {viewItem.name}
-      </Typography>
-        <form className={classes.container} validate="true" autoComplete="off" onSubmit={this.handleSubmit}>
+        </Typography>
+        <form className={classes.container} 
+        validate="true" 
+        autoComplete="off" 
+        onSubmit={this.handleSubmit}>
 
           <TextField
             id="standard-required"
@@ -177,7 +180,7 @@ class EditStudent extends React.Component {
             value={this.state.age}
             onChange={this.handleAge}
           />
-           <TextField
+          <TextField
             id="standard-with-placeholder"
             label="Gender"
             placeholder={viewItem.gender}
@@ -187,29 +190,29 @@ class EditStudent extends React.Component {
             value={this.state.gender}
             onChange={this.handleGender}
           />
-           <Button
+          <Button
             type="submit"
             style={{ marginTop: 40 }}
             variant="contained"
-            color={this.state.loading?"secondary":"primary"}
+            color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
           >
-            {this.state.loading?'Editing...':'Edit'}
-        </Button>
-        <Button
+            {this.state.loading ? 'Editing...' : 'Edit'}
+          </Button>
+          <Button
             style={{ marginTop: 40 }}
             variant="contained"
-            color={this.state.loading?"secondary":"primary"}
+            color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
-            onClick={() => { 
-               // pageDirect('list', viewItem );
-               pageDirect({
+            onClick={() => {
+              // pageDirect('list', viewItem );
+              pageDirect({
                 value: 'list',
                 item: viewItem
               });
-              }}
+            }}
           >
             Go Back
         </Button>
