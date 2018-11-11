@@ -73,6 +73,9 @@ const styles = theme => ({
   },
   warpBottom: {
     marginTop: "20px"
+  },
+  typography: {
+    useNextVariants: true
   }
 });
 
@@ -146,7 +149,11 @@ class LoginForm extends React.Component {
             <Avatar className={classes.avatar}>
               <LockIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography
+              component="h1"
+              variant="h5"
+              className={classes.typography}
+            >
               Login
             </Typography>
             <form className={classes.form} onSubmit={this.handleSubmit}>

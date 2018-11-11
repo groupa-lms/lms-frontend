@@ -64,7 +64,8 @@ const styles = theme => ({
     display: 'none'
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
+    useNextVariants: true,    
   },
   drawerPaper: {
     position: 'relative',
@@ -149,7 +150,7 @@ class Template extends React.Component {
                 noWrap
                 className={classes.title}>
                 {this.props.title}
-                            </Typography>
+              </Typography>
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <NotificationsIcon />
