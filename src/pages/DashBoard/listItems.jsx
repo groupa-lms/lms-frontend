@@ -13,9 +13,10 @@ import MessageIcon from "@material-ui/icons/Message";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
-import GroupIcon from "@material-ui/icons/Group";
 import { withStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
+import AuthService from "../LoginForm/AuthService";
+import { LoginContext } from "../../App";
 
 const styles = theme => ({
   root: {
@@ -29,88 +30,110 @@ const styles = theme => ({
 });
 
 class MainListItems extends React.Component {
+  constructor() {
+    super();
+    this.Auth = new AuthService();
+  }
   state = {
     open: true
   };
-
   handleClick = () => {
     this.setState(state => ({ open: !state.open }));
   };
 
   render() {
     const { classes } = this.props;
-
     return (
-      <React.Fragment>
-        <ListItem button component={Link} to="/">
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Dashboard" />
-        </ListItem>
-        <ListItem button onClick={this.handleClick}>
-          <ListItemIcon>
-            <BookIcon />
-          </ListItemIcon>
-          <ListItemText primary="Course" />
-        </ListItem>
-        <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
+      <LoginContext.Consumer>
+        {({ setLogin }) => (
+          <React.Fragment>
+            <ListItem button component={Link} to="/">
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+            <ListItem button onClick={this.handleClick}>
+              <ListItemIcon>
+                <BookIcon />
+              </ListItemIcon>
+              <ListItemText primary="Course" />
+            </ListItem>
+            <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItem
+                  button
+                  className={classes.nested}
+                  component={Link}
+                  to="/course"
+                >
+                  <ListItemText inset primary="My Course" />
+                </ListItem>
+              </List>
+              <List component="div" disablePadding>
+                <ListItem
+                  button
+                  className={classes.nested}
+                  component={Link}
+                  to="/takecourse"
+                >
+                  <ListItemText inset primary="Take Course" />
+                </ListItem>
+              </List>
+              <List component="div" disablePadding>
+                <ListItem
+                  button
+                  className={classes.nested}
+                  component={Link}
+                  to="/takequiz"
+                >
+                  <ListItemText inset primary="Take Quiz" />
+                </ListItem>
+              </List>
+            </Collapse>
+            <ListItem button component={Link} to="/teacher">
+              <ListItemIcon>
+                <TeacherIcon />
+              </ListItemIcon>
+              <ListItemText primary="Teacher" />
+            </ListItem>
+            <ListItem button component={Link} to="/forum">
+              <ListItemIcon>
+                <ForumIcon />
+              </ListItemIcon>
+              <ListItemText primary="Forum" />
+            </ListItem>
+            <ListItem button component={Link} to="/account">
+              <ListItemIcon>
+                <AccountBoxIcon />
+              </ListItemIcon>
+              <ListItemText primary="Account" />
+            </ListItem>
+            <ListItem button component={Link} to="/messages">
+              <ListItemIcon>
+                <MessageIcon />
+              </ListItemIcon>
+              <ListItemText primary="Messages" />
+            </ListItem>
+            <Divider />
             <ListItem
               button
-              className={classes.nested}
               component={Link}
-              to="/course"
+              to="/login"
+              onClick={() => {
+                this.Auth.logout();
+                setLogin(false);
+               
+              }}
             >
-              <ListItemText inset primary="My Course" />
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
             </ListItem>
-          </List>
-          <List component="div" disablePadding>
-            <ListItem button className={classes.nested} component={Link}
-              to="/takecourse">
-              <ListItemText inset primary="Take Course"/>
-            </ListItem>
-          </List>
-          <List component="div" disablePadding>
-            <ListItem button className={classes.nested} component={Link}
-              to="/takequiz">
-              <ListItemText inset primary="Take Quiz" 
-              />
-            </ListItem>
-          </List>
-        </Collapse>
-        <ListItem button component={Link} to="/teacher">
-          <ListItemIcon>
-            <GroupIcon />
-          </ListItemIcon>
-          <ListItemText primary="Teacher" />
-        </ListItem>
-        <ListItem button component={Link} to="/forum">
-          <ListItemIcon>
-            <ForumIcon />
-          </ListItemIcon>
-          <ListItemText primary="Forum" />
-        </ListItem>
-        <ListItem button component={Link} to="/account">
-          <ListItemIcon>
-            <AccountBoxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Account" />
-        </ListItem>
-        <ListItem button component={Link} to="/messages">
-          <ListItemIcon>
-            <MessageIcon />
-          </ListItemIcon>
-          <ListItemText primary="Messages" />
-        </ListItem>
-        <Divider />
-        <ListItem button component={Link} to="/logout">
-          <ListItemIcon>
-            <ExitToAppIcon />
-          </ListItemIcon>
-          <ListItemText primary="Logout" />
-        </ListItem>
-      </React.Fragment>
+          </React.Fragment>
+        )}
+      </LoginContext.Consumer>
     );
   }
 }
@@ -120,4 +143,3 @@ MainListItems.propTypes = {
 };
 
 export default withStyles(styles)(MainListItems);
-
