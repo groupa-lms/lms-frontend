@@ -32,7 +32,7 @@ class App extends Component {
 
             <Route path="/admin/student/list" component={ListStudentContainer} />
             <Route path="/admin/student/edit/:id" component={EditStudentContainer} />
-            <Route path="/admin/student/add/:id" component={AddStudentContainer} />
+            <Route path="/admin/student/add" component={AddStudentContainer} />
             <Route path="/admin/student/view/:id" component={ViewStudentContainer} />
             
             <Route path="/student" component={Student} />

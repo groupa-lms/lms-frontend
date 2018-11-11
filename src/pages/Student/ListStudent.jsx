@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink  } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import Table from '@material-ui/core/Table';
@@ -327,10 +327,10 @@ class ListStudent extends React.Component {
                               className={classes.button}
                               disabled={row.disabled}
                             >
-                            <NavLink to ={`/admin/student/view/${row.id}`}>
-                              Detail
+                              <NavLink to={`/admin/student/view/${row.id}`}>
+                                Detail
                             </NavLink>
-                               <ViewIcon className={
+                              <ViewIcon className={
                                 classNames(
                                   classes.rightIcon,
                                   classes.iconSmall)} />
@@ -340,10 +340,10 @@ class ListStudent extends React.Component {
                               className={classes.button}
                               disabled={row.disabled}
                             >
-                            <NavLink to ={`/admin/student/edit/${row.id}`}>
-                            Edit
+                              <NavLink to={`/admin/student/edit/${row.id}`}>
+                                Edit
                             </NavLink>
-                             <EditIcon className={
+                              <EditIcon className={
                                 classNames(
                                   classes.rightIcon,
                                   classes.iconSmall)} />
@@ -405,8 +405,10 @@ class ListStudent extends React.Component {
                           classNames(
                             classes.leftIcon,
                             classes.iconSmall)} />
-                      Create a New Student
-                            </Button>
+                      <NavLink to={`/admin/student/add`}>
+                        Create a New Student
+                            </NavLink>
+                    </Button>
                   </TableRow>
                 </TableFooter>
               </Table>

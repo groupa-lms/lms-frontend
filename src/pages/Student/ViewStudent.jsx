@@ -37,7 +37,7 @@ class ViewStudent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      student:{},
+      student: {},
     };
   }
 
@@ -46,7 +46,7 @@ class ViewStudent extends React.Component {
       .then((response) => {
         let studentData = response.data;
         this.setState(preState => ({
-          student: {...preState.student, ...studentData},
+          student: { ...preState.student, ...studentData },
         }));
         // setTimeout(() => {
         //   this.setState({
@@ -61,10 +61,10 @@ class ViewStudent extends React.Component {
   }
 
   render() {
-    const { classes, viewItem, pageDirect } = this.props;
+    const { classes } = this.props;
     const { student } = this.state;
     const rows = [
-      //createData('ID', viewItem.id),
+      //createData('ID', student.id),
       createData('Student ID', student.studentId),
       createData('Student Name', student.name),
       createData('Student Grade', student.grade),
@@ -101,18 +101,14 @@ class ViewStudent extends React.Component {
           </Table>
         </Paper>
         <Button
-          onClick={() => {
-            pageDirect({
-              value: 'edit',
-              item: viewItem
-            });
-          }}
           style={{ marginTop: 40 }}
           variant="contained"
           color="primary"
           className={classes.button}
         >
-          Edit
+          <NavLink to={`/admin/student/edit/${student.id}`}>
+            Edit
+          </NavLink>
         </Button>
         <Button
           style={{ marginTop: 40 }}
@@ -120,10 +116,10 @@ class ViewStudent extends React.Component {
           color="primary"
           className={classes.button}
         >
-            <NavLink to ={"/admin/student/list"}>
-               Go Back
+          <NavLink to={"/admin/student/list"}>
+            Go Back
             </NavLink>
-         </Button>
+        </Button>
       </React.Fragment>
     );
   }

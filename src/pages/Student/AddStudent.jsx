@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { NavLink } from "react-router-dom";
 import axios from 'axios'
 
 const styles = theme => ({
@@ -103,29 +104,23 @@ class AddStudent extends React.Component {
         console.log('res=>', res);
         this.setState({ loading: false });
       })
-      .then(
-        this.props.pageDirect({
-          value: 'view',
-          item: newStudent
-        })
-      )
       .catch(({ response: { data: { error } } }) => console.log(error));
     //Make a network call somewhere
     //event.preventDefault();
   }
 
   render() {
-    const { classes, pageDirect } = this.props;
+    const { classes } = this.props;
 
     return (
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
           Add Student
       </Typography>
-        <form className={classes.container} 
-        validate="true" 
-        autoComplete="off" 
-        onSubmit={this.handleSubmit}>
+        <form className={classes.container}
+          validate="true"
+          autoComplete="off"
+          onSubmit={this.handleSubmit}>
           <TextField
             id="standard-with-placeholder"
             label="Student Id"
@@ -203,12 +198,11 @@ class AddStudent extends React.Component {
             color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
-            onClick={() => {
-              pageDirect({ value: 'list' });
-            }}
           >
-            cancel
-        </Button>
+            <NavLink to={"/admin/student/list"}>
+              cancel
+           </NavLink>
+          </Button>
         </form>
       </React.Fragment>
     );

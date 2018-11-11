@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios'
 import { NavLink } from "react-router-dom";
-import { browserHistory } from 'react-router'
+import { createBrowserHistory } from 'history';
 
 const styles = theme => ({
   container: {
@@ -120,7 +120,8 @@ class EditStudent extends React.Component {
       .then(res => {
         console.log('res=>', res);
         this.setState({ loading: false });
-        browserHistory.push("/admin/student/list");
+        // const history = createBrowserHistory();
+        // history.push('/admin/student/list');
       })
       .catch(({ response: { data: { error } } }) => console.log(error));
     //Make a network call somewhere
@@ -129,7 +130,7 @@ class EditStudent extends React.Component {
 
   render() {
     const { classes, viewItem, pageDirect } = this.props;
-    const { 
+    const {
       studentId,
       name,
       grade,
@@ -143,10 +144,10 @@ class EditStudent extends React.Component {
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
           Edit Student {this.state.name}
         </Typography>
-        <form className={classes.container} 
-        validate="true" 
-        autoComplete="off" 
-        onSubmit={this.handleSubmit}>
+        <form className={classes.container}
+          validate="true"
+          autoComplete="off"
+          onSubmit={this.handleSubmit}>
 
           <TextField
             id="standard-required"
@@ -224,11 +225,11 @@ class EditStudent extends React.Component {
             color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
-            >
-             <NavLink to ={"/admin/student/list"}>
-               Go Back
+          >
+            <NavLink to={"/admin/student/list"}>
+              Go Back
             </NavLink>
-        </Button>
+          </Button>
         </form>
       </React.Fragment>
     );
