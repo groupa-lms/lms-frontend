@@ -53,87 +53,59 @@ class MainListItems extends React.Component {
           <ListItemIcon>
             <BookIcon />
           </ListItemIcon>
+          <ListItemText primary="Admin" />
+        </ListItem>
+        
+        <ListItem button className={classes.nested} component={Link}
+              to="/admin/course/list">
+          <ListItemIcon>
+            <BookIcon />
+          </ListItemIcon>
           <ListItemText primary="Course Management" />
         </ListItem>
-        <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-          {/* <List component="div" disablePadding>
-            <ListItem
-              button
-              className={classes.nested}
-              component={Link}
-              to="/course"
-            >
-              <ListItemText inset primary="My Course" />
-            </ListItem>
-          </List> */}
-          
-          {/* <List component="div" disablePadding>
-            <ListItem button className={classes.nested} component={Link}
-              to="/takequiz">
-              <ListItemText inset primary="Take Quiz" 
-              />
-            </ListItem>
-          </List> */}
+        {/* <Collapse in={this.state.open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItem button className={classes.nested} component={Link}
               to="/courselist">
               <ListItemText inset primary="Course List"/>
             </ListItem>
           </List>
-          {/* <List component="div" disablePadding>
-            <ListItem button className={classes.nested} component={Link}
-              to="/createcourse">
-              <ListItemText inset primary="Create Course"/>
-            </ListItem>
-          </List> */}
-        </Collapse>
-        <ListItem button component={Link} to="/teacher">
+        </Collapse> */}
+        <ListItem button className={classes.nested} component={Link} to="/admin/teacher/list">
           <ListItemIcon>
             <TeachersIcon />
           </ListItemIcon>
           <ListItemText primary="Teacher Management" />
         </ListItem>
-        <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+        {/* <Collapse in={this.state.open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItem button className={classes.nested} component={Link}
               to="/teacherlist">
               <ListItemText inset primary="Teacher List"/>
             </ListItem>
           </List>
-          {/* <List component="div" disablePadding>
-            <ListItem button className={classes.nested} component={Link}
-              to="/createteacher">
-              <ListItemText inset primary="Create Teacher"/>
-            </ListItem>
-          </List> */}
-        </Collapse>
-        <ListItem button onClick={this.handleClick}>
+        </Collapse> */}
+        <ListItem button className={classes.nested} component={Link} to="/admin/student/list">
           <ListItemIcon>
           <GroupIcon />
           </ListItemIcon>
           <ListItemText primary="Student Management" />
         </ListItem>
-        <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+        {/* <Collapse in={this.state.open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItem button className={classes.nested} component={Link}
               to="/studentlist">
               <ListItemText inset primary="Student List"/>
             </ListItem>
           </List>
-          {/* <List component="div" disablePadding>
-            <ListItem button className={classes.nested} component={Link}
-              to="/createstudent">
-              <ListItemText inset primary="Create Student"/>
-            </ListItem>
-          </List> */}
-        </Collapse>
+        </Collapse> */}
         <ListItem button component={Link} to="/student">
           <ListItemIcon>
           <GroupIcon />
           </ListItemIcon>
           <ListItemText primary="Student" />
         </ListItem>
-        <ListItem button component={Link} to="/forum">
+        {/* <ListItem button component={Link} to="/forum">
           <ListItemIcon>
             <ForumIcon />
           </ListItemIcon>
@@ -157,7 +129,7 @@ class MainListItems extends React.Component {
             <ExitToAppIcon />
           </ListItemIcon>
           <ListItemText primary="Logout" />
-        </ListItem>
+        </ListItem> */}
       </React.Fragment>
     );
   }

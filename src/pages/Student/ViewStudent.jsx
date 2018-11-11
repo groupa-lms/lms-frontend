@@ -9,6 +9,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import axios from 'axios'
+import { NavLink, Route } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -32,32 +34,49 @@ function createData(item, value) {
 
 
 class ViewStudent extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      // operation: 'list',  
-      //viewItem:{},
+      student:{},
     };
+  }
 
-    //this.pageDirect = this.pageDirect.bind(this);
+  componentDidMount = () => {
+    axios.get(`http://localhost:3001/api/students/${this.props.studentId}`)
+      .then((response) => {
+        let studentData = response.data;
+        this.setState(preState => ({
+          student: {...preState.student, ...studentData},
+        }));
+        // setTimeout(() => {
+        //   this.setState({
+        //     loading: false,
+        //   });
+        // }, 2000);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
   }
 
   render() {
     const { classes, viewItem, pageDirect } = this.props;
+    const { student } = this.state;
     const rows = [
       //createData('ID', viewItem.id),
-      createData('Student ID', viewItem.studentId),
-      createData('Student Name', viewItem.name),
-      createData('Student Grade', viewItem.grade),
-      createData('Student Major', viewItem.major),
-      createData('Student Age', viewItem.age),
-      createData('Student Gender', viewItem.gender),
+      createData('Student ID', student.studentId),
+      createData('Student Name', student.name),
+      createData('Student Grade', student.grade),
+      createData('Student Major', student.major),
+      createData('Student Age', student.age),
+      createData('Student Gender', student.gender),
     ];
-    //const { rows, rowsPerPage, page, loading } = this.state;
+
     return (
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
-          {viewItem.name}
+          {student.name}
         </Typography>
         <Paper className={classes.root}>
           <Table className={classes.table}>
@@ -83,7 +102,6 @@ class ViewStudent extends React.Component {
         </Paper>
         <Button
           onClick={() => {
-            //pageDirect('edit', viewItem );
             pageDirect({
               value: 'edit',
               item: viewItem
@@ -101,16 +119,11 @@ class ViewStudent extends React.Component {
           variant="contained"
           color="primary"
           className={classes.button}
-          onClick={() => {
-            //pageDirect('list', viewItem );
-            pageDirect({
-              value: 'list',
-              item: viewItem
-            });
-          }}
         >
-          Go Back
-        </Button>
+            <NavLink to ={"/admin/student/list"}>
+               Go Back
+            </NavLink>
+         </Button>
       </React.Fragment>
     );
   }
@@ -122,5 +135,4 @@ ViewStudent.propTypes = {
 };
 
 export default withStyles(styles)(ViewStudent);
-//export default ViewCourse;
 

@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import Template from "../Template/Template";
-import AddStudent from "./AddStudent";
+import AddStudent from "./AddStudent"
 
-class CreateStudent extends Component {
+class AddStudentContainer extends Component {
   render() {
     return (
-      <Template title="Course">
+      <Template title="Add Student">
         <AddStudent />
       </Template>
     );
   }
 }
 
-export default CreateStudent;
+export default AddStudentContainer;

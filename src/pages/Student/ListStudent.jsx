@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavLink  } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import Table from '@material-ui/core/Table';
@@ -321,56 +322,28 @@ class ListStudent extends React.Component {
                           <TableCell>{row.gender}</TableCell> */}
                           <TableCell>
                             <Button
-                              onClick={() => {
-                                const viewItem = createData(
-                                  row.studentId,
-                                  row.name,
-                                  row.grade,
-                                  row.major,
-                                  row.age,
-                                  row.gender,
-                                  row.disabled,
-                                  row.id
-                                )
-                                //pageDirect('view',viewItem);
-                                pageDirect({
-                                  value: 'view',
-                                  item: viewItem
-                                });
-                              }}
                               variant="outlined"
                               size="small"
                               className={classes.button}
                               disabled={row.disabled}
                             >
-                              Detail <ViewIcon className={
+                            <NavLink to ={`/admin/student/view/${row.id}`}>
+                              Detail
+                            </NavLink>
+                               <ViewIcon className={
                                 classNames(
                                   classes.rightIcon,
                                   classes.iconSmall)} />
                             </Button>
                             <Button variant="outlined"
                               size="small"
-                              onClick={() => {
-                                const viewItem = createData(
-                                  row.studentId,
-                                  row.name,
-                                  row.grade,
-                                  row.major,
-                                  row.age,
-                                  row.gender,
-                                  row.disabled,
-                                  row.id
-                                )
-                                // pageDirect('edit', viewItem);
-                                pageDirect({
-                                  value: 'edit',
-                                  item: viewItem
-                                });
-                              }}
                               className={classes.button}
                               disabled={row.disabled}
                             >
-                              Edit <EditIcon className={
+                            <NavLink to ={`/admin/student/edit/${row.id}`}>
+                            Edit
+                            </NavLink>
+                             <EditIcon className={
                                 classNames(
                                   classes.rightIcon,
                                   classes.iconSmall)} />

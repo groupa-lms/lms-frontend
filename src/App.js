@@ -3,21 +3,19 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import LoginForm from "./pages/LoginForm/LoginForm";
 import DashBoard from "./pages/DashBoard/Dashboard";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
-import Course from "./pages/Course/Course";
 import Account from "./pages/Account/Account";
 import Messages from "./pages/Messages/Messages";
 import Forum from "./pages/Forum/Forum";
 import Teacher from "./pages/Teacher/Teacher";
-
-import TakeCourse from "./pages/Course/TakeCourse";
 import CourseList from "./pages/Course/CourseList";
-import CreateCourse from "./pages/Course/CreateCourse";
-import CreateStudent from "./pages/Student/CreateStudent";
 import StudentSystem from "./pages/Student/StudentSystem";
-import CreateTeacher from "./pages/Teacher/CreateTeacher";
 import TeacherSystem from "./pages/Teacher/TeacherSystem";
-//import TakeQuiz from "./pages/Course/TakeCourse";
 import Student from "./pages/StudentRole/Student";
+import AddStudentContainer from "./pages/Student/AddStudentContainer";
+import EditStudentContainer from "./pages/Student/EditStudentContainer";
+import ListStudentContainer from "./pages/Student/ListStudentContainer";
+import ViewStudentContainer from "./pages/Student/ViewStudentContainer";
+import ViewStudent from "./pages/Student/ViewStudent";
 
 class App extends Component {
   render() {
@@ -27,24 +25,25 @@ class App extends Component {
           <Switch>
             <Route path="/" component={DashBoard} exact />
             <Route path="/login" component={LoginForm} />
-            <Route path="/course" component={Course} />
-            <Route path="/takecourse" component={TakeCourse} />
-            <Route path="/courselist" component={CourseList} />
-            <Route path="/createcourse" component={CreateCourse} />
-            <Route path="/studentlist" component={StudentSystem} />
-            <Route path="/createstudent" component={CreateStudent} />
-            <Route path="/account" component={Account} />
             <Route path="/dashboard" component={DashBoard} />
-            <Route path="/messages" component={Messages} />
-            <Route path="/teacher" component={Teacher} />
-            <Route path="/forum" component={Forum} />
-            <Route path="/teacher" component={Teacher} />
-            <Route path="/teacherlist" component={TeacherSystem} />
-            <Route path="/createteacher" component={CreateTeacher} />
+            <Route path="/admin/course/list" component={CourseList} />
+            <Route path="/admin/student/list" component={StudentSystem} />
+            <Route path="/admin/teacher/list" component={TeacherSystem} />
+
+            <Route path="/admin/student/list" component={ListStudentContainer} />
+            <Route path="/admin/student/edit/:id" component={EditStudentContainer} />
+            <Route path="/admin/student/add/:id" component={AddStudentContainer} />
+            <Route path="/admin/student/view/:id" component={ViewStudentContainer} />
             
-            {/* <Route path="/takequiz" component={TakeQuiz} /> */}
             <Route path="/student" component={Student} />
+            <Route path="/teacher" component={Teacher} />
             <Route component={ErrorPage} />
+            {/* <Route path="/account" component={Account} /> */}
+            
+            {/* <Route path="/messages" component={Messages} /> */}
+            {/* <Route path="/forum" component={Forum} /> */}
+            
+            
           </Switch>
         </div>
       </BrowserRouter>

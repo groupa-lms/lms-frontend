@@ -5,6 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios'
+import { NavLink } from "react-router-dom";
+import { browserHistory } from 'react-router'
 
 const styles = theme => ({
   container: {
@@ -54,14 +56,22 @@ class EditStudent extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({
-      studentId: this.props.viewItem.studentId,
-      name: this.props.viewItem.name,
-      grade: this.props.viewItem.grade,
-      major: this.props.viewItem.major,
-      age: this.props.viewItem.age,
-      gender: this.props.viewItem.gender,
-    });
+    axios.get(`http://localhost:3001/api/students/${this.props.studentId}`)
+      .then((response) => {
+        let studentData = response.data;
+        console.log(studentData)
+        this.setState({
+          studentId: studentData.studentId,
+          name: studentData.name,
+          grade: studentData.grade,
+          major: studentData.major,
+          age: studentData.age,
+          gender: studentData.gender,
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
   }
 
@@ -106,10 +116,11 @@ class EditStudent extends React.Component {
 
     }
     this.setState({ loading: true });
-    axios.patch(`http://localhost:3001/api/students/${this.props.viewItem.id}`, newStudent)
+    axios.patch(`http://localhost:3001/api/students/${this.props.studentId}`, newStudent)
       .then(res => {
         console.log('res=>', res);
         this.setState({ loading: false });
+        browserHistory.push("/admin/student/list");
       })
       .catch(({ response: { data: { error } } }) => console.log(error));
     //Make a network call somewhere
@@ -118,11 +129,19 @@ class EditStudent extends React.Component {
 
   render() {
     const { classes, viewItem, pageDirect } = this.props;
+    const { 
+      studentId,
+      name,
+      grade,
+      major,
+      age,
+      gender,
+    } = this.state;
 
     return (
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
-          Edit Student {viewItem.name}
+          Edit Student {this.state.name}
         </Typography>
         <form className={classes.container} 
         validate="true" 
@@ -132,62 +151,61 @@ class EditStudent extends React.Component {
           <TextField
             id="standard-required"
             label="Student ID"
-            placeholder={viewItem.studentId}
+            placeholder={studentId}
             required
-            defaultValue={viewItem.code}
             className={classes.textField}
             margin="normal"
-            value={this.state.studentId}
+            value={studentId}
             onChange={this.handleStudentId}
           />
           <TextField
             id="standard-with-placeholder"
             label="Student Name"
-            placeholder={viewItem.name}
+            placeholder={name}
             required
             className={classes.textField}
             margin="normal"
-            value={this.state.name}
+            value={name}
             onChange={this.handleName}
           />
           <TextField
             id="standard-with-placeholder"
             label="Grade"
-            placeholder={viewItem.grade}
+            placeholder={grade}
             required
             className={classes.textField}
             margin="normal"
-            value={this.state.grade}
+            value={grade}
             onChange={this.handleGrade}
           />
           <TextField
             id="standard-with-placeholder"
             label="Major"
-            placeholder={viewItem.major}
+            placeholder={major}
             required
             className={classes.textField}
             margin="normal"
-            value={this.state.major}
+            value={major}
             onChange={this.handleMajor}
           />
           <TextField
             id="standard-with-placeholder"
             label="Age"
-            placeholder={viewItem.age}
+            placeholder={age}
             required
             className={classes.textField}
             margin="normal"
-            value={this.state.age}
+            value={age}
             onChange={this.handleAge}
           />
           <TextField
             id="standard-with-placeholder"
             label="Gender"
-            placeholder={viewItem.gender}
+            placeholder={gender}
             required
             className={classes.textField}
             margin="normal"
-            value={this.state.gender}
+            value={gender}
             onChange={this.handleGender}
           />
           <Button
@@ -206,15 +224,10 @@ class EditStudent extends React.Component {
             color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
-            onClick={() => {
-              // pageDirect('list', viewItem );
-              pageDirect({
-                value: 'list',
-                item: viewItem
-              });
-            }}
-          >
-            Go Back
+            >
+             <NavLink to ={"/admin/student/list"}>
+               Go Back
+            </NavLink>
         </Button>
         </form>
       </React.Fragment>
