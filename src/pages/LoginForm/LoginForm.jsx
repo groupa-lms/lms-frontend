@@ -13,8 +13,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Footer from "./Footer/Footer.jsx";
 import Header from "./Header/Header.jsx";
 import FormInput from "./FormInput.jsx";
-import axios from "axios";
-import { Redirect } from "react-router-dom";
+import AuthService from "./AuthService";
+import { LoginContext } from "../../App";
 
 const styles = theme => ({
   layout: {
@@ -85,9 +85,10 @@ class LoginForm extends React.Component {
     this.state = {
       username: "",
       password: "",
-      formDirty: false
+      formDirty: false,
+      loginSuccess: false
     };
-    //console.log("islogin: " + this.props.isLogin);
+    this.Auth = new AuthService();
     this.handleUserName = this.handleUserName.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
     this.setFormDirty = this.setFormDirty.bind(this);
@@ -108,114 +109,105 @@ class LoginForm extends React.Component {
       formDirty: value
     });
   }
-  handleSubmit(ev) {
+  handleSubmit(ev, setLogin) {
     ev.preventDefault();
     const { username, password } = this.state;
     this.setFormDirty(true);
-    if (!username) {
+    if (!username || !password) {
       return;
     }
-    if (!password) {
-      return;
-    }
-    console.log(username);
-    console.log(password);
-    axios
-      .post("http://localhost:3001/api/NewUsers/login", {
-        email: username,
-        password: password
-      })
-      .then(response => {
-        this.props.setToken(response.data.id);
-      })
-      .catch(({ response: { data: { error } } }) => console.log(error));
+    this.Auth.login(username, password)
+    .then(()=>{
+      if (this.Auth.loggedIn()) {
+        setLogin(true);
+      }
+    });
   }
 
   render() {
     const { classes } = this.props;
-    const { username, password, formDirty, redirectToReferrer } = this.state;
-    const { from } = this.props.location.state || { from: { pathname: "/" } };
-
-    if (redirectToReferrer) {
-      return <Redirect to={from} />;
-    }
-
+    const { username, password, formDirty } = this.state;
     return (
-      <React.Fragment>
-        <Header />
-        <CssBaseline />
-        <main className={classes.layout}>
-          <Paper className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockIcon />
-            </Avatar>
-            <Typography
-              component="h1"
-              variant="h5"
-              className={classes.typography}
-            >
-              Login
-            </Typography>
-            <form className={classes.form} onSubmit={this.handleSubmit}>
-              <FormControl margin="normal" required fullWidth>
-                <FormInput
-                  value={username}
-                  onChange={this.handleUserName}
-                  formDirty={formDirty}
-                  errorMessage={!username && "Username is required"}
-                  id="username"
-                  name="username"
-                  autoComplete="username"
-                  autoFocus
-                />
-              </FormControl>
-              <FormControl margin="normal" required fullWidth>
-                <FormInput
-                  value={password}
-                  onChange={this.handlePassword}
-                  formDirty={formDirty}
-                  errorMessage={!password && "Password is required"}
-                  name="password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                />
-              </FormControl>
-              <div className={classes.wrap}>
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
-                <a
-                  href="/forgotpassword"
-                  className={`${classes.forgetPWD} ${classes.text}`}
+      <LoginContext.Consumer>
+        {({ setLogin }) => (
+          <React.Fragment>
+            <Header />
+            <CssBaseline />
+            <main className={classes.layout}>
+              <Paper className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                  <LockIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Login
+                </Typography>
+                <form
+                  className={classes.form}
+                  onSubmit={ev => {
+                    this.handleSubmit(ev, setLogin);
+                  }}
                 >
-                  Forgot password
-                </a>
-              </div>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Login
-              </Button>
-              <div className={classes.warpBottom}>
-                <span className={classes.text}>Or</span>{" "}
-                <a
-                  href="/register"
-                  className={`${classes.register} ${classes.text}`}
-                >
-                  Register now!
-                </a>
-              </div>
-            </form>
-          </Paper>
-        </main>
-        <Footer />
-      </React.Fragment>
+                  <FormControl margin="normal" required fullWidth>
+                    <FormInput
+                      value={username}
+                      onChange={this.handleUserName}
+                      formDirty={formDirty}
+                      errorMessage={!username && "Username is required"}
+                      id="username"
+                      name="username"
+                      autoComplete="username"
+                      autoFocus
+                    />
+                  </FormControl>
+                  <FormControl margin="normal" required fullWidth>
+                    <FormInput
+                      value={password}
+                      onChange={this.handlePassword}
+                      formDirty={formDirty}
+                      errorMessage={!password && "Password is required"}
+                      name="password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                    />
+                  </FormControl>
+                  <div className={classes.wrap}>
+                    <FormControlLabel
+                      control={<Checkbox value="remember" color="primary" />}
+                      label="Remember me"
+                    />
+                    <a
+                      href="/forgotpassword"
+                      className={`${classes.forgetPWD} ${classes.text}`}
+                    >
+                      Forgot password
+                    </a>
+                  </div>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                  >
+                    Login
+                  </Button>
+                  <div className={classes.warpBottom}>
+                    <span className={classes.text}>Or</span>{" "}
+                    <a
+                      href="/register"
+                      className={`${classes.register} ${classes.text}`}
+                    >
+                      Register now!
+                    </a>
+                  </div>
+                </form>
+              </Paper>
+            </main>
+            <Footer />
+          </React.Fragment>
+        )}
+      </LoginContext.Consumer>
     );
   }
 }
