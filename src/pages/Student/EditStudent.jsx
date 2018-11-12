@@ -59,7 +59,6 @@ class EditStudent extends React.Component {
     axios.get(`http://localhost:3001/api/students/${this.props.studentId}`)
       .then((response) => {
         let studentData = response.data;
-        console.log(studentData)
         this.setState({
           studentId: studentData.studentId,
           name: studentData.name,
@@ -129,7 +128,7 @@ class EditStudent extends React.Component {
   }
 
   render() {
-    const { classes, viewItem, pageDirect } = this.props;
+    const { classes } = this.props;
     const {
       studentId,
       name,
@@ -142,7 +141,7 @@ class EditStudent extends React.Component {
     return (
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
-          Edit Student {this.state.name}
+          Edit Student {name}
         </Typography>
         <form className={classes.container}
           validate="true"

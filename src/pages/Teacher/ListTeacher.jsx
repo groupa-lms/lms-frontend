@@ -22,6 +22,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import AddIcon from '@material-ui/icons/AddCircleOutline';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TextField from '@material-ui/core/TextField';
+import { NavLink } from "react-router-dom";
 import axios from 'axios'
 
 const CustomTableCell = withStyles(theme => ({
@@ -322,58 +323,62 @@ class ListTeacher extends React.Component {
                           <TableCell>{row.gender}</TableCell> */}
                           <TableCell>
                             <Button
-                              onClick={() => {
-                                const viewItem = createData(
-                                  row.teacherId,
-                                  row.name,
-                                  row.title,
-                                  row.department,
-                                  row.course,
-                                  row.date_of_birth,
-                                  row.gender,
-                                  row.disabled,
-                                  row.id
-                                )
-                                //pageDirect('view',viewItem);
-                                pageDirect({
-                                  value: 'view',
-                                  item: viewItem
-                                });
-                              }}
+                              // onClick={() => {
+                              //   const viewItem = createData(
+                              //     row.teacherId,
+                              //     row.name,
+                              //     row.title,
+                              //     row.department,
+                              //     row.course,
+                              //     row.date_of_birth,
+                              //     row.gender,
+                              //     row.disabled,
+                              //     row.id
+                              //   )
+                              //   pageDirect({
+                              //     value: 'view',
+                              //     item: viewItem
+                              //   });
+                              // }}
                               variant="outlined"
                               size="small"
                               className={classes.button}
                               disabled={row.disabled}
                             >
-                              Detail <ViewIcon className={
+                              <NavLink to={`/admin/teacher/view/${row.id}`}>
+                                Detail
+                            </NavLink>
+                              <ViewIcon className={
                                 classNames(
                                   classes.rightIcon,
                                   classes.iconSmall)} />
                             </Button>
                             <Button variant="outlined"
                               size="small"
-                              onClick={() => {
-                                const viewItem = createData(
-                                  row.teacherId,
-                                  row.name,
-                                  row.title,
-                                  row.department,
-                                  row.course,
-                                  row.date_of_birth,
-                                  row.gender,
-                                  row.disabled,
-                                  row.id
-                                )
-                                // pageDirect('edit', viewItem);
-                                pageDirect({
-                                  value: 'edit',
-                                  item: viewItem
-                                });
-                              }}
+                              // onClick={() => {
+                              //   const viewItem = createData(
+                              //     row.teacherId,
+                              //     row.name,
+                              //     row.title,
+                              //     row.department,
+                              //     row.course,
+                              //     row.date_of_birth,
+                              //     row.gender,
+                              //     row.disabled,
+                              //     row.id
+                              //   )
+                              //   pageDirect({
+                              //     value: 'edit',
+                              //     item: viewItem
+                              //   });
+                              // }}
                               className={classes.button}
                               disabled={row.disabled}
                             >
-                              Edit <EditIcon className={
+                              <NavLink to={`/admin/teacher/edit/${row.id}`}>
+                                Edit
+                            </NavLink>
+                              <EditIcon className={
                                 classNames(
                                   classes.rightIcon,
                                   classes.iconSmall)} />
@@ -437,8 +442,10 @@ class ListTeacher extends React.Component {
                           classNames(
                             classes.leftIcon,
                             classes.iconSmall)} />
-                      Create a New Teacher
-                            </Button>
+                      <NavLink to={`/admin/teacher/add`}>
+                        Create a New Teacher
+                      </NavLink>
+                    </Button>
                   </TableRow>
                 </TableFooter>
               </Table>

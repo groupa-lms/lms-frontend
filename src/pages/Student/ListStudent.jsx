@@ -262,7 +262,7 @@ class ListStudent extends React.Component {
   };
 
   render() {
-    const { classes, pageDirect } = this.props;
+    const { classes } = this.props;
     const { rows, rowsPerPage, page, loading } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -327,7 +327,7 @@ class ListStudent extends React.Component {
                               className={classes.button}
                               disabled={row.disabled}
                             >
-                              <NavLink to={`/admin/student/view/${row.id}`}>
+                            <NavLink to={`/admin/student/view/${row.id}`}>
                                 Detail
                             </NavLink>
                               <ViewIcon className={
@@ -396,9 +396,6 @@ class ListStudent extends React.Component {
                         marginLeft: 36,
                         marginTop: 15
                       }}
-                      onClick={() => {
-                        pageDirect({ value: 'add' });
-                      }}
                       className={classes.button}>
                       <AddIcon
                         className={
@@ -407,7 +404,7 @@ class ListStudent extends React.Component {
                             classes.iconSmall)} />
                       <NavLink to={`/admin/student/add`}>
                         Create a New Student
-                            </NavLink>
+                      </NavLink>
                     </Button>
                   </TableRow>
                 </TableFooter>

@@ -9,6 +9,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import { NavLink } from "react-router-dom";
+import axios from 'axios'
 
 const styles = theme => ({
   root: {
@@ -35,6 +37,7 @@ class ViewCourse extends React.Component {
   constructor() {
     super();
     this.state = {
+      course:{},
       // operation: 'list',  
       //viewItem:{},
     };
@@ -42,22 +45,41 @@ class ViewCourse extends React.Component {
     //this.pageDirect = this.pageDirect.bind(this);
   }
 
+  componentDidMount = () => {
+    axios.get(`http://localhost:3001/api/courses/${this.props.courseId}`)
+      .then((response) => {
+        let courseData = response.data;
+        this.setState(preState => ({
+          course: { ...preState.course, ...courseData },
+        }));
+        // setTimeout(() => {
+        //   this.setState({
+        //     loading: false,
+        //   });
+        // }, 2000);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+  }
+
   render() {
-    const { classes, viewItem, pageDirect } = this.props;
+    const { classes } = this.props;
+    const { course } = this.state;
     const rows = [
       //createData('ID', viewItem.id),
-      createData('Course Code', viewItem.code),
-      createData('Course Title', viewItem.title),
-      createData('Course Lecturer', viewItem.lecturer),
-      createData('Course Introduction', viewItem.introduction),
-      createData('Course Start Date', viewItem.start_date),
-      createData('Course End Date', viewItem.end_date),
+      createData('Course Code', course.code),
+      createData('Course Title', course.title),
+      createData('Course Lecturer', course.lecturer),
+      createData('Course Introduction', course.introduction),
+      createData('Course Start Date', course.start_date),
+      createData('Course End Date', course.end_date),
     ];
-    //const { rows, rowsPerPage, page, loading } = this.state;
     return (
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
-          {viewItem.title}
+          {course.title}
         </Typography>
         <Paper className={classes.root}>
           <Table className={classes.table}>
@@ -82,34 +104,24 @@ class ViewCourse extends React.Component {
           </Table>
         </Paper>
         <Button
-          onClick={() => {
-            //pageDirect('edit', viewItem );
-            pageDirect({
-              value: 'edit',
-              item: viewItem
-            });
-          }}
           style={{ marginTop: 40 }}
           variant="contained"
           color="primary"
           className={classes.button}
         >
-          Edit
+        <NavLink to={`/admin/course/edit/${course.id}`}>
+            Edit
+          </NavLink>
         </Button>
         <Button
           style={{ marginTop: 40 }}
           variant="contained"
           color="primary"
           className={classes.button}
-          onClick={() => {
-            //pageDirect('list', viewItem );
-            pageDirect({
-              value: 'list',
-              item: viewItem
-            });
-          }}
         >
-          Go Back
+        <NavLink to={"/admin/course/list"}>
+            Go Back
+            </NavLink>
         </Button>
       </React.Fragment>
     );

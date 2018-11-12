@@ -22,6 +22,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import AddIcon from '@material-ui/icons/AddCircleOutline';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TextField from '@material-ui/core/TextField';
+import { NavLink } from "react-router-dom";
 import axios from 'axios'
 
 const CustomTableCell = withStyles(theme => ({
@@ -277,7 +278,7 @@ class ListCourse extends React.Component {
   };
 
   render() {
-    const { classes, pageDirect } = this.props;
+    const { classes } = this.props;
     const { rows, rowsPerPage, page, loading } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -331,54 +332,60 @@ class ListCourse extends React.Component {
                           <TableCell>{row.code}</TableCell>
                           <TableCell>
                             <Button
-                              onClick={() => {
-                                const viewItem = createData(
-                                  row.title,
-                                  row.code,
-                                  row.id,
-                                  row.lecturer,
-                                  row.introduction,
-                                  row.start_date,
-                                  row.end_date,
-                                )
-                                //pageDirect('view',viewItem);
-                                pageDirect({
-                                  value: 'view',
-                                  item: viewItem
-                                });
-                              }}
+                              // onClick={() => {
+                              //   const viewItem = createData(
+                              //     row.title,
+                              //     row.code,
+                              //     row.id,
+                              //     row.lecturer,
+                              //     row.introduction,
+                              //     row.start_date,
+                              //     row.end_date,
+                              //   )
+                              //   //pageDirect('view',viewItem);
+                              //   pageDirect({
+                              //     value: 'view',
+                              //     item: viewItem
+                              //   });
+                              // }}
                               variant="outlined"
                               size="small"
                               className={classes.button}
                               disabled={row.disabled}
                             >
-                              Detail <ViewIcon className={
+                              <NavLink to={`/admin/course/view/${row.id}`}>
+                                Detail
+                            </NavLink>
+                              <ViewIcon className={
                                 classNames(
                                   classes.rightIcon,
                                   classes.iconSmall)} />
                             </Button>
                             <Button variant="outlined"
                               size="small"
-                              onClick={() => {
-                                const viewItem = createData(
-                                  row.title,
-                                  row.code,
-                                  row.id,
-                                  row.lecturer,
-                                  row.introduction,
-                                  row.start_date,
-                                  row.end_date,
-                                )
-                                // pageDirect('edit', viewItem);
-                                pageDirect({
-                                  value: 'edit',
-                                  item: viewItem
-                                });
-                              }}
+                              // onClick={() => {
+                              //   const viewItem = createData(
+                              //     row.title,
+                              //     row.code,
+                              //     row.id,
+                              //     row.lecturer,
+                              //     row.introduction,
+                              //     row.start_date,
+                              //     row.end_date,
+                              //   )
+                              //   // pageDirect('edit', viewItem);
+                              //   pageDirect({
+                              //     value: 'edit',
+                              //     item: viewItem
+                              //   });
+                              // }}
                               className={classes.button}
                               disabled={row.disabled}
                             >
-                              Edit <EditIcon className={
+                              <NavLink to={`/admin/course/edit/${row.id}`}>
+                                Edit
+                            </NavLink>
+                              <EditIcon className={
                                 classNames(
                                   classes.rightIcon,
                                   classes.iconSmall)} />
@@ -432,17 +439,16 @@ class ListCourse extends React.Component {
                         marginLeft: 36,
                         marginTop: 15
                       }}
-                      onClick={() => {
-                        pageDirect({ value: 'add' });
-                      }}
                       className={classes.button}>
                       <AddIcon
                         className={
                           classNames(
                             classes.leftIcon,
                             classes.iconSmall)} />
-                      Create a New Course
-                            </Button>
+                      <NavLink to={`/admin/course/add`}>
+                        Create a New Course
+                      </NavLink>
+                    </Button>
                   </TableRow>
                 </TableFooter>
               </Table>

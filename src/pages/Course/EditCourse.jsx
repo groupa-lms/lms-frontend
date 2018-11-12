@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { NavLink } from "react-router-dom";
 import axios from 'axios'
 
 const styles = theme => ({
@@ -52,15 +53,21 @@ class EditCourse extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({
-      code: this.props.viewItem.code,
-      title: this.props.viewItem.title,
-      lecturer: this.props.viewItem.lecturer,
-      introduction: this.props.viewItem.introduction,
-      start_date: this.props.viewItem.start_date,
-      end_date: this.props.viewItem.end_date,
+    axios.get(`http://localhost:3001/api/courses/${this.props.courseId}`)
+    .then((response) => {
+      let courseData = response.data;
+      this.setState({
+        code: courseData.code,
+        title: courseData.title,
+        lecturer: courseData.lecturer,
+        introduction: courseData.introduction,
+        start_date: courseData.start_date,
+        end_date: courseData.end_date,
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
     });
-
   }
 
   componentDidMount() {
@@ -104,7 +111,7 @@ class EditCourse extends React.Component {
 
     }
     this.setState({ loading: true });
-    axios.patch(`http://localhost:3001/api/courses/${this.props.viewItem.id}`, newCourse)
+    axios.patch(`http://localhost:3001/api/courses/${this.props.courseId}`, newCourse)
       .then(res => {
         console.log('res=>', res);
         this.setState({ loading: false });
@@ -115,12 +122,21 @@ class EditCourse extends React.Component {
   }
 
   render() {
-    const { classes, viewItem, pageDirect } = this.props;
+    const { classes } = this.props;
+    const {
+      code,
+      title,
+      lecturer,
+      introduction,
+      start_date,
+      end_date,
+      current_date,
+    } = this.state;
 
     return (
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
-          Edit Course {viewItem.title}
+          Edit Course {title}
         </Typography>
         <form className={classes.container} 
         validate="true" 
@@ -130,33 +146,31 @@ class EditCourse extends React.Component {
           <TextField
             id="standard-required"
             label="Course Code"
-            placeholder={viewItem.code}
+            placeholder={code}
             required
-            defaultValue={viewItem.code}
             className={classes.textField}
             margin="normal"
-            value={this.state.code}
+            value={code}
             onChange={this.handleCode}
           />
           <TextField
             id="standard-with-placeholder"
             label="Course Title"
-            placeholder={viewItem.title}
+            placeholder={title}
             required
-            defaultValue={viewItem.title}
             className={classes.textField}
             margin="normal"
-            value={this.state.title}
+            value={title}
             onChange={this.handleTitle}
           />
           <TextField
             id="standard-with-placeholder"
             label="Course Lecturer"
-            placeholder={viewItem.lecturer}
+            placeholder={lecturer}
             required
             className={classes.textField}
             margin="normal"
-            value={this.state.lecturer}
+            value={lecturer}
             onChange={this.handleLecturer}
           />
           {/* <TextField
@@ -181,8 +195,8 @@ class EditCourse extends React.Component {
             type="date"
             style={{ marginTop: 18 }}
             onChange={this.handleStartDate}
-            placeholder={viewItem.start_date}
-            value={this.state.start_date}
+            placeholder={start_date}
+            value={start_date}
             className={classes.textField}
             InputLabelProps={{
               shrink: true,
@@ -194,8 +208,8 @@ class EditCourse extends React.Component {
             type="date"
             onChange={this.handleEndDate}
             style={{ marginTop: 18 }}
-            placeholder={viewItem.end_date}
-            value={this.state.end_date}
+            placeholder={end_date}
+            value={end_date}
             className={classes.textField}
             InputLabelProps={{
               shrink: true,
@@ -206,15 +220,14 @@ class EditCourse extends React.Component {
             label="Course Introduction"
             multiline
             fullWidth
-            placeholder={viewItem.introduction}
+            placeholder={introduction}
             style={{
               margin: 8,
               marginTop: 18
             }}
             rows="5"
-            defaultValue=""
             margin="normal"
-            value={this.state.introduction}
+            value={introduction}
             onChange={this.handleIntroduction}
           />
 
@@ -234,15 +247,10 @@ class EditCourse extends React.Component {
             color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
-            onClick={() => {
-              // pageDirect('list', viewItem );
-              pageDirect({
-                value: 'list',
-                item: viewItem
-              });
-            }}
           >
-            Go Back
+          <NavLink to={"/admin/course/list"}>
+              Go Back
+          </NavLink>
         </Button>
         </form>
       </React.Fragment>

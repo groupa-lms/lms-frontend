@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { NavLink } from "react-router-dom";
 import axios from 'axios'
 
 const styles = theme => ({
@@ -82,11 +83,6 @@ class AddCourse extends React.Component {
   }
 
   handleSubmit = (event) => {
-
-    // if(!confirm("confirm the change?"))
-    // {
-    //   return
-    // }
     const newCourse = {
       code: this.state.code,
       title: this.state.title,
@@ -102,12 +98,6 @@ class AddCourse extends React.Component {
         console.log('res=>', res);
         this.setState({ loading: false });
       })
-      .then(
-        this.props.pageDirect({
-          value: 'view',
-          item: newCourse
-        })
-      )
       .catch(({ response: { data: { error } } }) => console.log(error));
     //Make a network call somewhere
     //event.preventDefault();
@@ -155,22 +145,6 @@ class AddCourse extends React.Component {
             value={this.state.lecturer}
             onChange={this.handleLecturer}
           />
-          {/* <TextField
-            id="standard-full-width"
-            label=""
-            style={{ 
-              margin: 8,
-              marginTop: 18
-            }}
-            placeholder="Introduction"
-            fullWidth
-            margin="normal"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            value={this.state.introduction}
-            onChange={this.handleIntroduction}
-          /> */}
           <TextField
             id="start_date"
             label="Start Date"
@@ -227,11 +201,10 @@ class AddCourse extends React.Component {
             color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
-            onClick={() => {
-              pageDirect({ value: 'list' });
-            }}
           >
-            cancel
+          <NavLink to={"/admin/course/list"}>
+              cancel
+           </NavLink>
         </Button>
         </form>
       </React.Fragment>

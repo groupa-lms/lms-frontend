@@ -9,6 +9,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import { NavLink } from "react-router-dom";
+import axios from 'axios'
 
 const styles = theme => ({
   root: {
@@ -32,30 +34,46 @@ class ViewTeacher extends React.Component {
   constructor() {
     super();
     this.state = {
-      // operation: 'list',  
-      //viewItem:{},
+      teacher: {},
     };
+  }
 
-    //this.pageDirect = this.pageDirect.bind(this);
+  componentDidMount = () => {
+    axios.get(`http://localhost:3001/api/teachers/${this.props.teacherId}`)
+      .then((response) => {
+        let teacherData = response.data;
+        this.setState(preState => ({
+          teacher: { ...preState.teacher, ...teacherData },
+        }));
+        // setTimeout(() => {
+        //   this.setState({
+        //     loading: false,
+        //   });
+        // }, 2000);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
   }
 
   render() {
-    const { classes, viewItem, pageDirect } = this.props;
+    const { classes } = this.props;
+    const { teacher } = this.state;
     const rows = [
-      //createData('ID', viewItem.id),
-      createData('Teacher ID', viewItem.studentId),
-      createData('Teacher Name', viewItem.name),
-      createData('Teacher Title', viewItem.title),
-      createData('Teacher Department', viewItem.department),
-      createData('Teacher Course', viewItem.course),
-      createData('Teacher Date of Birth', viewItem.date_of_birth),
-      createData('Teacher Gender', viewItem.gender),
+      //createData('ID', teacher.id),
+      createData('Teacher ID', teacher.teacherId),
+      createData('Teacher Name', teacher.name),
+      createData('Teacher Title', teacher.title),
+      createData('Teacher Department', teacher.department),
+      createData('Teacher Course', teacher.course),
+      createData('Teacher Date of Birth', teacher.date_of_birth),
+      createData('Teacher Gender', teacher.gender),
     ];
-    //const { rows, rowsPerPage, page, loading } = this.state;
     return (
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
-          {viewItem.name}
+          {teacher.name}
         </Typography>
         <Paper className={classes.root}>
           <Table className={classes.table}>
@@ -80,34 +98,24 @@ class ViewTeacher extends React.Component {
           </Table>
         </Paper>
         <Button
-          onClick={() => {
-            //pageDirect('edit', viewItem );
-            pageDirect({
-              value: 'edit',
-              item: viewItem
-            });
-          }}
           style={{ marginTop: 40 }}
           variant="contained"
           color="primary"
           className={classes.button}
         >
-          Edit
+          <NavLink to={`/admin/teacher/edit/${teacher.id}`}>
+            Edit
+          </NavLink>
         </Button>
         <Button
           style={{ marginTop: 40 }}
           variant="contained"
           color="primary"
           className={classes.button}
-          onClick={() => {
-            //pageDirect('list', viewItem );
-            pageDirect({
-              value: 'list',
-              item: viewItem
-            });
-          }}
         >
-          Go Back
+          <NavLink to={`/admin/teacher/list`}>
+            Go Back
+          </NavLink>
         </Button>
       </React.Fragment>
     );

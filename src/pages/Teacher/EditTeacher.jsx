@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { NavLink } from "react-router-dom";
 import axios from 'axios'
 
 const styles = theme => ({
@@ -34,12 +35,6 @@ class EditTeacher extends React.Component {
     super();
     this.state = {
       loading: false,
-      //   studentId: '',
-      //   name: '',
-      //   grade: '',
-      //   major: '',
-      //   age: '',
-      //   gender: '',
       teacherId: '',
       name: '',
       title: '',
@@ -62,21 +57,22 @@ class EditTeacher extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({
-      // studentId: this.props.viewItem.studentId,
-      // name: this.props.viewItem.name,
-      // grade: this.props.viewItem.grade,
-      // major: this.props.viewItem.major,
-      // age: this.props.viewItem.age,
-      // gender: this.props.viewItem.gender,
-      teacherId: this.props.teacherId,
-      name: this.props.name,
-      title: this.props.title,
-      department: this.props.department,
-      course: this.props.course,
-      date_of_birth: this.props.date_of_birth,
-      gender: this.props.gender,
-    });
+    axios.get(`http://localhost:3001/api/teachers/${this.props.teacherId}`)
+      .then((response) => {
+        let teacherData = response.data;
+        this.setState({
+          teacherId: teacherData.teacherId,
+          name: teacherData.name,
+          title: teacherData.title,
+          department: teacherData.department,
+          course: teacherData.course,
+          date_of_birth: teacherData.date_of_birth,
+          gender: teacherData.gender,
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
   }
 
@@ -126,7 +122,7 @@ class EditTeacher extends React.Component {
 
     }
     this.setState({ loading: true });
-    axios.patch(`http://localhost:3001/api/teachers/${this.props.viewItem.id}`, newTeacher)
+    axios.patch(`http://localhost:3001/api/teachers/${this.props.teacherId}`, newTeacher)
       .then(res => {
         console.log('res=>', res);
         this.setState({ loading: false });
@@ -137,12 +133,21 @@ class EditTeacher extends React.Component {
   }
 
   render() {
-    const { classes, viewItem, pageDirect } = this.props;
+    const { classes } = this.props;
+    const {
+      teacherId,
+      name,
+      title,
+      department,
+      course,
+      date_of_birth,
+      gender,
+    } = this.state;
 
     return (
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
-          Edit Teacher {viewItem.name}
+          Edit Teacher {name}
         </Typography>
         <form className={classes.container}
           validate="true"
@@ -152,7 +157,7 @@ class EditTeacher extends React.Component {
           <TextField
             id="standard-required"
             label="Teacher ID"
-            placeholder={viewItem.teacherId}
+            placeholder={teacherId}
             required
             className={classes.textField}
             margin="normal"
@@ -162,7 +167,7 @@ class EditTeacher extends React.Component {
           <TextField
             id="standard-with-placeholder"
             label="Teacher Name"
-            placeholder={viewItem.name}
+            placeholder={name}
             required
             className={classes.textField}
             margin="normal"
@@ -172,7 +177,7 @@ class EditTeacher extends React.Component {
           <TextField
             id="standard-with-placeholder"
             label="Teacher Title"
-            placeholder={viewItem.title}
+            placeholder={title}
             required
             className={classes.textField}
             margin="normal"
@@ -182,7 +187,7 @@ class EditTeacher extends React.Component {
           <TextField
             id="standard-with-placeholder"
             label="Teacher Department"
-            placeholder={viewItem.department}
+            placeholder={department}
             required
             className={classes.textField}
             margin="normal"
@@ -192,7 +197,7 @@ class EditTeacher extends React.Component {
           <TextField
             id="standard-with-placeholder"
             label="Teacher Course"
-            placeholder={viewItem.course}
+            placeholder={course}
             required
             className={classes.textField}
             margin="normal"
@@ -203,7 +208,7 @@ class EditTeacher extends React.Component {
             id="start_date"
             label="Date Of Birth"
             type="date"
-            placeholder={viewItem.date_of_birth}
+            placeholder={date_of_birth}
             style={{ marginTop: 18 }}
             onChange={this.handleDateOfBirth}
             value={this.state.date_of_birth}
@@ -215,7 +220,7 @@ class EditTeacher extends React.Component {
           <TextField
             id="standard-with-placeholder"
             label="Gender"
-            placeholder={viewItem.gender}
+            placeholder={gender}
             required
             className={classes.textField}
             margin="normal"
@@ -238,16 +243,11 @@ class EditTeacher extends React.Component {
             color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
-            onClick={() => {
-              // pageDirect('list', viewItem );
-              pageDirect({
-                value: 'list',
-                item: viewItem
-              });
-            }}
           >
-            Go Back
-        </Button>
+            <NavLink to={"/admin/teacher/list"}>
+              Go Back
+            </NavLink>
+          </Button>
         </form>
       </React.Fragment>
     );
