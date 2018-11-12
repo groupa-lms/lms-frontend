@@ -55,7 +55,8 @@ const styles = theme => ({
     display: "none"
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
+    useNextVariants: true,    
   },
   drawerPaper: {
     position: "relative",

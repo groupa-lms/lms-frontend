@@ -73,6 +73,9 @@ const styles = theme => ({
   },
   warpBottom: {
     marginTop: "20px"
+  },
+  typography: {
+    useNextVariants: true
   }
 });
 
