@@ -55,9 +55,9 @@ class MainListItems extends React.Component {
           </ListItemIcon>
           <ListItemText primary="Admin" />
         </ListItem>
-        
+
         <ListItem button className={classes.nested} component={Link}
-              to="/admin/course/list">
+          to="/admin/course/list">
           <ListItemIcon>
             <BookIcon />
           </ListItemIcon>
@@ -87,7 +87,7 @@ class MainListItems extends React.Component {
         </Collapse> */}
         <ListItem button className={classes.nested} component={Link} to="/admin/student/list">
           <ListItemIcon>
-          <GroupIcon />
+            <GroupIcon />
           </ListItemIcon>
           <ListItemText primary="Student Management" />
         </ListItem>
@@ -101,10 +101,19 @@ class MainListItems extends React.Component {
         </Collapse> */}
         <ListItem button component={Link} to="/student">
           <ListItemIcon>
-          <GroupIcon />
+            <GroupIcon />
           </ListItemIcon>
           <ListItemText primary="Student" />
         </ListItem>
+
+        <ListItem button className={classes.nested} component={Link} to="/enroll">
+          <ListItemIcon>
+            <BookIcon />
+          </ListItemIcon>
+          <ListItemText inset primary="Course Enrollment" />
+        </ListItem>
+
+
         {/* <ListItem button component={Link} to="/forum">
           <ListItemIcon>
             <ForumIcon />

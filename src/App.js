@@ -24,6 +24,9 @@ import EditCourseContainer from "./pages/Course/EditCourseContainer";
 import ListCourseContainer from "./pages/Course/ListCourseContainer";
 import ViewCourseContainer from "./pages/Course/ViewCourseContainer";
 
+import CourseEnrollContainer from "./pages/StudentRole/CourseEnrollContainer";
+
+
 class App extends Component {
   render() {
     return (
@@ -50,6 +53,8 @@ class App extends Component {
             <Route path="/admin/teacher/view/:id" component={ViewTeacherContainer} />
             
             <Route path="/student" component={Student} />
+            <Route path="/enroll" component={CourseEnrollContainer} />
+
             <Route path="/teacher" component={Teacher} />
             <Route component={ErrorPage} />
             <Route path="/account" component={Account} /> 
