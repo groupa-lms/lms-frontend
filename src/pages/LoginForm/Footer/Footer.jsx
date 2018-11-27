@@ -2,8 +2,6 @@ import React from 'react';
 import ColorfulContent from './ColorfulContent.jsx';
 import Section from './Section.jsx';
 
-
-
 const Footer = () => (
     <div className="footer layout">
       <Section title="HELP AND SUPPORT">

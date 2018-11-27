@@ -9,8 +9,9 @@ import Messages from "./pages/Messages/Messages";
 import Forum from "./pages/Forum/Forum";
 import Teacher from "./pages/Teacher/Teacher";
 import TakeCourse from "./pages/Course/TakeCourse";
-import TakeQuiz from "./pages/Course/TakeCourse";
+import TakeQuiz from "./pages/Course/TakeQuiz";
 import AuthService from "./pages/LoginForm/AuthService";
+import Register from "./pages/Register/Register";
 
 export const LoginContext = React.createContext({
   setLogin: () => {}
@@ -24,7 +25,7 @@ class App extends Component {
       this.setState({
         isLogin: val
       });
-    }
+    };
     this.state = {
       isLogin: this.Auth.loggedIn(),
       setLogin: this.setLogin,
@@ -32,8 +33,9 @@ class App extends Component {
   }
   
   render() {
+		const { isLogin, setLogin } = this.state;
     return (
-      <LoginContext.Provider value={ this.state }>
+      <LoginContext.Provider value={setLogin}>
         <BrowserRouter>
           <div>
             <Switch>
@@ -41,7 +43,7 @@ class App extends Component {
                 path="/"
                 exact
                 render={() => {
-                  return this.state.isLogin ? (
+                  return isLogin ? (
                     <Redirect to="/dashboard" />
                   ) : (
                     <Redirect to="/login" />
@@ -51,56 +53,59 @@ class App extends Component {
               <Route
                 path="/login"
                 render={props => {
-                  return this.state.isLogin ? (
+                  return isLogin ? (
                     <Redirect to="/dashboard" />
                   ) : (
                     <LoginForm {...props} />
                   );
                 }}
               />
-
+              <Route
+                path="/register"
+                component={Register}
+              />
               <PrivateRoute
-                isLogin={this.state.isLogin}
+                isLogin={isLogin}
                 path="/course"
                 component={Course}
               />
               <PrivateRoute
-                isLogin={this.state.isLogin}
+                isLogin={isLogin}
                 path="/takecourse"
                 component={TakeCourse}
               />
               <PrivateRoute
-                isLogin={this.state.isLogin}
+                isLogin={isLogin}
                 path="/takequiz"
                 component={TakeQuiz}
               />
               <PrivateRoute
-                isLogin={this.state.isLogin}
+                isLogin={isLogin}
                 path="/account"
                 component={Account}
               />
               <PrivateRoute
-                isLogin={this.state.isLogin}
+                isLogin={isLogin}
                 path="/dashboard"
                 component={DashBoard}
               />
               <PrivateRoute
-                isLogin={this.state.isLogin}
+                isLogin={isLogin}
                 path="/messages"
                 component={Messages}
               />
               <PrivateRoute
-                isLogin={this.state.isLogin}
+                isLogin={isLogin}
                 path="/teacher"
                 component={Teacher}
               />
               <PrivateRoute
-                isLogin={this.state.isLogin}
+                isLogin={isLogin}
                 path="/forum"
                 component={Forum}
               />
               <PrivateRoute
-                isLogin={this.state.isLogin}
+                isLogin={isLogin}
                 path="/teacher"
                 component={Teacher}
               />

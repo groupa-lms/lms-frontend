@@ -1,5 +1,4 @@
 import axios from "axios";
-import decode from "jwt-decode";
 
 export default class AuthService {
   // Initializing important variables

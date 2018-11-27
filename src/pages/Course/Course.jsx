@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Template from "../Template/Template";
+
 class Course extends Component {
   render() {
     return (

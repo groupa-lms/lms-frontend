@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Template from "../Template/Template";
-import TeacherTableHead from "./TeacherTableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TablePagination from "@material-ui/core/TablePagination";
 import axios from "axios";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
+import Template from "../Template/Template";
+import TeacherTableHead from "./TeacherTableHead";
+
 import TeacherToolbar from "./TeacherToolbar";
 
 const styles = theme => ({
@@ -70,11 +71,11 @@ class Teacher extends Component {
         "http://localhost:3001/api/Teachers?filter=%7B%20%22include%22%3A%20%5B%20%22newUsers%22%5D%7D"
       )
       .then(response => {
-        console.log(response);
+        //console.log(response);
         this.setState({ data: response.data });
       })
       .catch(function(error) {
-        console.log(error);
+        //console.log(error);
       });
   }
 
@@ -121,7 +122,7 @@ class Teacher extends Component {
                 {stableSort(data, getSorting(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map(n => {
-                    console.log(n.newUsers);
+                    //console.log(n.newUsers);
                     return (
                       <TableRow
                         hover
