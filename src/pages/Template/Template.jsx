@@ -181,7 +181,9 @@ class Template extends React.Component {
 }
 
 Template.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(Template);

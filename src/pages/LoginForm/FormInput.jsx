@@ -14,7 +14,7 @@ class FormInput extends Component {
   setDirty(value) {
     this.setState({
       dirty: value,
-    })
+    });
   }
 
   render() {

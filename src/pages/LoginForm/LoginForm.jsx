@@ -116,8 +116,7 @@ class LoginForm extends React.Component {
     if (!username || !password) {
       return;
     }
-    this.Auth.login(username, password)
-    .then(()=>{
+    this.Auth.login(username, password).then(() => {
       if (this.Auth.loggedIn()) {
         setLogin(true);
       }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Template from "../Template/Template";
+
 class Forum extends Component {
   render() {
     return (
