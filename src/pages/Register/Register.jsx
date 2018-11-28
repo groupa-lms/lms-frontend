@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -159,7 +159,7 @@ class Register extends Component {
     }
 
     axios
-      .post("http://localhost:3001/api/NewUsers", {
+      .post("https://lms-backend-new.herokuapp.com/api/NewUsers", {
         FirstName: this.state.firstName,
         LastName: this.state.lastName,
         password: this.state.password,

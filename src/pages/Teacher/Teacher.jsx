@@ -68,7 +68,7 @@ class Teacher extends Component {
   componentDidMount() {
     axios
       .get(
-        "http://localhost:3001/api/Teachers?filter=%7B%20%22include%22%3A%20%5B%20%22newUsers%22%5D%7D"
+        "https://lms-backend-new.herokuapp.com/api/Teachers?filter=%7B%20%22include%22%3A%20%5B%20%22newUsers%22%5D%7D"
       )
       .then(response => {
         //console.log(response);
