@@ -26,5 +26,10 @@ module.exports = {
     // "react/jsx-one-expression-per-line": "off",
     // "react/forbid-prop-types": "off",
     // "react/prefer-stateless-function": "off"
+  },
+  settings: {
+    'react': {
+      "version": "^16.7.0-alpha.2"
+    }
   }
 };
