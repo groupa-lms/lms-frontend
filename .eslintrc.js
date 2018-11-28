@@ -22,7 +22,7 @@ module.exports = {
     'react': {
       "createClass": "createReactClass", 
       "pragma": "React",
-      "version": "16.7.0-alpha.2"
+      "version": "999.999.999"
     }
   }
 };
