@@ -12,7 +12,7 @@ export default class AuthService {
   login(username, password) {
     // Get a token from api server using the fetch api
     return axios
-      .post(`${this.domain}/api/NewUsers/login`, {
+      .post(`${this.domain}api/NewUsers/login`, {
         email: username,
         password: password
       })

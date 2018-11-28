@@ -116,6 +116,7 @@ class LoginForm extends React.Component {
     if (!username || !password) {
       return;
     }
+
     this.Auth.login(username, password).then(() => {
       if (this.Auth.loggedIn()) {
         setLogin(true);
@@ -126,6 +127,7 @@ class LoginForm extends React.Component {
   render() {
     const { classes } = this.props;
     const { username, password, formDirty } = this.state;
+    
     return (
       <LoginContext.Consumer>
         {({ setLogin }) => (

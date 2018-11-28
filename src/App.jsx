@@ -33,9 +33,9 @@ class App extends Component {
   }
   
   render() {
-		const { isLogin, setLogin } = this.state;
+		const { isLogin } = this.state;
     return (
-      <LoginContext.Provider value={setLogin}>
+      <LoginContext.Provider value={this.state}>
         <BrowserRouter>
           <div>
             <Switch>
