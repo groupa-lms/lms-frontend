@@ -22,7 +22,8 @@ const rows = [
     numeric: false,
     disablePadding: false,
     label: "Department"
-  }
+  },
+  { id: "edit", numeric: false, disablePadding: false, label: "Edit" }
 ];
 
 class TeacherTableHead extends Component {

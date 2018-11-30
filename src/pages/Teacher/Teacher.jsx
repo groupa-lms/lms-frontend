@@ -10,8 +10,12 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import Template from "../Template/Template";
 import TeacherTableHead from "./TeacherTableHead";
-
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
+import DescriptionIcon from "@material-ui/icons/Description";
 import TeacherToolbar from "./TeacherToolbar";
+import { withRouter } from "react-router";
 
 const styles = theme => ({
   root: {
@@ -75,13 +79,9 @@ class Teacher extends Component {
         this.setState({ data: response.data });
       })
       .catch(function(error) {
-        //console.log(error);
+        console.log(error);
       });
   }
-
-  handleClick = (event, id) => {
-    //to be continued... ...
-  };
 
   handleChangePage = (event, page) => {
     this.setState({ page });
@@ -122,11 +122,10 @@ class Teacher extends Component {
                 {stableSort(data, getSorting(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map(n => {
-                    //console.log(n.newUsers);
                     return (
                       <TableRow
                         hover
-                        onClick={event => this.handleClick(event, n.id)}
+                        // onClick={event => this.handleClick(event, n.id)}
                         tabIndex={-1}
                         key={n.id}
                       >
@@ -138,6 +137,35 @@ class Teacher extends Component {
                         <TableCell>{n.newUsers.Gender}</TableCell>
                         <TableCell>{n.newUsers.email}</TableCell>
                         <TableCell>{n.department}</TableCell>
+                        <TableCell>
+                          <IconButton
+                            className={classes.button}
+                            aria-label="View"
+                            onClick={() =>
+                              this.props.history.push({
+                                pathname: "/teacher-view",
+                                data: n
+                              })
+                            }
+                          >
+                            <DescriptionIcon />
+                          </IconButton>
+                          <IconButton
+                            className={classes.button}
+                            aria-label="Edit"
+                            onClick={() =>
+                              this.props.history.push("/teacher-edit")
+                            }
+                          >
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            className={classes.button}
+                            aria-label="Delete"
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </TableCell>
                       </TableRow>
                     );
                   })}
@@ -172,4 +200,4 @@ Teacher.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Teacher);
+export default withRouter(withStyles(styles)(Teacher));

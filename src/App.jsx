@@ -12,6 +12,8 @@ import TakeCourse from "./pages/Course/TakeCourse";
 import TakeQuiz from "./pages/Course/TakeQuiz";
 import AuthService from "./pages/LoginForm/AuthService";
 import Register from "./pages/Register/Register";
+import ViewTeacher from "./pages/Teacher/ViewTeacher";
+import EditTeacher from "./pages/Teacher/EditTeacher";
 
 export const LoginContext = React.createContext({
   setLogin: () => {}
@@ -21,19 +23,19 @@ class App extends Component {
   constructor() {
     super();
     this.Auth = new AuthService();
-    this.setLogin = (val) => {
+    this.setLogin = val => {
       this.setState({
         isLogin: val
       });
     };
     this.state = {
       isLogin: this.Auth.loggedIn(),
-      setLogin: this.setLogin,
+      setLogin: this.setLogin
     };
   }
-  
+
   render() {
-		const { isLogin } = this.state;
+    const { isLogin } = this.state;
     return (
       <LoginContext.Provider value={this.state}>
         <BrowserRouter>
@@ -60,10 +62,7 @@ class App extends Component {
                   );
                 }}
               />
-              <Route
-                path="/register"
-                component={Register}
-              />
+              <Route path="/register" component={Register} />
               <PrivateRoute
                 isLogin={isLogin}
                 path="/course"
@@ -99,15 +98,23 @@ class App extends Component {
                 path="/teacher"
                 component={Teacher}
               />
+              <PrivateRoute isLogin={isLogin} path="/forum" component={Forum} />
               <PrivateRoute
                 isLogin={isLogin}
-                path="/forum"
-                component={Forum}
+                exact
+                path="/teacher"
+                component={Teacher}
               />
               <PrivateRoute
                 isLogin={isLogin}
-                path="/teacher"
-                component={Teacher}
+                exact
+                path="/teacher-view"
+                component={ViewTeacher}
+              />
+              <PrivateRoute
+                isLogin={isLogin}
+                path="/teacher-edit"
+                component={EditTeacher}
               />
               <Route component={ErrorPage} />
             </Switch>
