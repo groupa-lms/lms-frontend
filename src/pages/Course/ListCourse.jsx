@@ -11,19 +11,16 @@ import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import NotInterested from '@material-ui/icons/NotInterested';
 import EditIcon from '@material-ui/icons/Create';
 import ViewIcon from '@material-ui/icons/VideoLabel';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import AddIcon from '@material-ui/icons/AddCircleOutline';
-import LastPageIcon from '@material-ui/icons/LastPage';
 import TextField from '@material-ui/core/TextField';
 import { NavLink } from "react-router-dom";
-import axios from 'axios'
+import getCourseList from "./apis/getCourseList";
+import editCourse from "./apis/editCourse";
+import TablePaginationActionsWrapped from "./TablePaginationActions";
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -36,84 +33,6 @@ const CustomTableCell = withStyles(theme => ({
   },
 }))(TableCell);
 
-const actionsStyles = theme => ({
-  root: {
-    flexShrink: 0,
-    color: theme.palette.text.secondary,
-    marginLeft: theme.spacing.unit * 2.5,
-  },
-});
-
-class TablePaginationActions extends React.Component {
-  handleFirstPageButtonClick = event => {
-    this.props.onChangePage(event, 0);
-  };
-
-  handleBackButtonClick = event => {
-    this.props.onChangePage(event, this.props.page - 1);
-  };
-
-  handleNextButtonClick = event => {
-    this.props.onChangePage(event, this.props.page + 1);
-  };
-
-  handleLastPageButtonClick = event => {
-    this.props.onChangePage(
-      event,
-      Math.max(0, Math.ceil(this.props.count / this.props.rowsPerPage) - 1),
-    );
-  };
-
-  render() {
-    const { classes, count, page, rowsPerPage, theme } = this.props;
-
-    return (
-      <div className={classes.root}>
-        <IconButton
-          onClick={this.handleFirstPageButtonClick}
-          disabled={page === 0}
-          aria-label="First Page"
-        >
-          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-        </IconButton>
-        <IconButton
-          onClick={this.handleBackButtonClick}
-          disabled={page === 0}
-          aria-label="Previous Page"
-        >
-          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-        </IconButton>
-        <IconButton
-          onClick={this.handleNextButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="Next Page"
-        >
-          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-        </IconButton>
-        <IconButton
-          onClick={this.handleLastPageButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="Last Page"
-        >
-          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-        </IconButton>
-      </div>
-    );
-  }
-}
-
-TablePaginationActions.propTypes = {
-  classes: PropTypes.object.isRequired,
-  count: PropTypes.number.isRequired,
-  onChangePage: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
-  theme: PropTypes.object.isRequired,
-};
-
-const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(
-  TablePaginationActions,
-);
 let counter = 0;
 function createData(title, code, id, lecturer, introduction, start_date, end_date, disabled) {
   counter += 1;
@@ -159,8 +78,6 @@ const styles = theme => ({
   }
 });
 
-var courseRows = [];
-
 class ListCourse extends React.Component {
   constructor() {
     super();
@@ -183,62 +100,42 @@ class ListCourse extends React.Component {
   }
 
   handleSearch = (event) => {
-    if (this.state.filter === '' ||
-      this.state.filter === null ||
-      this.state.filter.length === 0
-    ) {
-      this.setState({ rows: [...courseRows] });
-    }
-    else {
-      // this.setState(preState => ({
-      //   rows: preState.rows.filter(item => {
-      //     return item.code === this.state.filter; 
-      //   })
-      // }))
-
-      this.setState({
-        rows: courseRows.filter(item => {
-          return item.code === this.state.filter;
-        })
-      });
-    }
-  }
-
-  // handleSubmit = () => {
-  //   //console.log(value)
-  //   const disable = { disabled: true };
-  //   axios.patch(`http://localhost:3001/api/courses/5be0cb1d67916e205cbd07bd`, disable)
-  //     .then(res => {
-  //       console.log('res=>', res);
-  //       this.setState({ loading: false });
-  //       //this.setState({ disabled: true });
-  //     })
-  //     .catch(({ response: { data: { error } } }) => console.log(error));
-  // }
-
-  // handleDisabled = ( value ) => {
-  //   const changeData = { disabled: true };
-  //   axios.patch(`http://localhost:3001/api/courses/${value}`, changeData)
-  //     .then(res => {
-  //       console.log('res=>', res);
-  //       //this.setState({ loading: false });
-  //       return;
-  //     })
-  //     .catch(({ response: { data: { error } } }) => console.log(error));
-
-  // }
-
-
-
-  // componentDidUpdate = () => {
-  //   this.setState({ rows: [...courseRows] });
-  // }
-
-  componentDidMount = () => {
-    axios.get('http://localhost:3001/api/courses')
+    getCourseList()
       .then((response) => {
         let courseData = response.data;
-        courseRows = [];
+        let courseRows = [];
+        counter = 0;
+        courseData.map(item => {
+          courseRows.push(createData(
+            item.title,
+            item.code,
+            item.id,
+            item.lecturer,
+            item.introduction,
+            item.start_date,
+            item.end_date,
+            item.disabled
+          ));
+        });
+        if(this.state.filter.length === 0)
+        this.setState({ rows: [...courseRows] });
+        else
+        this.setState({
+          rows: courseRows.filter(item => {
+            return item.code === this.state.filter;
+          })
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  componentDidMount = () => {
+    getCourseList()
+      .then((response) => {
+        let courseData = response.data;
+        let courseRows = [];
         counter = 0;
         courseData.map(item => {
           courseRows.push(createData(
@@ -278,7 +175,7 @@ class ListCourse extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes,history } = this.props;
     const { rows, rowsPerPage, page, loading } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -332,26 +229,13 @@ class ListCourse extends React.Component {
                           <TableCell>{row.code}</TableCell>
                           <TableCell>
                             <Button
-                              // onClick={() => {
-                              //   const viewItem = createData(
-                              //     row.title,
-                              //     row.code,
-                              //     row.id,
-                              //     row.lecturer,
-                              //     row.introduction,
-                              //     row.start_date,
-                              //     row.end_date,
-                              //   )
-                              //   //pageDirect('view',viewItem);
-                              //   pageDirect({
-                              //     value: 'view',
-                              //     item: viewItem
-                              //   });
-                              // }}
                               variant="outlined"
                               size="small"
                               className={classes.button}
                               disabled={row.disabled}
+                              onClick={ ()=>{
+                                history.push(`/admin/course/view/${row.id}`);
+                              } }
                             >
                               <NavLink to={`/admin/course/view/${row.id}`}>
                                 Detail
@@ -363,24 +247,11 @@ class ListCourse extends React.Component {
                             </Button>
                             <Button variant="outlined"
                               size="small"
-                              // onClick={() => {
-                              //   const viewItem = createData(
-                              //     row.title,
-                              //     row.code,
-                              //     row.id,
-                              //     row.lecturer,
-                              //     row.introduction,
-                              //     row.start_date,
-                              //     row.end_date,
-                              //   )
-                              //   // pageDirect('edit', viewItem);
-                              //   pageDirect({
-                              //     value: 'edit',
-                              //     item: viewItem
-                              //   });
-                              // }}
                               className={classes.button}
                               disabled={row.disabled}
+                              onClick={ ()=>{
+                                history.push(`/admin/course/edit/${row.id}`);
+                              } }
                             >
                               <NavLink to={`/admin/course/edit/${row.id}`}>
                                 Edit
@@ -393,7 +264,7 @@ class ListCourse extends React.Component {
                             <Button variant="outlined"
                               onClick={() => {
                                 const changeData = { disabled: true };
-                                axios.patch(`http://localhost:3001/api/courses/${row.id}`, changeData)
+                                editCourse(row.id,changeData)
                                   .then(res => {
                                     console.log('res=>', res);
                                     window.location.reload();
@@ -439,7 +310,10 @@ class ListCourse extends React.Component {
                         marginLeft: 36,
                         marginTop: 15
                       }}
-                      className={classes.button}>
+                      className={classes.button}
+                      onClick={ ()=>{
+                        history.push(`/admin/course/add`);
+                      } }>
                       <AddIcon
                         className={
                           classNames(

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+//import history from './history';
 import LoginForm from "./pages/LoginForm/LoginForm";
 import DashBoard from "./pages/DashBoard/Dashboard";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";

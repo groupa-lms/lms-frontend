@@ -1,12 +1,14 @@
 import React from 'react';
+import FillBlankDialog from "./Dialog/FillBlankDialog";
+import AlertDialog from "./Dialog/AlertDialog";
+import ConfirmDialog from "./Dialog/ConfirmDialog";
 import PropTypes from 'prop-types';
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import axios from 'axios'
-import { NavLink } from "react-router-dom";
-import { createBrowserHistory } from 'history';
+import getStudent from "./apis/getStudent";
+import editStudent from "./apis/editStudent";
 
 const styles = theme => ({
   container: {
@@ -44,6 +46,10 @@ class EditStudent extends React.Component {
       gender: '',
       disabled: false,
       current_date: '',
+      dialogCancelOpen: false,
+      dialogConfirmOpen: false,
+      dialogFillBlankOpen: false,
+      flag:'',
     };
 
     this.handleStudentId = this.handleStudentId.bind(this);
@@ -56,7 +62,7 @@ class EditStudent extends React.Component {
   }
 
   componentWillMount() {
-    axios.get(`http://localhost:3001/api/students/${this.props.studentId}`)
+    getStudent(this.props.studentId)
       .then((response) => {
         let studentData = response.data;
         this.setState({
@@ -104,7 +110,7 @@ class EditStudent extends React.Component {
     this.setState({ gender: event.target.value });
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = () => {
     const newStudent = {
       studentId: this.state.studentId,
       name: this.state.name,
@@ -112,19 +118,17 @@ class EditStudent extends React.Component {
       major: this.state.major,
       age: this.state.age,
       gender: this.state.gender
-
     }
-    this.setState({ loading: true });
-    axios.patch(`http://localhost:3001/api/students/${this.props.studentId}`, newStudent)
+    this.setState({ 
+      loading: true,
+     });
+    editStudent(this.props.studentId, newStudent)
       .then(res => {
         console.log('res=>', res);
         this.setState({ loading: false });
-        // const history = createBrowserHistory();
-        // history.push('/admin/student/list');
-      })
+        this.props.history.push(`/admin/student/view/${this.props.studentId}`);
+       })
       .catch(({ response: { data: { error } } }) => console.log(error));
-    //Make a network call somewhere
-    //event.preventDefault();
   }
 
   render() {
@@ -136,6 +140,10 @@ class EditStudent extends React.Component {
       major,
       age,
       gender,
+      dialogCancelOpen,
+      dialogConfirmOpen,
+      dialogFillBlankOpen,
+      flag,
     } = this.state;
 
     return (
@@ -147,7 +155,6 @@ class EditStudent extends React.Component {
           validate="true"
           autoComplete="off"
           onSubmit={this.handleSubmit}>
-
           <TextField
             id="standard-required"
             label="Student ID"
@@ -209,14 +216,44 @@ class EditStudent extends React.Component {
             onChange={this.handleGender}
           />
           <Button
-            type="submit"
             style={{ marginTop: 40 }}
             variant="contained"
             color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
+            onClick={
+              () => {
+                if(studentId.length===0||
+                  name.length===0||
+                  grade.length===0||
+                  major.length===0||
+                  age.length===0||
+                  gender.length===0
+                  )
+                  {
+                    this.setState({ 
+                      dialogFillBlankOpen: !dialogFillBlankOpen,
+                     });
+                  }
+                  else{
+                    this.setState({ 
+                      dialogConfirmOpen: !dialogConfirmOpen,
+                      flag:'confirm',
+                     });
+                  }
+                 
+              }
+            }
           >
-            {this.state.loading ? 'Editing...' : 'Edit'}
+          <FillBlankDialog 
+          dialogFillBlankOpen={dialogFillBlankOpen}
+          />
+          <ConfirmDialog 
+          dialogConfirmOpen={dialogConfirmOpen} 
+          flag={flag}
+          handleSubmit={this.handleSubmit}
+          />
+          Edit
           </Button>
           <Button
             style={{ marginTop: 40 }}
@@ -224,10 +261,17 @@ class EditStudent extends React.Component {
             color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
+            onClick={
+              () => {
+                this.setState({ 
+                  dialogCancelOpen: !dialogCancelOpen,
+                  flag:'cancel',
+                 });
+              }
+            }
           >
-            <NavLink to={"/admin/student/list"}>
-              Go Back
-            </NavLink>
+          <AlertDialog dialogCancelOpen={dialogCancelOpen} flag={flag}/>
+              Cancel
           </Button>
         </form>
       </React.Fragment>

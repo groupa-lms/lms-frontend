@@ -12,18 +12,15 @@ import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import NotInterested from '@material-ui/icons/NotInterested';
 import EditIcon from '@material-ui/icons/Create';
 import ViewIcon from '@material-ui/icons/VideoLabel';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import AddIcon from '@material-ui/icons/AddCircleOutline';
-import LastPageIcon from '@material-ui/icons/LastPage';
 import TextField from '@material-ui/core/TextField';
-import axios from 'axios'
+import getStudentList from "./apis/getStudentList";
+import editStudent from "./apis/editStudent";
+import TablePaginationActionsWrapped from "./TablePaginationActions";
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -36,84 +33,6 @@ const CustomTableCell = withStyles(theme => ({
   },
 }))(TableCell);
 
-const actionsStyles = theme => ({
-  root: {
-    flexShrink: 0,
-    color: theme.palette.text.secondary,
-    marginLeft: theme.spacing.unit * 2.5,
-  },
-});
-
-class TablePaginationActions extends React.Component {
-  handleFirstPageButtonClick = event => {
-    this.props.onChangePage(event, 0);
-  };
-
-  handleBackButtonClick = event => {
-    this.props.onChangePage(event, this.props.page - 1);
-  };
-
-  handleNextButtonClick = event => {
-    this.props.onChangePage(event, this.props.page + 1);
-  };
-
-  handleLastPageButtonClick = event => {
-    this.props.onChangePage(
-      event,
-      Math.max(0, Math.ceil(this.props.count / this.props.rowsPerPage) - 1),
-    );
-  };
-
-  render() {
-    const { classes, count, page, rowsPerPage, theme } = this.props;
-
-    return (
-      <div className={classes.root}>
-        <IconButton
-          onClick={this.handleFirstPageButtonClick}
-          disabled={page === 0}
-          aria-label="First Page"
-        >
-          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-        </IconButton>
-        <IconButton
-          onClick={this.handleBackButtonClick}
-          disabled={page === 0}
-          aria-label="Previous Page"
-        >
-          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-        </IconButton>
-        <IconButton
-          onClick={this.handleNextButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="Next Page"
-        >
-          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-        </IconButton>
-        <IconButton
-          onClick={this.handleLastPageButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="Last Page"
-        >
-          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-        </IconButton>
-      </div>
-    );
-  }
-}
-
-TablePaginationActions.propTypes = {
-  classes: PropTypes.object.isRequired,
-  count: PropTypes.number.isRequired,
-  onChangePage: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
-  theme: PropTypes.object.isRequired,
-};
-
-const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(
-  TablePaginationActions,
-);
 let counter = 0;
 function createData(studentId, name, grade, major, age, gender, disabled, id) {
   counter += 1;
@@ -155,8 +74,6 @@ const styles = theme => ({
   },
 });
 
-var studentRows = [];
-
 class ListStudent extends React.Component {
   constructor() {
     super();
@@ -170,59 +87,17 @@ class ListStudent extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
-    //this.handleSubmit = this.handleSubmit.bind(this);
-
   }
 
   handleFilter = (event) => {
     this.setState({ filter: event.target.value });
   }
 
-  handleSearch = (event) => {
-    if (this.state.filter === '' ||
-      this.state.filter === null ||
-      this.state.filter.length === 0
-    ) {
-      this.setState({ rows: [...studentRows] });
-    }
-    else {
-      // this.setState(preState => ({
-      //   rows: preState.rows.filter(item => {
-      //     return item.code === this.state.filter; 
-      //   })
-      // }))
-
-      this.setState({
-        rows: studentRows.filter(item => {
-          return item.studentId === this.state.filter;
-        })
-      });
-    }
-  }
-
-  // handleSubmit = () => {
-  //   //console.log(value)
-  //   const disable = { disabled: true };
-  //   axios.patch(`http://localhost:3001/api/courses/5be0cb1d67916e205cbd07bd`, disable)
-  //     .then(res => {
-  //       console.log('res=>', res);
-  //       this.setState({ loading: false });
-  //       //this.setState({ disabled: true });
-  //     })
-  //     .catch(({ response: { data: { error } } }) => console.log(error));
-  // }
-
-
-
-  // componentDidUpdate = () => {
-  //   this.setState({ rows: [...courseRows] });
-  // }
-
-  componentDidMount = () => {
-    axios.get('http://localhost:3001/api/students')
+  handleSearch = () => {
+    getStudentList()
       .then((response) => {
         let studentData = response.data;
-        studentRows = [];
+        let studentRows = [];
         counter = 0;
         studentData.map(item => {
           studentRows.push(createData(
@@ -236,16 +111,42 @@ class ListStudent extends React.Component {
             item.id
           ));
         });
+        if(this.state.filter.length === 0)
+        this.setState({ rows: [...studentRows] });
+        else
+        this.setState({
+          rows: studentRows.filter(item => {
+            return item.studentId === this.state.filter;
+          })
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
-        this.setState(preState => ({
-          rows: [...preState.rows, ...studentRows],
+  componentDidMount = () => {
+    getStudentList()
+      .then((response) => {
+        let studentData = response.data;
+        let studentRows = [];
+        counter = 0;
+        studentData.map(item => {
+          studentRows.push(createData(
+            item.studentId,
+            item.name,
+            item.grade,
+            item.major,
+            item.age,
+            item.gender,
+            item.disabled,
+            item.id
+          ));
+        });
+        this.setState({ 
+          rows: [...studentRows],
           loading: false,
-        }));
-        // setTimeout(() => {
-        //   this.setState({
-        //     loading: false,
-        //   });
-        // }, 2000);
+        });
       })
       .catch(function (error) {
         console.log(error);
@@ -262,7 +163,7 @@ class ListStudent extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes,history } = this.props;
     const { rows, rowsPerPage, page, loading } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -277,9 +178,9 @@ class ListStudent extends React.Component {
               <Table className={classes.table}>
                 <TableHead>
                   <TableRow>
-                    <CustomTableCell>No.</CustomTableCell>
-                    <CustomTableCell>ID</CustomTableCell>
-                    <CustomTableCell>Name</CustomTableCell>
+                    <CustomTableCell><Typography>No.</Typography></CustomTableCell>
+                    <CustomTableCell><Typography>ID</Typography></CustomTableCell>
+                    <CustomTableCell><Typography>Name</Typography></CustomTableCell>
                     {/* <CustomTableCell>Grade</CustomTableCell> */}
                     {/* <CustomTableCell>Major</CustomTableCell> */}
                     {/* <CustomTableCell>Age</CustomTableCell>
@@ -326,6 +227,9 @@ class ListStudent extends React.Component {
                               size="small"
                               className={classes.button}
                               disabled={row.disabled}
+                              onClick={ ()=>{
+                                history.push(`/admin/student/view/${row.id}`);
+                              } }
                             >
                             <NavLink to={`/admin/student/view/${row.id}`}>
                                 Detail
@@ -339,6 +243,9 @@ class ListStudent extends React.Component {
                               size="small"
                               className={classes.button}
                               disabled={row.disabled}
+                              onClick={ ()=>{
+                                history.push(`/admin/student/edit/${row.id}`);
+                              } }
                             >
                               <NavLink to={`/admin/student/edit/${row.id}`}>
                                 Edit
@@ -353,7 +260,7 @@ class ListStudent extends React.Component {
                               className={classes.button}
                               onClick={() => {
                                 const changeData = { disabled: true };
-                                axios.patch(`http://localhost:3001/api/students/${row.id}`, changeData)
+                                editStudent(row.id, changeData)
                                   .then(res => {
                                     console.log('res=>', res);
                                     window.location.reload();
@@ -396,7 +303,11 @@ class ListStudent extends React.Component {
                         marginLeft: 36,
                         marginTop: 15
                       }}
-                      className={classes.button}>
+                      className={classes.button}
+                      onClick={ ()=>{
+                        history.push(`/admin/student/add`);
+                      } }
+                      >
                       <AddIcon
                         className={
                           classNames(

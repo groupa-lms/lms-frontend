@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import Template from "../Template/Template";
-import ListStudent from "./ListStudent"
+import ListStudent from "./ListStudent";
+import { withRouter } from 'react-router-dom';
 
 class ListStudentContainer extends Component {
   render() {
     return (
       <Template title="List Student">
-        <ListStudent />
+        <ListStudent history={this.props.history}/>
       </Template>
     );
   }
 }
 
-export default ListStudentContainer;
+export default withRouter(ListStudentContainer);

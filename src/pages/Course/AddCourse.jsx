@@ -4,8 +4,11 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { NavLink } from "react-router-dom";
-import axios from 'axios'
+import addCourse from "./apis/addCourse";
+import AlertDialog from "./Dialog/AlertDialog";
+import ConfirmDialog from "./Dialog/ConfirmDialog";
+import FillBlankDialog from "./Dialog/FillBlankDialog";
+
 
 const styles = theme => ({
   container: {
@@ -41,6 +44,11 @@ class AddCourse extends React.Component {
       start_date: '',
       end_date: '',
       current_date: '',
+      disabled: false,
+      dialogCancelOpen: false,
+      dialogConfirmOpen: false,
+      dialogFillBlankOpen: false,
+      flag: false,
     };
 
     this.handleTitle = this.handleTitle.bind(this);
@@ -90,31 +98,40 @@ class AddCourse extends React.Component {
       introduction: this.state.introduction,
       start_date: this.state.start_date,
       end_date: this.state.end_date,
-
+      disabled: false,
     }
     this.setState({ loading: true });
-    axios.post('http://localhost:3001/api/courses', newCourse)
-      .then(res => {
-        console.log('res=>', res);
+    addCourse(newCourse)
+      .then(({data}) => {
+        console.log(data.id);
         this.setState({ loading: false });
+        this.props.history.push(`/admin/course/view/${data.id}`);
       })
-      .catch(({ response: { data: { error } } }) => console.log(error));
+      .catch(({data}) => console.log("fail"+data));
     //Make a network call somewhere
     //event.preventDefault();
   }
 
   render() {
-    const { classes, pageDirect } = this.props;
-
+    const { classes } = this.props;
+    const {
+      flag,
+      code,
+      title,
+      lecturer,
+      dialogCancelOpen,
+      dialogConfirmOpen,
+      dialogFillBlankOpen,
+    } = this.state;
     return (
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
           Add Course
       </Typography>
-        <form className={classes.container} 
-        validate="true" 
-        autoComplete="off" 
-        onSubmit={this.handleSubmit}>
+        <form className={classes.container}
+          validate="true"
+          autoComplete="off"
+          onSubmit={this.handleSubmit}>
           <TextField
             id="standard-with-placeholder"
             label="Course Code"
@@ -185,26 +202,58 @@ class AddCourse extends React.Component {
           />
 
           <Button
-            type="submit"
             style={{ marginTop: 40 }}
             variant="contained"
             color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
+            onClick={
+              () => {
+                if (
+                  code.length === 0 ||
+                  title.length === 0 ||
+                  lecturer.length === 0
+                ) {
+                  this.setState({
+                    dialogFillBlankOpen: !dialogFillBlankOpen,
+                  });
+                }
+                else {
+                  this.setState({
+                    dialogConfirmOpen: !dialogConfirmOpen,
+                    flag: 'confirm',
+                  });
+                }
+              }
+            }
           >
+            <FillBlankDialog
+              dialogFillBlankOpen={dialogFillBlankOpen}
+            />
+            <ConfirmDialog
+              dialogConfirmOpen={dialogConfirmOpen}
+              flag={flag}
+              handleSubmit={this.handleSubmit}
+            />
             {this.state.loading ? 'Creating...' : 'Add'}
           </Button>
           <Button
-            type="submit"
             style={{ marginTop: 40 }}
             variant="contained"
             color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
+            onClick={
+              () => {
+                this.setState({
+                  dialogCancelOpen: !dialogCancelOpen,
+                  flag: 'cancel',
+                });
+              }
+            }
           >
-          <NavLink to={"/admin/course/list"}>
-              cancel
-           </NavLink>
+            <AlertDialog dialogCancelOpen={dialogCancelOpen} flag={flag} />
+            cancel
         </Button>
         </form>
       </React.Fragment>

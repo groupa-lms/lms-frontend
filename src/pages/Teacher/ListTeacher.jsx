@@ -23,7 +23,8 @@ import AddIcon from '@material-ui/icons/AddCircleOutline';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TextField from '@material-ui/core/TextField';
 import { NavLink } from "react-router-dom";
-import axios from 'axios'
+import getTeacherList from "./apis/getTeacherList";
+import editTeacher from "./apis/editTeacher";
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -186,12 +187,6 @@ class ListTeacher extends React.Component {
       this.setState({ rows: [...teacherRows] });
     }
     else {
-      // this.setState(preState => ({
-      //   rows: preState.rows.filter(item => {
-      //     return item.code === this.state.filter; 
-      //   })
-      // }))
-
       this.setState({
         rows: teacherRows.filter(item => {
           return item.studentId === this.state.filter;
@@ -212,14 +207,12 @@ class ListTeacher extends React.Component {
   //     .catch(({ response: { data: { error } } }) => console.log(error));
   // }
 
-
-
   // componentDidUpdate = () => {
   //   this.setState({ rows: [...courseRows] });
   // }
 
   componentDidMount = () => {
-    axios.get('http://localhost:3001/api/teachers')
+    getTeacherList()
       .then((response) => {
         let studentData = response.data;
         teacherRows = [];
@@ -242,11 +235,6 @@ class ListTeacher extends React.Component {
           rows: [...preState.rows, ...teacherRows],
           loading: false,
         }));
-        // setTimeout(() => {
-        //   this.setState({
-        //     loading: false,
-        //   });
-        // }, 2000);
       })
       .catch(function (error) {
         console.log(error);
@@ -323,23 +311,6 @@ class ListTeacher extends React.Component {
                           <TableCell>{row.gender}</TableCell> */}
                           <TableCell>
                             <Button
-                              // onClick={() => {
-                              //   const viewItem = createData(
-                              //     row.teacherId,
-                              //     row.name,
-                              //     row.title,
-                              //     row.department,
-                              //     row.course,
-                              //     row.date_of_birth,
-                              //     row.gender,
-                              //     row.disabled,
-                              //     row.id
-                              //   )
-                              //   pageDirect({
-                              //     value: 'view',
-                              //     item: viewItem
-                              //   });
-                              // }}
                               variant="outlined"
                               size="small"
                               className={classes.button}
@@ -355,23 +326,6 @@ class ListTeacher extends React.Component {
                             </Button>
                             <Button variant="outlined"
                               size="small"
-                              // onClick={() => {
-                              //   const viewItem = createData(
-                              //     row.teacherId,
-                              //     row.name,
-                              //     row.title,
-                              //     row.department,
-                              //     row.course,
-                              //     row.date_of_birth,
-                              //     row.gender,
-                              //     row.disabled,
-                              //     row.id
-                              //   )
-                              //   pageDirect({
-                              //     value: 'edit',
-                              //     item: viewItem
-                              //   });
-                              // }}
                               className={classes.button}
                               disabled={row.disabled}
                             >
@@ -390,7 +344,7 @@ class ListTeacher extends React.Component {
                               className={classes.button}
                               onClick={() => {
                                 const changeData = { disabled: true };
-                                axios.patch(`http://localhost:3001/api/teachers/${row.id}`, changeData)
+                                editTeacher(row.id, changeData)
                                   .then(res => {
                                     console.log('res=>', res);
                                     window.location.reload();
@@ -434,7 +388,7 @@ class ListTeacher extends React.Component {
                         marginTop: 15
                       }}
                       onClick={() => {
-                        pageDirect({ value: 'add' });
+                        
                       }}
                       className={classes.button}>
                       <AddIcon

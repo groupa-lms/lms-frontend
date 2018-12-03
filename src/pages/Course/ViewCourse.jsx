@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { NavLink } from "react-router-dom";
-import axios from 'axios'
+import getCourse from "./apis/getCourse";
 
 const styles = theme => ({
   root: {
@@ -46,17 +46,12 @@ class ViewCourse extends React.Component {
   }
 
   componentDidMount = () => {
-    axios.get(`http://localhost:3001/api/courses/${this.props.courseId}`)
+    getCourse(this.props.courseId)
       .then((response) => {
         let courseData = response.data;
         this.setState(preState => ({
           course: { ...preState.course, ...courseData },
         }));
-        // setTimeout(() => {
-        //   this.setState({
-        //     loading: false,
-        //   });
-        // }, 2000);
       })
       .catch(function (error) {
         console.log(error);
@@ -65,7 +60,7 @@ class ViewCourse extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, history } = this.props;
     const { course } = this.state;
     const rows = [
       //createData('ID', viewItem.id),
@@ -108,6 +103,9 @@ class ViewCourse extends React.Component {
           variant="contained"
           color="primary"
           className={classes.button}
+          onClick={ ()=>{
+            history.push(`/admin/course/edit/${course.id}`);
+          } }
         >
         <NavLink to={`/admin/course/edit/${course.id}`}>
             Edit
@@ -118,6 +116,9 @@ class ViewCourse extends React.Component {
           variant="contained"
           color="primary"
           className={classes.button}
+          onClick={ ()=>{
+            history.push("/admin/course/list");
+          } }
         >
         <NavLink to={"/admin/course/list"}>
             Go Back

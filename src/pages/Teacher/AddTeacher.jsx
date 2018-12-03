@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { NavLink } from "react-router-dom";
+import addTeacher from "./apis/addTeacher";
 import axios from 'axios'
 
 const styles = theme => ({
@@ -102,7 +103,7 @@ class AddTeacher extends React.Component {
       disabled: this.state.disabled
     }
     this.setState({ loading: true });
-    axios.post('http://localhost:3001/api/teachers', newTeacher)
+    addTeacher(newTeacher)
       .then(res => {
         console.log('res=>', res);
         this.setState({ loading: false });

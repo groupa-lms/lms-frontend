@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { NavLink } from "react-router-dom";
+import getTeacher from "./apis/getTeacher";
 import axios from 'axios'
 
 const styles = theme => ({
@@ -39,17 +40,12 @@ class ViewTeacher extends React.Component {
   }
 
   componentDidMount = () => {
-    axios.get(`http://localhost:3001/api/teachers/${this.props.teacherId}`)
+    getTeacher(this.props.teacherId)
       .then((response) => {
         let teacherData = response.data;
         this.setState(preState => ({
           teacher: { ...preState.teacher, ...teacherData },
         }));
-        // setTimeout(() => {
-        //   this.setState({
-        //     loading: false,
-        //   });
-        // }, 2000);
       })
       .catch(function (error) {
         console.log(error);

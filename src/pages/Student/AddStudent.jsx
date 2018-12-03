@@ -4,8 +4,10 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { NavLink } from "react-router-dom";
-import axios from 'axios'
+import addStudent from "./apis/addStudent";
+import AlertDialog from "./Dialog/AlertDialog";
+import ConfirmDialog from "./Dialog/ConfirmDialog";
+import FillBlankDialog from "./Dialog/FillBlankDialog";
 
 const styles = theme => ({
   container: {
@@ -42,6 +44,10 @@ class AddStudent extends React.Component {
       age: '',
       gender: '',
       disabled: false,
+      dialogCancelOpen: false,
+      dialogConfirmOpen: false,
+      dialogFillBlankOpen: false,
+      flag:'',
     };
 
     this.handleStudentId = this.handleStudentId.bind(this);
@@ -83,12 +89,7 @@ class AddStudent extends React.Component {
     this.setState({ gender: event.target.value });
   }
 
-  handleSubmit = (event) => {
-
-    // if(!confirm("confirm the change?"))
-    // {
-    //   return
-    // }
+  handleSubmit = () => {
     const newStudent = {
       studentId: this.state.studentId,
       name: this.state.name,
@@ -99,10 +100,10 @@ class AddStudent extends React.Component {
       disabled: this.state.disabled
     }
     this.setState({ loading: true });
-    axios.post('http://localhost:3001/api/students', newStudent)
-      .then(res => {
-        console.log('res=>', res);
+    addStudent(newStudent)
+      .then(({ data }) => {
         this.setState({ loading: false });
+        this.props.history.push(`/admin/student/view/${data.id}`);
       })
       .catch(({ response: { data: { error } } }) => console.log(error));
     //Make a network call somewhere
@@ -111,7 +112,18 @@ class AddStudent extends React.Component {
 
   render() {
     const { classes } = this.props;
-
+    const { 
+      studentId,
+      name,
+      grade,
+      major,
+      age,
+      gender,
+      dialogCancelOpen, 
+      dialogConfirmOpen, 
+      dialogFillBlankOpen,
+      flag, 
+    } = this.state;
     return (
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
@@ -182,26 +194,63 @@ class AddStudent extends React.Component {
             onChange={this.handleGender}
           />
           <Button
-            type="submit"
+            //type="submit"
             style={{ marginTop: 40 }}
             variant="contained"
             color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
+            onClick={
+              () => {
+                 if(studentId.length===0||
+                  name.length===0||
+                  grade.length===0||
+                  major.length===0||
+                  age.length===0||
+                  gender.length===0
+                  )
+                  {
+                    this.setState({ 
+                      dialogFillBlankOpen: !dialogFillBlankOpen,
+                     });
+                  }
+                  else{
+                    this.setState({ 
+                      dialogConfirmOpen: !dialogConfirmOpen,
+                      flag:'confirm',
+                     }); 
+                  }
+              }
+            }
           >
+          
+          <FillBlankDialog 
+          dialogFillBlankOpen={dialogFillBlankOpen}
+          />
+          <ConfirmDialog 
+          dialogConfirmOpen={dialogConfirmOpen} 
+          flag={flag}
+          handleSubmit={this.handleSubmit}
+          />
             {this.state.loading ? 'Creating...' : 'Add'}
           </Button>
           <Button
-            type="submit"
             style={{ marginTop: 40 }}
             variant="contained"
             color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
+            onClick={
+              () => {
+                this.setState({ 
+                  dialogCancelOpen: !dialogCancelOpen,
+                  flag:'cancel',
+                 });
+              }
+            }
           >
-            <NavLink to={"/admin/student/list"}>
+           <AlertDialog dialogCancelOpen={dialogCancelOpen} flag={flag}/>
               cancel
-           </NavLink>
           </Button>
         </form>
       </React.Fragment>

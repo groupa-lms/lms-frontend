@@ -4,8 +4,11 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { NavLink } from "react-router-dom";
-import axios from 'axios'
+import getCourse from "./apis/getCourse";
+import editCourse from "./apis/editCourse";
+import AlertDialog from "./Dialog/AlertDialog";
+import ConfirmDialog from "./Dialog/ConfirmDialog";
+import FillBlankDialog from "./Dialog/FillBlankDialog";
 
 const styles = theme => ({
   container: {
@@ -41,6 +44,10 @@ class EditCourse extends React.Component {
       start_date: '',
       end_date: '',
       current_date: '',
+      dialogCancelOpen:false,
+      dialogConfirmOpen:false,
+      dialogFillBlankOpen: false,
+      flag:false,
     };
 
     this.handleTitle = this.handleTitle.bind(this);
@@ -53,7 +60,7 @@ class EditCourse extends React.Component {
   }
 
   componentWillMount() {
-    axios.get(`http://localhost:3001/api/courses/${this.props.courseId}`)
+    getCourse(this.props.courseId)
     .then((response) => {
       let courseData = response.data;
       this.setState({
@@ -111,10 +118,11 @@ class EditCourse extends React.Component {
 
     }
     this.setState({ loading: true });
-    axios.patch(`http://localhost:3001/api/courses/${this.props.courseId}`, newCourse)
+    editCourse(this.props.courseId, newCourse)
       .then(res => {
         console.log('res=>', res);
         this.setState({ loading: false });
+        this.props.history.push(`/admin/course/view/${this.props.courseId}`);
       })
       .catch(({ response: { data: { error } } }) => console.log(error));
     //Make a network call somewhere
@@ -130,7 +138,10 @@ class EditCourse extends React.Component {
       introduction,
       start_date,
       end_date,
-      current_date,
+      dialogCancelOpen,
+      dialogConfirmOpen,
+      dialogFillBlankOpen,
+      flag,
     } = this.state;
 
     return (
@@ -173,22 +184,6 @@ class EditCourse extends React.Component {
             value={lecturer}
             onChange={this.handleLecturer}
           />
-          {/* <TextField
-            id="standard-full-width"
-            label=""
-            style={{ 
-              margin: 8,
-              marginTop: 18
-            }}
-            placeholder="Introduction"
-            fullWidth
-            margin="normal"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            value={this.state.introduction}
-            onChange={this.handleIntroduction}
-          /> */}
           <TextField
             id="start_date"
             label="Start Date"
@@ -232,13 +227,40 @@ class EditCourse extends React.Component {
           />
 
           <Button
-            type="submit"
             style={{ marginTop: 40 }}
             variant="contained"
             color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
+            onClick={
+              () => {
+                if (
+                  code.length === 0 ||
+                  title.length === 0 ||
+                  lecturer.length === 0
+                ) {
+                  this.setState({
+                    dialogFillBlankOpen: !dialogFillBlankOpen,
+                  });
+                }
+                else{
+                  this.setState({ 
+                    dialogConfirmOpen: !dialogConfirmOpen,
+                    flag:'confirm',
+                   });
+                }
+                 
+              }
+            }
           >
+          <FillBlankDialog
+              dialogFillBlankOpen={dialogFillBlankOpen}
+            />
+           <ConfirmDialog 
+          dialogConfirmOpen={dialogConfirmOpen} 
+          flag={flag}
+          handleSubmit={this.handleSubmit}
+          />
             {this.state.loading ? 'Editing...' : 'Edit'}
           </Button>
           <Button
@@ -247,10 +269,17 @@ class EditCourse extends React.Component {
             color={this.state.loading ? "secondary" : "primary"}
             disabled={this.state.loading}
             className={classes.button}
+            onClick={
+              () => {
+                this.setState({ 
+                  dialogCancelOpen: !dialogCancelOpen,
+                  flag:'cancel',
+                 });
+              }
+            }
           >
-          <NavLink to={"/admin/course/list"}>
-              Go Back
-          </NavLink>
+           <AlertDialog dialogCancelOpen={dialogCancelOpen} flag={flag}/>
+              Cancel
         </Button>
         </form>
       </React.Fragment>

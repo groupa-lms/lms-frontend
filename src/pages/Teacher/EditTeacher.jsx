@@ -5,7 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { NavLink } from "react-router-dom";
-import axios from 'axios'
+import getTeacher from "./apis/getTeacher";
+import editTeacher from "./apis/editTeacher";
 
 const styles = theme => ({
   container: {
@@ -57,7 +58,7 @@ class EditTeacher extends React.Component {
   }
 
   componentWillMount() {
-    axios.get(`http://localhost:3001/api/teachers/${this.props.teacherId}`)
+    getTeacher(this.props.teacherId)
       .then((response) => {
         let teacherData = response.data;
         this.setState({
@@ -122,7 +123,7 @@ class EditTeacher extends React.Component {
 
     }
     this.setState({ loading: true });
-    axios.patch(`http://localhost:3001/api/teachers/${this.props.teacherId}`, newTeacher)
+    editTeacher(this.props.teacherId, newTeacher)
       .then(res => {
         console.log('res=>', res);
         this.setState({ loading: false });

@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import axios from 'axios'
+import getStudent from "./apis/getStudent";
 import { NavLink, Route } from "react-router-dom";
 
 const styles = theme => ({
@@ -42,17 +42,12 @@ class ViewStudent extends React.Component {
   }
 
   componentDidMount = () => {
-    axios.get(`http://localhost:3001/api/students/${this.props.studentId}`)
+    getStudent(this.props.studentId)
       .then((response) => {
         let studentData = response.data;
         this.setState(preState => ({
           student: { ...preState.student, ...studentData },
         }));
-        // setTimeout(() => {
-        //   this.setState({
-        //     loading: false,
-        //   });
-        // }, 2000);
       })
       .catch(function (error) {
         console.log(error);
@@ -61,7 +56,7 @@ class ViewStudent extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, history } = this.props;
     const { student } = this.state;
     const rows = [
       //createData('ID', student.id),
@@ -105,6 +100,9 @@ class ViewStudent extends React.Component {
           variant="contained"
           color="primary"
           className={classes.button}
+          onClick={ ()=>{
+            history.push(`/admin/student/edit/${student.id}`);
+          } }
         >
           <NavLink to={`/admin/student/edit/${student.id}`}>
             Edit
@@ -115,6 +113,9 @@ class ViewStudent extends React.Component {
           variant="contained"
           color="primary"
           className={classes.button}
+          onClick={ ()=>{
+            history.push("/admin/student/list");
+          } }
         >
           <NavLink to={"/admin/student/list"}>
             Go Back
