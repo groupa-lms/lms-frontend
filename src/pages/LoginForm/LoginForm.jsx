@@ -155,7 +155,7 @@ class LoginForm extends React.Component {
                       formDirty={formDirty}
                       errorMessage={!username && "Username is required"}
                       id="username"
-                      name="username"
+                      name="Username"
                       autoComplete="username"
                       autoFocus
                     />
@@ -166,7 +166,7 @@ class LoginForm extends React.Component {
                       onChange={this.handlePassword}
                       formDirty={formDirty}
                       errorMessage={!password && "Password is required"}
-                      name="password"
+                      name="Password"
                       type="password"
                       id="password"
                       autoComplete="current-password"

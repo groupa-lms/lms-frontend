@@ -23,7 +23,7 @@ class FormInput extends Component {
     const showErrorMessage = errorMessage && (dirty || formDirty);
     return (
       <React.Fragment>
-        <InputLabel htmlFor={name}>User Name</InputLabel>
+        <InputLabel htmlFor={name}>{name}</InputLabel>
         <Input 
           onChange={({ target: { value } }) => {
             this.setDirty(true);

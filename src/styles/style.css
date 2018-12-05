@@ -48,7 +48,7 @@ body {
     display: grid;
     grid-template-columns: 1fr auto;
     width: 100%;
-    position: fixed;
+    /* position: fixed;  */
     bottom: 0;
   }
   
