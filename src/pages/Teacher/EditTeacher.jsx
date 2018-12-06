@@ -54,7 +54,6 @@ class EditTeacher extends Component {
       birthday: newUsers.birthday,
       department: department
     };
-    this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleDepartmentChange = this.handleDepartmentChange.bind(this);
     this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -62,10 +61,6 @@ class EditTeacher extends Component {
     this.handleBirthDayChange = this.handleBirthDayChange.bind(this);
     this.handleGenderChange = this.handleGenderChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleEmailChange(e) {
-    this.setState({ email: e.target.value });
   }
 
   handleTitleChange(e) {
@@ -93,34 +88,16 @@ class EditTeacher extends Component {
   }
 
   handleSubmit() {
-    const {
-      id,
-      newUsers: { email },
-      title,
-      department,
-      newUsers: firstname,
-      newUsers: lastname,
-      newUsers: gender,
-      newUsers: birthday,
-      newUsers
-    } = this.props.location.data;
-
-    console.log(
-      `${id}  ${this.state.title} ${newUsers.id} ${this.state.department}`
-    );
+    const { id, newUsers } = this.props.location.data;
+    const { title, department } = this.state;
 
     axios
       .put("https://lms-backend-new.herokuapp.com/api/teachers/" + id, {
         userID: newUsers.id,
-        title: this.state.title,
-        department: this.state.department
-        //email: email,
-        //firstname: firstname,
-        //lastname: lastname,
-        //gender: gender,
-        //birthday: birthday
+        title: title,
+        department: department    
       })
-      .then(response => {
+      .then(()=> {
         alert("Success");
         this.props.history.push("/teacher");
       })
@@ -148,8 +125,7 @@ class EditTeacher extends Component {
                 <TextField
                   label="Email"
                   fullWidth
-                  defaultValue={data.newUsers.email}
-                  onChange={this.handleEmailChange}
+                  defaultValue={data.newUsers.email}                 
                   disabled
                 />
               </Grid>
