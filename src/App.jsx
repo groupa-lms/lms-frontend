@@ -8,6 +8,8 @@ import Account from "./pages/Account/Account";
 import Messages from "./pages/Messages/Messages";
 import Forum from "./pages/Forum/Forum";
 import Teacher from "./pages/Teacher/Teacher";
+import Student from "./pages/Student/Student";
+import AddStudent from "./pages/Student/AddStudent";
 import TakeCourse from "./pages/Course/TakeCourse";
 import TakeQuiz from "./pages/Course/TakeQuiz";
 import AuthService from "./pages/LoginForm/AuthService";
@@ -97,6 +99,16 @@ class App extends Component {
                 isLogin={isLogin}
                 path="/teacher"
                 component={Teacher}
+              />
+              <PrivateRoute
+                isLogin={isLogin}
+                path="/admin/student/list"
+                component={Student}
+              />
+               <PrivateRoute
+                isLogin={isLogin}
+                path="/admin/student/add"
+                component={AddStudent}
               />
               <PrivateRoute isLogin={isLogin} path="/forum" component={Forum} />
               <PrivateRoute
