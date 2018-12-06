@@ -121,26 +121,17 @@ class Teacher extends Component {
 
   handleDelte = () => {
     axios
-      .delete
-      // "https://lms-backend-new.herokuapp.com/api/teachers/" +
-      //   this.state.currId
-      ()
-      .then(response => {
-        // handle success
-        //alert("Delete successfully.");
+      .delete( 
+        "https://lms-backend-new.herokuapp.com/api/teachers/" + this.state.currId 
+      )
+      .then(() => {
         this.setState({ modal: false });
-        this.forceUpdate();
-        console.log(response);
+        this.componentDidMount();
       })
       .catch(error => {
-        // handle error
         this.setState({ modal: false });
-        this.forceUpdate();
-        console.log(error);
-      })
-      .then(function() {
-        // always executed
-      });
+        alert(error);
+      })     
   };
 
   handleModalOpen = id => {
@@ -231,7 +222,10 @@ class Teacher extends Component {
                             className={classes.button}
                             aria-label="Edit"
                             onClick={() =>
-                              this.props.history.push("/teacher-edit")
+                              this.props.history.push({
+                                pathname:"/teacher-edit",
+                                data: n
+                              })
                             }
                           >
                             <EditIcon />

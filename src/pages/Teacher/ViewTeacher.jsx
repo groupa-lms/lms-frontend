@@ -75,6 +75,17 @@ class ViewTeacher extends Component {
             <Grid container alignItems="flex-end" justify="center">
               <Grid item xs={3}>
                 <TextField
+                  label="Department"
+                  className={classes.textField}
+                  fullWidth
+                  disabled
+                  value={data.department}
+                />
+              </Grid>
+            </Grid>
+            <Grid container alignItems="flex-end" justify="center">
+              <Grid item xs={3}>
+                <TextField
                   label="First Name"
                   fullWidth
                   disabled
