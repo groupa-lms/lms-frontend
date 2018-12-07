@@ -18,12 +18,12 @@ class FormInput extends Component {
   }
 
   render() {
-    const { name, onChange, errorMessage, formDirty, ...props } = this.props;
+    const { name, onChange, errorMessage, formDirty, children, ...props } = this.props;
     const { dirty } = this.state;
     const showErrorMessage = errorMessage && (dirty || formDirty);
     return (
       <React.Fragment>
-        <InputLabel htmlFor={name}>{name}</InputLabel>
+        <InputLabel htmlFor={name}>{children}</InputLabel>
         <Input 
           onChange={({ target: { value } }) => {
             this.setDirty(true);

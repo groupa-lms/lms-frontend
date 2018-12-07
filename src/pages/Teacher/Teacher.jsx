@@ -16,7 +16,9 @@ import IconButton from "@material-ui/core/IconButton";
 import DescriptionIcon from "@material-ui/icons/Description";
 import TeacherToolbar from "./TeacherToolbar";
 import { withRouter } from "react-router";
-
+import Modal from "@material-ui/core/Modal";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 const styles = theme => ({
   root: {
     width: "100%",
@@ -27,6 +29,20 @@ const styles = theme => ({
   },
   tableWrapper: {
     overflowX: "auto"
+  },
+  modal: {
+    position: "absolute",
+    width: theme.spacing.unit * 50,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)"
+  },
+  modalButton: {
+    marginTop: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2
   }
 });
 
@@ -57,16 +73,19 @@ function getSorting(order, orderBy) {
 }
 
 class Teacher extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       teachers: [],
       order: "asc",
       orderBy: "fistname",
       data: [],
       page: 0,
-      rowsPerPage: 5
+      rowsPerPage: 5,
+      modal: false,
+      currId: ""
     };
+    this.handleDelte = this.handleDelte.bind(this);
   }
 
   componentDidMount() {
@@ -75,7 +94,7 @@ class Teacher extends Component {
         "https://lms-backend-new.herokuapp.com/api/Teachers?filter=%7B%20%22include%22%3A%20%5B%20%22newUsers%22%5D%7D"
       )
       .then(response => {
-        //console.log(response);
+        console.log(response);
         this.setState({ data: response.data });
       })
       .catch(function(error) {
@@ -100,6 +119,29 @@ class Teacher extends Component {
     this.setState({ order, orderBy });
   };
 
+  handleDelte = () => {
+    axios
+      .delete( 
+        "https://lms-backend-new.herokuapp.com/api/teachers/" + this.state.currId 
+      )
+      .then(() => {
+        this.setState({ modal: false });
+        this.componentDidMount();
+      })
+      .catch(error => {
+        this.setState({ modal: false });
+        alert(error);
+      })     
+  };
+
+  handleModalOpen = id => {
+    this.setState({ modal: true, currId: id });
+  };
+
+  handleModalClose = () => {
+    this.setState({ modal: false });
+  };
+
   render() {
     const { classes } = this.props;
     const { data, order, orderBy, rowsPerPage, page } = this.state;
@@ -108,6 +150,37 @@ class Teacher extends Component {
 
     return (
       <Template title="Teacher">
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.modal}
+          onClose={this.handleClose}
+        >
+          <div className={classes.modal}>
+            <Typography variant="h6" id="modal-title">
+              Delete
+            </Typography>
+            <Typography variant="subtitle1" id="simple-modal-description">
+              Are you sure delete this record?
+            </Typography>
+            <Button
+              className={classes.modalButton}
+              variant="contained"
+              color="primary"
+              onClick={this.handleDelte}
+            >
+              Confirm
+            </Button>
+            <Button
+              className={classes.modalButton}
+              variant="contained"
+              color="secondary"
+              onClick={this.handleModalClose}
+            >
+              Cancel
+            </Button>
+          </div>
+        </Modal>
         <Paper className={classes.root}>
           <TeacherToolbar />
           <div className={classes.tableWrapper}>
@@ -123,12 +196,7 @@ class Teacher extends Component {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map(n => {
                     return (
-                      <TableRow
-                        hover
-                        // onClick={event => this.handleClick(event, n.id)}
-                        tabIndex={-1}
-                        key={n.id}
-                      >
+                      <TableRow hover tabIndex={-1} key={n.id}>
                         <TableCell>{n.title}</TableCell>
                         <TableCell component="th" scope="row">
                           {n.newUsers.FirstName}
@@ -154,7 +222,10 @@ class Teacher extends Component {
                             className={classes.button}
                             aria-label="Edit"
                             onClick={() =>
-                              this.props.history.push("/teacher-edit")
+                              this.props.history.push({
+                                pathname:"/teacher-edit",
+                                data: n
+                              })
                             }
                           >
                             <EditIcon />
@@ -162,6 +233,7 @@ class Teacher extends Component {
                           <IconButton
                             className={classes.button}
                             aria-label="Delete"
+                            onClick={() => this.handleModalOpen(n.id)}
                           >
                             <DeleteIcon />
                           </IconButton>

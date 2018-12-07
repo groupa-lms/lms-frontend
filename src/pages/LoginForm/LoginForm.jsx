@@ -83,20 +83,20 @@ class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      email: "",
       password: "",
       formDirty: false,
       loginSuccess: false
     };
     this.Auth = new AuthService();
-    this.handleUserName = this.handleUserName.bind(this);
+    this.handleEmail = this.handleEmail.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
     this.setFormDirty = this.setFormDirty.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  handleUserName(value) {
+  handleEmail(value) {
     this.setState({
-      username: value
+      email: value
     });
   }
   handlePassword(value) {
@@ -111,13 +111,13 @@ class LoginForm extends React.Component {
   }
   handleSubmit(ev, setLogin) {
     ev.preventDefault();
-    const { username, password } = this.state;
+    const { email, password } = this.state;
     this.setFormDirty(true);
-    if (!username || !password) {
+    if (!email || !password) {
       return;
     }
 
-    this.Auth.login(username, password).then(() => {
+    this.Auth.login(email, password).then(() => {
       if (this.Auth.loggedIn()) {
         setLogin(true);
       }
@@ -126,7 +126,7 @@ class LoginForm extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { username, password, formDirty } = this.state;
+    const { email, password, formDirty } = this.state;
     
     return (
       <LoginContext.Consumer>
@@ -150,15 +150,17 @@ class LoginForm extends React.Component {
                 >
                   <FormControl margin="normal" required fullWidth>
                     <FormInput
-                      value={username}
-                      onChange={this.handleUserName}
+                      value={email}
+                      onChange={this.handleEmail}
                       formDirty={formDirty}
-                      errorMessage={!username && "Username is required"}
-                      id="username"
-                      name="Username"
-                      autoComplete="username"
+                      errorMessage={!email && "email is required"}
+                      id="email"
+                      name="email"
+                      autoComplete="email"
                       autoFocus
-                    />
+                    >
+                    Email address
+                    </FormInput>
                   </FormControl>
                   <FormControl margin="normal" required fullWidth>
                     <FormInput
@@ -170,7 +172,9 @@ class LoginForm extends React.Component {
                       type="password"
                       id="password"
                       autoComplete="current-password"
-                    />
+                    >
+                    Password
+                    </FormInput>
                   </FormControl>
                   <div className={classes.wrap}>
                     <FormControlLabel

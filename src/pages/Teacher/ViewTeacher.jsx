@@ -8,7 +8,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import Button from "@material-ui/core/Button";
-import { withRouter } from "react-router"
+import { withRouter } from "react-router";
 
 const styles = theme => ({
   root: {
@@ -44,7 +44,7 @@ class ViewTeacher extends Component {
       classes,
       location: { data }
     } = this.props;
-    if(!data){
+    if (!data) {
       this.props.history.push("/");
     }
     return (
@@ -58,6 +58,28 @@ class ViewTeacher extends Component {
                   fullWidth
                   value={data.newUsers.email}
                   disabled
+                />
+              </Grid>
+            </Grid>
+            <Grid container alignItems="flex-end" justify="center">
+              <Grid item xs={3}>
+                <TextField
+                  label="Title"
+                  className={classes.textField}
+                  fullWidth
+                  disabled
+                  value={data.title}
+                />
+              </Grid>
+            </Grid>
+            <Grid container alignItems="flex-end" justify="center">
+              <Grid item xs={3}>
+                <TextField
+                  label="Department"
+                  className={classes.textField}
+                  fullWidth
+                  disabled
+                  value={data.department}
                 />
               </Grid>
             </Grid>
@@ -116,8 +138,8 @@ class ViewTeacher extends Component {
               <Grid item xs={3}>
                 <TextField
                   id="date"
-                  label="Birthday"                  
-                  className={classes.textField}              
+                  label="Birthday"
+                  className={classes.textField}
                   fullWidth
                   disabled
                   value={data.newUsers.DOB}
