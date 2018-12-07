@@ -238,10 +238,10 @@ class Student extends React.Component {
                               className={classes.button}
                               disabled={row.disabled}
                               onClick={ ()=>{
-                                history.push(`/admin/student/view/${row.id}`);
+                                history.push(`/admin/student/view/${row.studentId}`);
                               } }
                             >
-                            <NavLink to={`/admin/student/view/${row.id}`}>
+                            <NavLink to={`/admin/student/view/${row.studentId}`}>
                                 Detail
                             </NavLink>
                               <ViewIcon className={

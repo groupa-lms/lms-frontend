@@ -130,6 +130,7 @@ class AddStudent extends React.Component {
   }
 
   handleSubmit = () => {
+    event.preventDefault();//prevent automatical submit and let historty.go could work with "id"
     const newUser = {
       //studentId: this.state.studentId,
       FirstName: this.state.firstName,
@@ -169,13 +170,13 @@ class AddStudent extends React.Component {
           userID: id,
           disabled: this.state.disabled
         }
-        addStudent(newStudent);
-        //return Promise.resolve(data);
+        let data = addStudent(newStudent);
+        return data;
       })
-      .then(() => {
+      .then((data) => {
         this.setState({ loading: false });
-        //console.log(data)
-        //this.props.history.push(`/admin/student/view/${data.id}`);
+        //console.log(data);
+        this.props.history.push(`/admin/student/view/${data.id}`);
       })
       .catch(function(error) {
         console.log(error);
@@ -183,7 +184,7 @@ class AddStudent extends React.Component {
       //.catch(({ response: { data: { error: { message, details } } } }) => console.log(message));
       //.catch(({ response: { data: { error } } }) => console.log(error));
     //Make a network call somewhere
-    //event.preventDefault();
+    
   }
 
   render() {
