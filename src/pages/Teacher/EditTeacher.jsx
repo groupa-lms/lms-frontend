@@ -95,9 +95,9 @@ class EditTeacher extends Component {
       .put("https://lms-backend-new.herokuapp.com/api/teachers/" + id, {
         userID: newUsers.id,
         title: title,
-        department: department    
+        department: department
       })
-      .then(()=> {
+      .then(() => {
         alert("Success");
         this.props.history.push("/teacher");
       })
@@ -125,7 +125,7 @@ class EditTeacher extends Component {
                 <TextField
                   label="Email"
                   fullWidth
-                  defaultValue={data.newUsers.email}                 
+                  defaultValue={data.newUsers.email}
                   disabled
                 />
               </Grid>

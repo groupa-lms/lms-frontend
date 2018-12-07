@@ -19,6 +19,9 @@ import { withRouter } from "react-router";
 import Modal from "@material-ui/core/Modal";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+
 const styles = theme => ({
   root: {
     width: "100%",
@@ -43,6 +46,11 @@ const styles = theme => ({
   modalButton: {
     marginTop: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2
+  },
+  fab: {
+    position: "absolute",
+    bottom: theme.spacing.unit * 5,
+    right: theme.spacing.unit * 5
   }
 });
 
@@ -81,7 +89,7 @@ class Teacher extends Component {
       orderBy: "fistname",
       data: [],
       page: 0,
-      rowsPerPage: 5,
+      rowsPerPage: 10,
       modal: false,
       currId: ""
     };
@@ -121,8 +129,9 @@ class Teacher extends Component {
 
   handleDelte = () => {
     axios
-      .delete( 
-        "https://lms-backend-new.herokuapp.com/api/teachers/" + this.state.currId 
+      .delete(
+        "https://lms-backend-new.herokuapp.com/api/teachers/" +
+          this.state.currId
       )
       .then(() => {
         this.setState({ modal: false });
@@ -131,7 +140,7 @@ class Teacher extends Component {
       .catch(error => {
         this.setState({ modal: false });
         alert(error);
-      })     
+      });
   };
 
   handleModalOpen = id => {
@@ -181,6 +190,14 @@ class Teacher extends Component {
             </Button>
           </div>
         </Modal>
+        <Fab
+          color="secondary"
+          className={classes.fab}
+          aria-label="Add"
+          onClick={() => this.props.history.push("/teacher-create")}
+        >
+          <AddIcon />
+        </Fab>
         <Paper className={classes.root}>
           <TeacherToolbar />
           <div className={classes.tableWrapper}>
@@ -223,7 +240,7 @@ class Teacher extends Component {
                             aria-label="Edit"
                             onClick={() =>
                               this.props.history.push({
-                                pathname:"/teacher-edit",
+                                pathname: "/teacher-edit",
                                 data: n
                               })
                             }
