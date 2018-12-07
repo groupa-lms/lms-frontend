@@ -168,7 +168,7 @@ class LoginForm extends React.Component {
                       onChange={this.handlePassword}
                       formDirty={formDirty}
                       errorMessage={!password && "Password is required"}
-                      name="password"
+                      name="Password"
                       type="password"
                       id="password"
                       autoComplete="current-password"
