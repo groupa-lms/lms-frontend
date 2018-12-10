@@ -11,6 +11,7 @@ import Teacher from "./pages/Teacher/Teacher";
 import Student from "./pages/Student/Student";
 import AddStudent from "./pages/Student/AddStudent";
 import ViewStudent from "./pages/Student/ViewStudent";
+import EditStudent from "./pages/Student/EditStudent";
 import TakeCourse from "./pages/Course/TakeCourse";
 import TakeQuiz from "./pages/Course/TakeQuiz";
 import AuthService from "./pages/LoginForm/AuthService";
@@ -115,6 +116,11 @@ class App extends Component {
                 isLogin={isLogin}
                 path="/admin/student/view/:id"
                 component={ViewStudent}
+              />
+              <PrivateRoute
+                isLogin={isLogin}
+                path="/admin/student/edit/:id"
+                component={EditStudent}
               />
               <PrivateRoute isLogin={isLogin} path="/forum" component={Forum} />
               <PrivateRoute

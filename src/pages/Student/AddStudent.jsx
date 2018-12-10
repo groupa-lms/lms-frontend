@@ -148,21 +148,6 @@ class AddStudent extends React.Component {
       // major: this.state.major,
       // age: this.state.age,
     }
-    /**
-     * {
-  "FirstName": "James",
-  "LastName": "Hadon",
-  "DOB": "2018-12-05T22:58:50.144Z",
-  "DateOfJoin": "2018-12-05T22:58:50.144Z",
-  "UserRole": "student",
-  "Gender": "male",
-  "realm": "string",
-  "username": "james2018",
-  "password":"james2018",
-  "email": "test@gmail.com",
-  "emailVerified": true
-}
-     */
     this.setState({ loading: true });
     addNewUser(newUser)
       .then(({ data: { id } }) => {
@@ -175,15 +160,12 @@ class AddStudent extends React.Component {
       })
       .then((data) => {
         this.setState({ loading: false });
-        //console.log(data);
         this.props.history.push(`/admin/student/view/${data.id}`);
       })
       .catch(function(error) {
         console.log(error);
       });
       //.catch(({ response: { data: { error: { message, details } } } }) => console.log(message));
-      //.catch(({ response: { data: { error } } }) => console.log(error));
-    //Make a network call somewhere
     
   }
 
@@ -294,16 +276,6 @@ class AddStudent extends React.Component {
             />
             {/* <TextField
               id="standard-with-placeholder"
-              label="Student Name"
-              placeholder="Student Name"
-              required
-              className={classes.textField}
-              margin="normal"
-              value={this.state.name}
-              onChange={this.handleName}
-            /> */}
-            {/* <TextField
-              id="standard-with-placeholder"
               label="Student Grade"
               placeholder="Student Grade"
               required
@@ -321,16 +293,6 @@ class AddStudent extends React.Component {
               margin="normal"
               value={this.state.major}
               onChange={this.handleMajor}
-            /> */}
-            {/* <TextField
-              id="standard-with-placeholder"
-              label="Student Age"
-              placeholder="Student Age"
-              required
-              className={classes.textField}
-              margin="normal"
-              value={this.state.age}
-              onChange={this.handleAge}
             /> */}
             <TextField
               id="standard-with-placeholder"
@@ -361,13 +323,6 @@ class AddStudent extends React.Component {
               className={classes.button}
               onClick={
                 () => {
-                  // if (studentId.length === 0 ||
-                  //   name.length === 0 ||
-                  //   grade.length === 0 ||
-                  //   major.length === 0 ||
-                  //   age.length === 0 ||
-                  //   gender.length === 0
-
                   if (firstName.length === 0 ||
                     lastName.length === 0 ||
                     DOB.length === 0 ||
@@ -390,8 +345,7 @@ class AddStudent extends React.Component {
                 }
               }
             >
-
-              <FillBlankDialog
+            <FillBlankDialog
                 dialogFillBlankOpen={dialogFillBlankOpen}
               />
               <ConfirmDialog
