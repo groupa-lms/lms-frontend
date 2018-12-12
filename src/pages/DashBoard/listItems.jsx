@@ -103,6 +103,12 @@ class MainListItems extends React.Component {
               </ListItemIcon>
               <ListItemText primary="Student" />
             </ListItem>
+            <ListItem button component={Link} to="/admin/course/list">
+              <ListItemIcon>
+                <TeacherIcon />
+              </ListItemIcon>
+              <ListItemText primary="Course" />
+            </ListItem>
             <ListItem button component={Link} to="/forum">
               <ListItemIcon>
                 <ForumIcon />

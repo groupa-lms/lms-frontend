@@ -9,10 +9,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import getStudent from "./apis/getStudent";
+import getCourse from "./apis/getCourse";
 import { NavLink } from "react-router-dom";
 import { withRouter } from "react-router";
 import Template from "../Template/Template";
+import getTeacher from "../Teacher/apis/getTeacher";
 
 const styles = theme => ({
   root: {
@@ -28,12 +29,11 @@ const styles = theme => ({
   },
 });
 
-
 function createData(item, value) {
   return { item, value };
 }
 
-class ViewStudent extends React.Component {
+class ViewCourse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,24 +42,29 @@ class ViewStudent extends React.Component {
   }
 
   componentDidMount = () => {
-    getStudent(this.props.match.params.id)
+    let courseRows = [];
+    let courseData = {};
+    getCourse(this.props.match.params.id)
       .then((response) => {
-        let studentData = response.data;
-        let studentRows = [];
-        studentRows.push(createData("Student ID",studentData.id));
-        studentRows.push(createData("Student Name",studentData.newUsers.FirstName+" "+studentData.newUsers.LastName));
-        studentRows.push(createData("Date of Birth",studentData.newUsers.DOB));
-        studentRows.push(createData("Date of Join",studentData.newUsers.DateOfJoin));
-        studentRows.push(createData('Student Gender', studentData.newUsers.Gender));
-        
+        courseData = response.data;
+        return getTeacher(response.data.teachers.id);
+      })
+      .then((data)=>{
+        courseRows.push(createData("Course ID",courseData.id));
+        courseRows.push(createData("Course Code",courseData.code));
+        courseRows.push(createData("Course Name",courseData.name));
+        courseRows.push(createData("Teacher", data.newUsers.FirstName+" "+data.newUsers.LastName));
+        courseRows.push(createData("Faculty",courseData.faculty));
+        courseRows.push(createData('Start Date', courseData.start_date));
+        courseRows.push(createData('End Date', courseData.end_date));
+        courseRows.push(createData("Description",courseData.description));
         this.setState({
-          rows: [...studentRows],
+          rows: [...courseRows],
         });
       })
       .catch(function (error) {
         console.log(error);
       });
-
   }
 
   render() {
@@ -70,14 +75,14 @@ class ViewStudent extends React.Component {
       <Template title="Student Management">
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
-          Student Details
+          Course Details
         </Typography>
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
                 <TableCell>Item</TableCell>
-                <TableCell>Student Information</TableCell>
+                <TableCell>Course Information</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -100,10 +105,10 @@ class ViewStudent extends React.Component {
           color="primary"
           className={classes.button}
           onClick={ ()=>{
-            history.push(`/admin/student/edit/${this.props.match.params.id}`);
+            history.push(`/admin/course/edit/${this.props.match.params.id}`);
           } }
         >
-          <NavLink to={`/admin/student/edit/${this.props.match.params.id}`}>
+          <NavLink to={`/admin/course/edit/${this.props.match.params.id}`}>
             Edit
           </NavLink>
         </Button>
@@ -113,10 +118,10 @@ class ViewStudent extends React.Component {
           color="primary"
           className={classes.button}
           onClick={ ()=>{
-            history.push("/admin/student/list");
+            history.push("/admin/course/list");
           } }
         >
-          <NavLink to={"/admin/student/list"}>
+          <NavLink to={"/admin/course/list"}>
             Go Back
             </NavLink>
         </Button>
@@ -124,12 +129,11 @@ class ViewStudent extends React.Component {
       </Template>
     );
   }
-
 }
 
-ViewStudent.propTypes = {
+ViewCourse.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withRouter(withStyles(styles)(ViewStudent));
+export default withRouter(withStyles(styles)(ViewCourse));
 
