@@ -184,7 +184,7 @@ class Course extends React.Component {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
-      <Template title="Student Management">
+      <Template title="Course Management">
         <React.Fragment>
           <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
             Course List
@@ -254,10 +254,10 @@ class Course extends React.Component {
                                 className={classes.button}
                                 disabled={row.disabled}
                                 onClick={() => {
-                                  history.push(`/admin/student/edit/${row.studentId}`);
+                                  history.push(`/admin/course/edit/${row.courseId}`);
                                 }}
                               >
-                                <NavLink to={`/admin/student/edit/${row.studentId}`}>
+                                <NavLink to={`/admin/course/edit/${row.courseId}`}>
                                   Edit
                             </NavLink>
                                 <EditIcon className={
@@ -273,14 +273,6 @@ class Course extends React.Component {
                                     dialogConfirmOpen: !dialogConfirmOpen,
                                     disabledId: row.courseId,
                                   });
-                                  // const changeData = { disabled: true };
-                                  // editStudent(row.studentId, changeData)
-                                  //   .then(res => {
-                                  //     console.log('res=>', res);
-                                  //     window.location.reload();
-                                  //     return;
-                                  //   })
-                                  //   .catch(({ response: { data: { error } } }) => console.log(error));
 
                                 }}
                                 disabled={row.disabled}
@@ -322,7 +314,7 @@ class Course extends React.Component {
                         }}
                         className={classes.button}
                         onClick={() => {
-                          history.push(`/admin/student/add`);
+                          history.push(`/admin/course/add`);
                         }}
                       >
                         <AddIcon
@@ -330,8 +322,8 @@ class Course extends React.Component {
                             classNames(
                               classes.leftIcon,
                               classes.iconSmall)} />
-                        <NavLink to={`/admin/student/add`}>
-                          Create a New Student
+                        <NavLink to={`/admin/course/add`}>
+                          Create a New Course
                       </NavLink>
                       </Button>
                     </TableRow>

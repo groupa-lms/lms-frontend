@@ -1,20 +1,19 @@
 import React from 'react';
-import FillBlankDialog from "./Dialog/FillBlankDialog";
-import AlertDialog from "./Dialog/AlertDialog";
-import ConfirmDialog from "./Dialog/ConfirmDialog";
 import PropTypes from 'prop-types';
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import getTeacher from "../Teacher/apis/getTeacher";
+import addCourse from "./apis/addCourse";
 import getTeacherList from "../Teacher/apis/getTeacherList";
-import getCourse from "./apis/getCourse";
-import editCourse from "./apis/editCourse";
+import AlertDialog from "./Dialog/AlertDialog";
+import ConfirmDialog from "./Dialog/ConfirmDialog";
+import FillBlankDialog from "./Dialog/FillBlankDialog";
 import { withRouter } from "react-router";
 import Template from "../Template/Template";
 import MenuItem from '@material-ui/core/MenuItem';
 import * as moment from 'moment';
+
 
 const styles = theme => ({
   container: {
@@ -39,7 +38,7 @@ const styles = theme => ({
   },
 });
 
-class EditCourse extends React.Component {
+class AddCourse extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -51,8 +50,7 @@ class EditCourse extends React.Component {
       description: '',
       startDate: '',
       endDate: '',
-      teacherNameList: [],
-      current_date: '',
+      teacherNameList:[],
       dialogCancelOpen: false,
       dialogConfirmOpen: false,
       dialogFillBlankOpen: false,
@@ -60,36 +58,17 @@ class EditCourse extends React.Component {
     };
 
     this.handleCode = this.handleCode.bind(this);
-    this.handleName = this.handleName.bind(this);
+    this.handName = this.handleName.bind(this);
     this.handleTeacher = this.handleTeacher.bind(this);
     this.handleFaculty = this.handleFaculty.bind(this);
     this.handleDescription = this.handleDescription.bind(this);
     this.handleStartDate = this.handleStartDate.bind(this);
     this.handleEndDate = this.handleEndDate.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillMount() {
-    getCourse(this.props.match.params.id)
-      .then((response) => {
-        let courseData = response.data;
-        this.setState({
-          code: courseData.code,
-          name: courseData.name,
-          lastName: courseData.LastName,
-          faculty: courseData.faculty,
-          description: courseData.description,
-          startDate: moment(courseData.start_date).format('YYYY-MM-DD'),
-          endDate: moment(courseData.end_date).format('YYYY-MM-DD'),
-        });
-        return getTeacher(response.data.teachers.id);
-      })
-      .then((data) => {
-        this.setState({
-          teacher: data.newUsers.FirstName + " " + data.newUsers.LastName,
-        });
-        return getTeacherList();
-      })
-      .then((response)=>{
+      getTeacherList().then((response)=>{
         let teacherList = response;
         let teacherNameList = [];
         teacherList.map((item)=>{
@@ -101,7 +80,6 @@ class EditCourse extends React.Component {
         this.setState({
           teacherNameList: [...teacherNameList],
         });
-
       })
       .catch(function (error) {
         console.log(error);
@@ -112,6 +90,7 @@ class EditCourse extends React.Component {
   componentDidMount() {
     const today = new Date().getDate;
     this.setState({ current_date: today });
+
   }
 
   handleCode = (event) => {
@@ -144,38 +123,31 @@ class EditCourse extends React.Component {
 
   handleSubmit = () => {
     event.preventDefault();//prevent automatical submit and let historty.go could work with "id"
+    this.setState({
+      loading: true,
+    });
+    let teacherNameList = this.state.teacherNameList;
+    teacherNameList=teacherNameList.filter(item => {
+      return item.name === this.state.teacher;
+    });
     const newCourse = {
       code: this.state.code,
       name: this.state.name,
+      teacherId: teacherNameList[0].id,
       faculty: this.state.faculty,
       description: this.state.description,
-      start_date: moment(this.state.start_date).format('YYYY-MM-DD'),
-      end_date: moment(this.state.end_date).format('YYYY-MM-DD')
+      start_date: moment(this.state.startDate).format('YYYY-MM-DD'),
+      end_date: moment(this.state.endDate).format('YYYY-MM-DD'),
+      disabled: false
     }
-    editCourse(this.props.match.params.id, newCourse)
-    .then(({data})=>{
-      return getTeacher(data.teacherId);
-    })
-    .then((data)=>{
-      let teacherName = data.newUsers.FirstName + " " + data.newUsers.LastName;
-      console.log(teacherName+" "+this.state.teahcer)
-      let teacherNameList = this.state.teacherNameList;
-      teacherNameList=teacherNameList.filter(item => {
-        return item.name === this.state.teacher;
+    addCourse(newCourse)
+      .then(({data})=>{
+        this.props.history.push(`/admin/course/view/${data.id}`);
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-      const changeId = {
-        teacherId: teacherNameList[0].id,
-      }
-      editCourse(this.props.match.params.id, changeId)
-      .then(
-        ()=>{
-          this.props.history.push(`/admin/course/view/${this.props.match.params.id}`);
-        }
-      )
-    })
-    .catch(function (error) {
-      console.log(error);
-    });     
+    //.catch(({ response: { data: { error: { message, details } } } }) => console.log(message));
   }
 
   render() {
@@ -194,13 +166,12 @@ class EditCourse extends React.Component {
       dialogFillBlankOpen,
       flag,
     } = this.state;
-
     return (
-      <Template title="Course Management">
+      <Template title="Student Management">
         <React.Fragment>
           <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
-            Edit Course {code}
-          </Typography>
+            Create Course
+      </Typography>
           <form className={classes.container}
             validate="true"
             autoComplete="off"
@@ -288,6 +259,7 @@ class EditCourse extends React.Component {
               onChange={this.handleDescription}
             />
             <Button
+              //type="submit"
               style={{ marginTop: 40 }}
               variant="contained"
               color={this.state.loading ? "secondary" : "primary"}
@@ -326,8 +298,8 @@ class EditCourse extends React.Component {
                 flag={flag}
                 handleSubmit={this.handleSubmit}
               />
-              Edit
-          </Button>
+              {this.state.loading ? 'Creating...' : 'Add'}
+            </Button>
             <Button
               style={{ marginTop: 40 }}
               variant="contained"
@@ -344,7 +316,7 @@ class EditCourse extends React.Component {
               }
             >
               <AlertDialog dialogCancelOpen={dialogCancelOpen} flag={flag} />
-              Cancel
+              cancel
           </Button>
           </form>
         </React.Fragment>
@@ -353,8 +325,8 @@ class EditCourse extends React.Component {
   }
 }
 
-EditCourse.propTypes = {
+AddCourse.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withRouter(withStyles(styles)(EditCourse));
+export default withRouter(withStyles(styles)(AddCourse));

@@ -72,7 +72,7 @@ class ViewCourse extends React.Component {
     const { rows } = this.state;
 
     return (
-      <Template title="Student Management">
+      <Template title="Course Management">
       <React.Fragment>
         <Typography component="h4" variant="h4" style={{ marginTop: 64 }}>
           Course Details
