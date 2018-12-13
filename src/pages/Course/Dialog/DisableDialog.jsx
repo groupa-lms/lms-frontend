@@ -58,7 +58,7 @@ class DisableDialog extends React.Component {
           <DialogTitle id="alert-dialog-title">Confirm?</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Confirm to disable the information?
+              Confirm to disable the course?
             </DialogContentText>
           </DialogContent>
           <DialogActions>

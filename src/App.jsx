@@ -13,6 +13,7 @@ import ViewStudent from "./pages/Student/ViewStudent";
 import EditStudent from "./pages/Student/EditStudent";
 import Course from "./pages/Course/Course";
 import ViewCourse from "./pages/Course/ViewCourse";
+import AddCourse from "./pages/Course/AddCourse";
 import EditCourse from "./pages/Course/EditCourse";
 import TakeCourse from "./pages/Course/TakeCourse";
 import TakeQuiz from "./pages/Course/TakeQuiz";
@@ -138,6 +139,11 @@ class App extends Component {
                 isLogin={isLogin}
                 path="/admin/course/edit/:id"
                 component={EditCourse}
+              />
+              <PrivateRoute
+                isLogin={isLogin}
+                path="/admin/course/add"
+                component={AddCourse}
               />
               <PrivateRoute isLogin={isLogin} path="/forum" component={Forum} />
               <PrivateRoute
