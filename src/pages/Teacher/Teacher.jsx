@@ -50,7 +50,7 @@ const styles = theme => ({
   fab: {
     position: "absolute",
     bottom: theme.spacing.unit * 5,
-    right: theme.spacing.unit * 5
+    right: theme.spacing.unit * 7
   }
 });
 
@@ -190,14 +190,14 @@ class Teacher extends Component {
             </Button>
           </div>
         </Modal>
-        <Fab
+        {/* <Fab
           color="secondary"
           className={classes.fab}
           aria-label="Add"
-          onClick={() => this.props.history.push("/teacher-create")}
+          onClick={() => this.props.history.push("/teacher/create")}
         >
           <AddIcon />
-        </Fab>
+        </Fab> */}
         <Paper className={classes.root}>
           <TeacherToolbar />
           <div className={classes.tableWrapper}>
@@ -228,7 +228,7 @@ class Teacher extends Component {
                             aria-label="View"
                             onClick={() =>
                               this.props.history.push({
-                                pathname: "/teacher-view",
+                                pathname: "/teacher/view/" + n.id,
                                 data: n
                               })
                             }
@@ -240,7 +240,7 @@ class Teacher extends Component {
                             aria-label="Edit"
                             onClick={() =>
                               this.props.history.push({
-                                pathname: "/teacher-edit",
+                                pathname: `/teacher/edit/${n.id}`,
                                 data: n
                               })
                             }

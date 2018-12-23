@@ -1,7 +1,8 @@
 import axios from "axios";
 
-export default (newStudent) => axios
-  .post('http://localhost:3001/api/students', newStudent)
-  .then(({ data })=>{
-       return data;
-  });
+export default newStudent =>
+  axios
+    .post("https://lms-backend-new.herokuapp.com/api/students", newStudent)
+    .then(({ data }) => {
+      return data;
+    });

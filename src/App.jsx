@@ -17,6 +17,7 @@ import AuthService from "./pages/LoginForm/AuthService";
 import Register from "./pages/Register/Register";
 import ViewTeacher from "./pages/Teacher/ViewTeacher";
 import EditTeacher from "./pages/Teacher/EditTeacher";
+import CreateTeacher from "./pages/Teacher/CreateTeacher";
 
 export const LoginContext = React.createContext({
   setLogin: () => {}
@@ -98,20 +99,15 @@ class App extends Component {
               />
               <PrivateRoute
                 isLogin={isLogin}
-                path="/teacher"
-                component={Teacher}
-              />
-              <PrivateRoute
-                isLogin={isLogin}
                 path="/admin/student/list"
                 component={Student}
               />
-               <PrivateRoute
+              <PrivateRoute
                 isLogin={isLogin}
                 path="/admin/student/add"
                 component={AddStudent}
               />
-               <PrivateRoute
+              <PrivateRoute
                 isLogin={isLogin}
                 path="/admin/student/view/:id"
                 component={ViewStudent}
@@ -119,20 +115,23 @@ class App extends Component {
               <PrivateRoute isLogin={isLogin} path="/forum" component={Forum} />
               <PrivateRoute
                 isLogin={isLogin}
-                exact
-                path="/teacher"
+                path="/teacher/list"
                 component={Teacher}
               />
               <PrivateRoute
                 isLogin={isLogin}
-                exact
-                path="/teacher-view"
+                path="/teacher/view/:id"
                 component={ViewTeacher}
               />
               <PrivateRoute
                 isLogin={isLogin}
-                path="/teacher-edit"
+                path="/teacher/edit/:id"
                 component={EditTeacher}
+              />
+              <PrivateRoute
+                isLogin={isLogin}
+                path="/teacher/create"
+                component={CreateTeacher}
               />
               <Route component={ErrorPage} />
             </Switch>
