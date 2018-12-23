@@ -49,6 +49,8 @@ export default class AuthService {
   setToken(idToken) {
     // Saves user token to localStorage
     localStorage.setItem("id_token", idToken);
+    //The prerequisite of admin "update/patch" request
+    axios.defaults.headers.common['Authorization'] = idToken;
   }
 
   getToken() {
@@ -59,6 +61,8 @@ export default class AuthService {
   logout() {
     // Clear user token and profile data from localStorage
     localStorage.removeItem("id_token");
+    axios.defaults.headers.common['Authorization'] = null;
+    delete axios.defaults.headers.common['Authorization'];
   }
 
   // getProfile() {
