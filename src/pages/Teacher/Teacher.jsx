@@ -19,8 +19,6 @@ import { withRouter } from "react-router";
 import Modal from "@material-ui/core/Modal";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-//import Fab from "@material-ui/core/Fab";
-//import AddIcon from "@material-ui/icons/Add";
 
 const styles = theme => ({
   root: {
@@ -89,9 +87,10 @@ class Teacher extends Component {
       orderBy: "fistname",
       data: [],
       page: 0,
-      rowsPerPage: 10,
+      rowsPerPage: 5,
       modal: false,
-      currId: ""
+      currId: "",
+      rowsPerPageOptions: [5, 10, 25, 50, 100]
     };
     this.handleDelte = this.handleDelte.bind(this);
   }
@@ -153,18 +152,12 @@ class Teacher extends Component {
 
   render() {
     const { classes } = this.props;
-    const { data, order, orderBy, rowsPerPage, page } = this.state;
+    const { data, order, orderBy, rowsPerPage, page, rowsPerPageOptions } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
-    return (
-      <Template title="Teacher">
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={this.state.modal}
-          onClose={this.handleClose}
-        >
+    return <Template title="Teacher">
+        <Modal aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description" open={this.state.modal} onClose={this.handleClose}>
           <div className={classes.modal}>
             <Typography variant="h6" id="modal-title">
               Delete
@@ -172,48 +165,24 @@ class Teacher extends Component {
             <Typography variant="subtitle1" id="simple-modal-description">
               Are you sure delete this record?
             </Typography>
-            <Button
-              className={classes.modalButton}
-              variant="contained"
-              color="primary"
-              onClick={this.handleDelte}
-            >
+            <Button className={classes.modalButton} variant="contained" color="primary" onClick={this.handleDelte}>
               Confirm
             </Button>
-            <Button
-              className={classes.modalButton}
-              variant="contained"
-              color="secondary"
-              onClick={this.handleModalClose}
-            >
+            <Button className={classes.modalButton} variant="contained" color="secondary" onClick={this.handleModalClose}>
               Cancel
             </Button>
           </div>
         </Modal>
-        {/* <Fab
-          color="secondary"
-          className={classes.fab}
-          aria-label="Add"
-          onClick={() => this.props.history.push("/teacher/create")}
-        >
-          <AddIcon />
-        </Fab> */}
         <Paper className={classes.root}>
           <TeacherToolbar />
           <div className={classes.tableWrapper}>
             <Table className={classes.table} aria-labelledby="tableTitle">
-              <TeacherTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={this.handleRequestSort}
-                rowCount={data.length}
-              />
+              <TeacherTableHead order={order} orderBy={orderBy} onRequestSort={this.handleRequestSort} rowCount={data.length} />
               <TableBody>
                 {stableSort(data, getSorting(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map(n => {
-                    return (
-                      <TableRow hover tabIndex={-1} key={n.id}>
+                    return <TableRow hover tabIndex={-1} key={n.id}>
                         <TableCell>{n.title}</TableCell>
                         <TableCell component="th" scope="row">
                           {n.newUsers.FirstName}
@@ -223,46 +192,31 @@ class Teacher extends Component {
                         <TableCell>{n.newUsers.email}</TableCell>
                         <TableCell>{n.department}</TableCell>
                         <TableCell>
-                          <IconButton
-                            className={classes.button}
-                            aria-label="View"
-                            onClick={() =>
-                              this.props.history.push({
-                                pathname: "/teacher/view/" + n.id,
-                                data: n
-                              })
-                            }
-                          >
+                          <IconButton className={classes.button} aria-label="View" onClick={() => this.props.history.push(
+                                {
+                                  pathname: "/teacher/view/" + n.id,
+                                  data: n
+                                }
+                              )}>
                             <DescriptionIcon />
                           </IconButton>
-                          <IconButton
-                            className={classes.button}
-                            aria-label="Edit"
-                            onClick={() =>
-                              this.props.history.push({
-                                pathname: `/teacher/edit/${n.id}`,
-                                data: n
-                              })
-                            }
-                          >
+                          <IconButton className={classes.button} aria-label="Edit" onClick={() => this.props.history.push(
+                                {
+                                  pathname: `/teacher/edit/${n.id}`,
+                                  data: n
+                                }
+                              )}>
                             <EditIcon />
                           </IconButton>
-                          <IconButton
-                            className={classes.button}
-                            aria-label="Delete"
-                            onClick={() => this.handleModalOpen(n.id)}
-                          >
+                          <IconButton className={classes.button} aria-label="Delete" onClick={() => this.handleModalOpen(n.id)}>
                             <DeleteIcon />
                           </IconButton>
                         </TableCell>
-                      </TableRow>
-                    );
+                      </TableRow>;
                   })}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: 49 * emptyRows }}>
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
+                {emptyRows > 0 && <TableRow style={{ height: 49 * emptyRows }}>
+                    <TableCell colSpan={7} />
+                  </TableRow>}
               </TableBody>
             </Table>
           </div>
@@ -271,18 +225,14 @@ class Teacher extends Component {
             count={data.length}
             rowsPerPage={rowsPerPage}
             page={page}
-            backIconButtonProps={{
-              "aria-label": "Previous Page"
-            }}
-            nextIconButtonProps={{
-              "aria-label": "Next Page"
-            }}
+            backIconButtonProps={{ "aria-label": "Previous Page" }}
+            nextIconButtonProps={{ "aria-label": "Next Page" }}
             onChangePage={this.handleChangePage}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            rowsPerPageOptions={rowsPerPageOptions}
           />
         </Paper>
-      </Template>
-    );
+      </Template>;
   }
 }
 Teacher.propTypes = {

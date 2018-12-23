@@ -43,10 +43,8 @@ class MainListItems extends React.Component {
 
   render() {
     const { classes } = this.props;
-    return (
-      <LoginContext.Consumer>
-        {({ setLogin }) => (
-          <React.Fragment>
+    return <LoginContext.Consumer>
+        {({ setLogin }) => <React.Fragment>
             <ListItem button component={Link} to="/">
               <ListItemIcon>
                 <DashboardIcon />
@@ -61,36 +59,27 @@ class MainListItems extends React.Component {
             </ListItem>
             <Collapse in={this.state.open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem
-                  button
-                  className={classes.nested}
-                  component={Link}
-                  to="/course"
-                >
+                <ListItem button className={classes.nested} component={Link} to="/course">
                   <ListItemText inset primary="My Course" />
                 </ListItem>
               </List>
               <List component="div" disablePadding>
-                <ListItem
-                  button
-                  className={classes.nested}
-                  component={Link}
-                  to="/takecourse"
-                >
+                <ListItem button className={classes.nested} component={Link} to="/takecourse">
                   <ListItemText inset primary="Take Course" />
                 </ListItem>
               </List>
               <List component="div" disablePadding>
-                <ListItem
-                  button
-                  className={classes.nested}
-                  component={Link}
-                  to="/takequiz"
-                >
+                <ListItem button className={classes.nested} component={Link} to="/takequiz">
                   <ListItemText inset primary="Take Quiz" />
                 </ListItem>
               </List>
             </Collapse>
+            <ListItem button component={Link} to="/user/list">
+              <ListItemIcon>
+                <TeacherIcon />
+              </ListItemIcon>
+              <ListItemText primary="User" />
+            </ListItem>
             <ListItem button component={Link} to="/teacher/list">
               <ListItemIcon>
                 <TeacherIcon />
@@ -105,7 +94,7 @@ class MainListItems extends React.Component {
             </ListItem>
             <ListItem button component={Link} to="/admin/course/list">
               <ListItemIcon>
-                <TeacherIcon />
+                <BookIcon />
               </ListItemIcon>
               <ListItemText primary="Course" />
             </ListItem>
@@ -128,25 +117,17 @@ class MainListItems extends React.Component {
               <ListItemText primary="Messages" />
             </ListItem>
             <Divider />
-            <ListItem
-              button
-              component={Link}
-              to="/login"
-              onClick={() => {
+            <ListItem button component={Link} to="/login" onClick={() => {
                 this.Auth.logout();
                 setLogin(false);
-               
-              }}
-            >
+              }}>
               <ListItemIcon>
                 <ExitToAppIcon />
               </ListItemIcon>
               <ListItemText primary="Logout" />
             </ListItem>
-          </React.Fragment>
-        )}
-      </LoginContext.Consumer>
-    );
+          </React.Fragment>}
+      </LoginContext.Consumer>;
   }
 }
 
