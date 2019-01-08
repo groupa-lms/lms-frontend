@@ -11,6 +11,13 @@ import Student from "./pages/Student/Student";
 import AddStudent from "./pages/Student/AddStudent";
 import ViewStudent from "./pages/Student/ViewStudent";
 import EditStudent from "./pages/Student/EditStudent";
+
+import StudentPortal from "./pages/StudentSystem/StudentPortal";
+import TeacherPortal from "./pages/TeacherSystem/TeacherPortal";
+import AdminPortal from "./pages/AdminSystem/AdminPortal";
+
+
+
 import Course from "./pages/Course/Course";
 import ViewCourse from "./pages/Course/ViewCourse";
 import AddCourse from "./pages/Course/AddCourse";
@@ -30,19 +37,21 @@ class App extends Component {
   constructor() {
     super();
     this.Auth = new AuthService();
-    this.setLogin = val => {
+    this.setLogin = ( val, role ) => {
       this.setState({
-        isLogin: val
+        isLogin: val,
+        role: role,
       });
     };
     this.state = {
+      role: '',
       isLogin: this.Auth.loggedIn(),
       setLogin: this.setLogin
     };
   }
 
   render() {
-    const { isLogin } = this.state;
+    const { isLogin, role } = this.state;
     return (
       <LoginContext.Provider value={this.state}>
         <BrowserRouter>
@@ -63,13 +72,31 @@ class App extends Component {
                 path="/login"
                 render={props => {
                   return isLogin ? (
-                    <Redirect to="/dashboard" />
+                    ((role === "admin")&&<Redirect to="/admin/portal" />)
+                    ||((role === "student")&&<Redirect to="/student/portal" />)
+                    ||((role === "teacher")&&<Redirect to="/teacher/portal" />)
+
                   ) : (
                     <LoginForm {...props} />
                   );
                 }}
               />
               <Route path="/register" component={Register} />
+              <PrivateRoute
+                isLogin={isLogin}
+                path="/admin/portal"
+                component={AdminPortal}
+              />
+              <PrivateRoute
+                isLogin={isLogin}
+                path="/student/portal"
+                component={StudentPortal}
+              />
+              <PrivateRoute
+                isLogin={isLogin}
+                path="/teacher/portal"
+                component={TeacherPortal}
+              />
               <PrivateRoute
                 isLogin={isLogin}
                 path="/course"

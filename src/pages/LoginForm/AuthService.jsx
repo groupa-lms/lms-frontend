@@ -20,6 +20,7 @@ export default class AuthService {
       .then(this._checkStatus)
       .then(response => {        
         this.setToken(response.data.id); // Setting the token in localStorage
+        //console.log(response.data);
         return Promise.resolve(response);
       })
       .catch(({ response: { data: { error } } }) => {
