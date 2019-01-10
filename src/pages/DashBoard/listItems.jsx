@@ -46,12 +46,6 @@ class MainListItems extends React.Component {
       <LoginContext.Consumer>
         {({ setLogin, role }) => (
           <React.Fragment>
-            {/* <ListItem button component={Link} to="/">
-              <ListItemIcon>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItem> */}
             {role==="student"&&
             <ListItem button onClick={this.handleClick}>
               <ListItemIcon>
@@ -129,8 +123,8 @@ class MainListItems extends React.Component {
               </ListItemIcon>
               <ListItemText primary="Logout" />
             </ListItem>
-          </React.Fragment>}
-      </LoginContext.Consumer>;
+        </React.Fragment>)}
+      </LoginContext.Consumer>)
   }
 }
 
