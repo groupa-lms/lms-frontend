@@ -1,4 +1,5 @@
 import axios from "axios";
+import env_path from "../../Env_path";
 
 export default newUser =>
-  axios.post("https://lms-backend-new.herokuapp.com/api/NewUsers", newUser);
+  axios.post(`${env_path}/NewUsers`, newUser);

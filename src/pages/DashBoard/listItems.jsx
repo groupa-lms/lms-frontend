@@ -71,13 +71,6 @@ class MainListItems extends React.Component {
                 </ListItem>
               </List>
             </Collapse>}
-            {role==="teacher"&&
-            <ListItem button component={Link} to="/teacher">
-              <ListItemIcon>
-                <TeacherIcon />
-              </ListItemIcon>
-              <ListItemText primary="Teacher" />
-            </ListItem>}
             {role==="admin"&&
             <ListItem button component={Link} to="/admin/student/list">
               <ListItemIcon>
@@ -91,6 +84,13 @@ class MainListItems extends React.Component {
                 <BookIcon />
               </ListItemIcon>
               <ListItemText primary="Course" />
+            </ListItem>}
+            {role==="admin"&&
+            <ListItem button component={Link} to="/teacher/list">
+              <ListItemIcon>
+                <BookIcon />
+              </ListItemIcon>
+              <ListItemText primary="Teacher" />
             </ListItem>}
             {role==="student"&&
             <ListItem button component={Link} to="/forum">

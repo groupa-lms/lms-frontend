@@ -1,8 +1,9 @@
 import axios from "axios";
+import env_path from "../../Env_path"
 
 export default (accessToken, userId) => axios
   .get(
-    `http://lms-backend-new.herokuapp.com/api/NewUsers/${userId}`, {
+    `${env_path}/NewUsers/${userId}`, {
     params: {
       access_token: accessToken
     }
