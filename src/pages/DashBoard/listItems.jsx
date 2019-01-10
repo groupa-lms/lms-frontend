@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import DashboardIcon from "@material-ui/icons/Dashboard";
 import BookIcon from "@material-ui/icons/Book";
 import ForumIcon from "@material-ui/icons/Forum";
 import TeacherIcon from "@material-ui/icons/Group";
@@ -43,20 +42,24 @@ class MainListItems extends React.Component {
 
   render() {
     const { classes } = this.props;
-    return <LoginContext.Consumer>
-        {({ setLogin }) => <React.Fragment>
-            <ListItem button component={Link} to="/">
+    return (
+      <LoginContext.Consumer>
+        {({ setLogin, role }) => (
+          <React.Fragment>
+            {/* <ListItem button component={Link} to="/">
               <ListItemIcon>
                 <DashboardIcon />
               </ListItemIcon>
               <ListItemText primary="Dashboard" />
-            </ListItem>
+            </ListItem> */}
+            {role==="student"&&
             <ListItem button onClick={this.handleClick}>
               <ListItemIcon>
                 <BookIcon />
               </ListItemIcon>
               <ListItemText primary="Course" />
-            </ListItem>
+            </ListItem>}
+            {role==="student"&&
             <Collapse in={this.state.open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 <ListItem button className={classes.nested} component={Link} to="/course">
@@ -73,49 +76,49 @@ class MainListItems extends React.Component {
                   <ListItemText inset primary="Take Quiz" />
                 </ListItem>
               </List>
-            </Collapse>
-            <ListItem button component={Link} to="/user/list">
-              <ListItemIcon>
-                <TeacherIcon />
-              </ListItemIcon>
-              <ListItemText primary="User" />
-            </ListItem>
-            <ListItem button component={Link} to="/teacher/list">
+            </Collapse>}
+            {role==="teacher"&&
+            <ListItem button component={Link} to="/teacher">
               <ListItemIcon>
                 <TeacherIcon />
               </ListItemIcon>
               <ListItemText primary="Teacher" />
-            </ListItem>
+            </ListItem>}
+            {role==="admin"&&
             <ListItem button component={Link} to="/admin/student/list">
               <ListItemIcon>
                 <TeacherIcon />
               </ListItemIcon>
               <ListItemText primary="Student" />
-            </ListItem>
+            </ListItem>}
+            {role==="admin"&&
             <ListItem button component={Link} to="/admin/course/list">
               <ListItemIcon>
                 <BookIcon />
               </ListItemIcon>
               <ListItemText primary="Course" />
-            </ListItem>
+            </ListItem>}
+            {role==="student"&&
             <ListItem button component={Link} to="/forum">
               <ListItemIcon>
                 <ForumIcon />
               </ListItemIcon>
               <ListItemText primary="Forum" />
-            </ListItem>
+            </ListItem>}
+            {(role==="student"||role==="teacher")&&
             <ListItem button component={Link} to="/account">
               <ListItemIcon>
                 <AccountBoxIcon />
               </ListItemIcon>
               <ListItemText primary="Account" />
-            </ListItem>
+            </ListItem>}
+            {(role==="student"||role==="teacher")&&
             <ListItem button component={Link} to="/messages">
               <ListItemIcon>
                 <MessageIcon />
               </ListItemIcon>
               <ListItemText primary="Messages" />
-            </ListItem>
+            </ListItem>}
             <Divider />
             <ListItem button component={Link} to="/login" onClick={() => {
                 this.Auth.logout();
