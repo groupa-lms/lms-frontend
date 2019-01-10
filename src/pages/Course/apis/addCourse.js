@@ -1,4 +1,5 @@
 import axios from "axios";
+import env_path from "../../Env_path";
 
 export default (newCourse) => axios
-  .post('http://lms-backend-new.herokuapp.com/api/courses', newCourse);
+  .post(`${env_path}/api/courses`, newCourse);

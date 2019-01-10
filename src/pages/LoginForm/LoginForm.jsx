@@ -15,6 +15,7 @@ import Header from "./Header/Header.jsx";
 import FormInput from "./FormInput.jsx";
 import AuthService from "./AuthService";
 import { LoginContext } from "../../App";
+import getNewUser from "./api/getNewUser";
 
 const styles = theme => ({
   layout: {
@@ -117,9 +118,12 @@ class LoginForm extends React.Component {
       return;
     }
 
-    this.Auth.login(email, password).then(() => {
+    this.Auth.login(email, password)
+    .then(({ data: { id, userId } }) => getNewUser(id, userId))
+    .then(({ data }) => {
+      console.log(data.UserRole);
       if (this.Auth.loggedIn()) {
-        setLogin(true);
+        setLogin(true, data.UserRole);
       }
     });
   }
