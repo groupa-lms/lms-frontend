@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import DashboardIcon from "@material-ui/icons/Dashboard";
 import BookIcon from "@material-ui/icons/Book";
 import ForumIcon from "@material-ui/icons/Forum";
 import TeacherIcon from "@material-ui/icons/Group";
