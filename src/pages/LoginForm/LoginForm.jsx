@@ -122,6 +122,7 @@ class LoginForm extends React.Component {
     .then(({ data: { id, userId } }) => getNewUser(id, userId))
     .then(({ data }) => {
       console.log(data.UserRole);
+      this.Auth.setRole(data.UserRole);
       if (this.Auth.loggedIn()) {
         setLogin(true, data.UserRole);
       }

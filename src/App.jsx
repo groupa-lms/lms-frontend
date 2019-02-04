@@ -45,7 +45,7 @@ class App extends Component {
       });
     };
     this.state = {
-      role: '',
+      role: this.Auth.getRole,//initialized
       isLogin: this.Auth.loggedIn(),
       setLogin: this.setLogin
     };

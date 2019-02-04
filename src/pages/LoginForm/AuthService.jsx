@@ -46,6 +46,13 @@ export default class AuthService {
   //     return false;
   //   }
   // }
+  setRole(role){
+    localStorage.setItem("role", role);
+  }
+
+  getRole(){
+    localStorage.getItem("role");
+  }
 
   setToken(idToken) {
     // Saves user token to localStorage
