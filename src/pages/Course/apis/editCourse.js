@@ -1,4 +1,5 @@
 import axios from "axios";
+import env_path from "../../Env_path";
 
 export default (courseId, newCourse) => axios
-  .patch(`http://lms-backend-new.herokuapp.com/api/courses/${courseId}`,newCourse);
+  .patch(`${env_path}/courses/${courseId}`,newCourse);
