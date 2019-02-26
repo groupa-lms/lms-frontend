@@ -76,6 +76,9 @@ const styles = theme => ({
   },
   typography: {
     useNextVariants: true
+  },
+  footerLayout: {
+
   }
 });
 
@@ -127,7 +130,7 @@ class LoginForm extends React.Component {
   render() {
     const { classes } = this.props;
     const { email, password, formDirty } = this.state;
-    
+
     return (
       <LoginContext.Consumer>
         {({ setLogin }) => (
